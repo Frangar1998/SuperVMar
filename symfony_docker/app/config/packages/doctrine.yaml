@@ -1,0 +1,43 @@
+doctrine:
+    dbal:
+        default_connection: superubemar_conn
+        connections:
+            superubemar_conn:
+                url: '%env(resolve:DATABASE_URL)%'
+
+    orm:
+        default_entity_manager: superubemar_entity_manager
+        entity_managers:
+            superubemar_entity_manager:
+                connection: superubemar_conn
+                mappings:
+                    App:
+                        is_bundle: false
+                        type: xml
+                        dir: '%kernel.project_dir%/config/orm/mapping'
+                        prefix: 'App\Entity'
+                        alias: App
+
+when@test:
+    doctrine:
+        dbal:
+            dbname_suffix: '_test%env(default::TEST_TOKEN)%'
+
+when@prod:
+    doctrine:
+        orm:
+            auto_generate_proxy_classes: false
+            query_cache_driver:
+                type: pool
+                pool: doctrine.system_cache_pool
+            result_cache_driver:
+                type: pool
+                pool: doctrine.result_cache_pool
+
+    framework:
+        cache:
+            pools:
+                doctrine.result_cache_pool:
+                    adapter: cache.app
+                doctrine.system_cache_pool:
+                    adapter: cache.system
