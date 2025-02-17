@@ -1,0 +1,3 @@
+v1_controllers:
+    resource: routes/v1/routes.yaml
+    prefix: '/v1'

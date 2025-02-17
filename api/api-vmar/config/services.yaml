@@ -1,0 +1,13 @@
+parameters:
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    SuperVMar\:
+        resource: '../src/'
+
+    SuperVMar\App\Controller\:
+        resource: '../app/Controller'
+        tags: [ 'controller.service_arguments' ]
