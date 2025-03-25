@@ -13,11 +13,11 @@ use SuperVMar\Supermarket\Domain\ValueObject\Phone;
 final class Supermarket extends AggregateRoot
 {
     public function __construct(
-        private readonly Id      $id,
-        private readonly Name    $name,
-        private readonly Address $address,
-        private readonly Phone   $phone,
-        private readonly Zones   $zones,
+        private readonly Id $id,
+        private Name        $name,
+        private Address     $address,
+        private Phone       $phone,
+        private Zones       $zones
     ){}
 
     public function id(): Id
@@ -46,20 +46,59 @@ final class Supermarket extends AggregateRoot
     }
 
     public static function create(
-        Id $id,
-        Name $name,
+        Id      $id,
+        Name    $nameSupermarket,
         Address $address,
-        Phone $phone,
-        Zones $zones
+        Phone   $phone,
+        Zones   $zones
     ): self
     {
         return new self(
             $id,
-            $name,
+            $nameSupermarket,
             $address,
             $phone,
             $zones
         );
+    }
+
+    public function changeToName(Name $name): void
+    {
+        if (!$this->name->equals($name)) {
+            $this->name = $name;
+        }
+    }
+
+    public function changeToPhone(Phone $phone): void
+    {
+        if (!$this->phone->equals($phone)) {
+            $this->phone = $phone;
+        }
+    }
+
+    public function movedToAddress(Address $address): void
+    {
+        if (!$this->address->compare($address)) {
+            $this->address = $address;
+        }
+    }
+
+    public function compareAndChangeZones(Zones $other): void
+    {
+        foreach ($this->zones as $zone) {
+            if ($other->find($zone) === null) {
+                //TODO: Check if space has allocated products before removing zone and its spaces. Throw exception if yes.
+                $this->zones->remove($zone);
+            }
+        }
+        foreach ($other as $otherZone) {
+            $zoneKey = $this->zones->find($otherZone);
+            if ($zoneKey !== null) {
+                $this->zones->replace($otherZone, $zoneKey);
+            } else {
+                $this->zones->add($otherZone);
+            }
+        }
     }
 
     public static function fromArray(array $data): self
@@ -67,14 +106,16 @@ final class Supermarket extends AggregateRoot
         return new self(
             new Id($data['id']),
             new Name($data['name']),
-            Address::fromArray($data['address']),
+            Address::fromArray([
+                'id' => $data['idAddress'],
+                'name' => $data['nameAddress'],
+                'postalCode' => $data['postalCode'],
+                'city' => $data['city'],
+                'number' => $data['number'],
+                'province' => $data['province'],
+            ]),
             new Phone($data['phone']),
-            new Zones(
-                array_map(
-                    fn(array $zone) => Zone::fromArray($zone),
-                    $data['zones']
-                )
-            )
+            Zones::fromArray($data['zones'])
         );
     }
 

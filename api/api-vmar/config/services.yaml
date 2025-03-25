@@ -1,13 +1,69 @@
 parameters:
+    defaultPrefetchCount: 0
+    defaultMaxMessages: 0
 
 services:
     _defaults:
         autowire: true
         autoconfigure: true
 
+    ## Mapping configuration ##
     SuperVMar\:
         resource: '../src/'
 
     SuperVMar\App\Controller\:
         resource: '../app/Controller'
         tags: [ 'controller.service_arguments' ]
+
+    SuperVMar\Shared\Infrastructure\Symfony\ApiExceptionListener:
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onException }
+
+    _instanceof:
+        SuperVMar\Shared\Domain\Bus\Event\DomainEventSubscriber:
+            tags: [ 'supervmar.domain_event_subscriber' ]
+
+        SuperVMar\Shared\Domain\Bus\Command\CommandHandler:
+            tags: [ 'supervmar.command_handler' ]
+
+        SuperVMar\Shared\Infrastructure\Symfony\TransactionSymfonyMiddleware:
+            tags: [ 'supervmar.command_handler_middleware' ]
+
+        SuperVMar\Shared\Domain\Bus\Query\QueryHandler:
+            tags: [ 'supervmar.query_handler' ]
+
+    ## Command and Query
+    SuperVMar\Shared\Infrastructure\Bus\Command\InMemorySymfonyCommandBus:
+        arguments: [ !tagged supervmar.command_handler ]
+
+    SuperVMar\Shared\Infrastructure\Bus\Query\InMemorySymfonyQueryBus:
+        arguments: [ !tagged supervmar.query_handler ]
+
+    ## Event ##
+    SuperVMar\Shared\Infrastructure\Bus\Event\InMemory\InMemorySymfonyEventBus:
+        arguments: [ !tagged supervmar.domain_event_subscriber ]
+        lazy: true
+
+    SuperVMar\Shared\Infrastructure\Bus\Event\DomainEventMapping:
+        arguments: [ !tagged supervmar.domain_event_subscriber ]
+
+    SuperVMar\Shared\Infrastructure\Bus\Event\DomainEventSubscriberLocator:
+        arguments: [ !tagged supervmar.domain_event_subscriber ]
+
+    ## RabbitMQ ##
+    SuperVMar\Shared\Infrastructure\Bus\Event\RabbitMq\RabbitMqConnection:
+        arguments:
+            $exchangeName: '%env(RABBITMQ_EXCHANGE)%'
+            $maxMessages: '%env(default:defaultMaxMessages:RABBITMQ_MAX_MESSAGES)%'
+            $prefetchCount: '%env(default:defaultPrefetchCount:RABBITMQ_PREFETCH_COUNT)%'
+
+    PhpAmqpLib\Connection\AMQPSSLConnection:
+        arguments:
+            $host: '%env(RABBITMQ_HOST)%'
+            $port: '%env(RABBITMQ_PORT)%'
+            $user: '%env(RABBITMQ_USER)%'
+            $password: '%env(RABBITMQ_PASSWORD)%'
+            $vhost: '%env(RABBITMQ_VHOST)%'
+            $ssl_options:
+                - verify_peer: false
+    PhpAmqpLib\Connection\AbstractConnection: '@PhpAmqpLib\Connection\AMQPSSLConnection'

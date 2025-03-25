@@ -1,5 +1,11 @@
-#user_put:
-#    path: /user/{id}
-#    controller: SuperVMar\App\Controller\Registration\UserPutController
-#    defaults: { auth: false }
-#    methods: PUT
+supermarket_put:
+    path: /supermarket/{id}
+    controller: SuperVMar\App\Controller\Supermarket\SupermarketPutController
+    defaults: { auth: false }
+    methods: PUT
+
+supermarket_get:
+    path: /supermarket/{id}
+    controller: SuperVMar\App\Controller\Supermarket\SupermarketGetController
+    defaults: { auth: false }
+    methods: GET

@@ -2,18 +2,19 @@
 
 namespace SuperVMar\Supermarket\Domain\ValueObject;
 
+use SuperVMar\Shared\Domain\Exception\InvalidValueException;
 use SuperVMar\Shared\Domain\ValueObject\StringValueObject;
 
-final readonly class Province extends StringValueObject
+final class Province extends StringValueObject
 {
     protected function validate(string $value): void
     {
         if (empty($value)) {
-            throw new \InvalidArgumentException('Province cannot be empty');
+            throw new InvalidValueException('Province cannot be empty');
         }
 
         if (strlen($value) > 100) {
-            throw new \InvalidArgumentException('Province cannot be longer than 100 characters');
+            throw new InvalidValueException('Province cannot be longer than 100 characters');
         }
     }
 }

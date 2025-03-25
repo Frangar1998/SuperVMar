@@ -2,26 +2,22 @@
 
 namespace SuperVMar\Supermarket\Domain\Entity;
 
-use Doctrine\Persistence\Proxy;
 use SuperVMar\Supermarket\Domain\ValueObject\City;
-use SuperVMar\Supermarket\Domain\ValueObject\Door;
-use SuperVMar\Supermarket\Domain\ValueObject\Floor;
 use SuperVMar\Supermarket\Domain\ValueObject\Id;
 use SuperVMar\Supermarket\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\ValueObject\Number;
-use SuperVMar\Supermarket\Domain\ValueObject\Other;
 use SuperVMar\Supermarket\Domain\ValueObject\PostalCode;
 use SuperVMar\Supermarket\Domain\ValueObject\Province;
 
 final readonly class Address
 {
     public function __construct(
-        private Id $id, 
-        private Name $name, 
-        private PostalCode $postal_code, 
-        private City $city, 
-        private Number $number, 
-        private Province $province
+        private Id         $id,
+        private Name       $name,
+        private PostalCode $postalCode,
+        private City       $city,
+        private Number     $number,
+        private Province   $province
     ){}
 
     public function id(): Id
@@ -36,7 +32,7 @@ final readonly class Address
 
     public function postalCode(): PostalCode
     {
-        return $this->postal_code;
+        return $this->postalCode;
     }
 
     public function city(): City
@@ -59,7 +55,7 @@ final readonly class Address
         return new self(
             new Id($data['id']),
             new Name($data['name']),
-            new PostalCode($data['postal_code']),
+            new PostalCode($data['postalCode']),
             new City($data['city']),
             new Number($data['number']),
             new Province($data['province'])
@@ -71,10 +67,19 @@ final readonly class Address
         return [
             'id' => $this->id->value(),
             'name' => $this->name->value(),
-            'postal_code' => $this->postal_code->value(),
+            'postalCode' => $this->postalCode->value(),
             'city' => $this->city->value(),
             'number' => $this->number->value(),
             'province' => $this->province->value()
         ];
+    }
+
+    public function compare(self $other): bool
+    {
+        return $this->name->value() === $other->name()->value()
+            && $this->postalCode->value() === $other->postalCode()->value()
+            && $this->city->value() === $other->city()->value()
+            && $this->number->value() === $other->number()->value()
+            && $this->province->value() === $other->province()->value();
     }
 }

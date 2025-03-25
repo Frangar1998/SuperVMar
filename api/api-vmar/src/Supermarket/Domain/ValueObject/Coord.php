@@ -49,10 +49,42 @@ final readonly class Coord
     {
         $coord = json_decode($jsonCoord, true);
         return new self(
-            $coord['x'],
-            $coord['y'],
-            $coord['z'] ?? null
+            new Point($coord['x']),
+            new Point($coord['y']),
+            isset($coord['z']) ? new Point($coord['z']) : null
         );
     }
 
+    public static function fromArray(array $coord): self
+    {
+        return new self(
+            new Point($coord['x']),
+            new Point($coord['y']),
+            isset($coord['z']) ? new Point($coord['z']) : null
+        );
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this->x->equals($other->x())
+            && $this->y->equals($other->y())
+            && (!isset($this->z) || $this->z()->equals($other->z()));
+    }
+
+    public function __toString(): string
+    {
+        return $this->isSpace() ?
+            sprintf(
+                '{"x": %d, "y": %d, "z": %d}',
+                $this->x->value(),
+                $this->y->value(),
+                $this->z->value()
+            )
+            :
+            sprintf(
+                '{"x": %d, "y": %d}',
+                $this->x->value(),
+                $this->y->value()
+            );
+    }
 }

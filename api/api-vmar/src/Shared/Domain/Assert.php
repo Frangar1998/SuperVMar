@@ -2,6 +2,8 @@
 
 namespace SuperVMar\Shared\Domain;
 
+use SuperVMar\Shared\Domain\Exception\InvalidValueException;
+
 final class Assert
 {
     public static function arrayOf(string $class, array $items): void
@@ -14,7 +16,7 @@ final class Assert
     public static function instanceOf(string $class, mixed $object): void
     {
         if (!$object instanceof $class) {
-            throw new \InvalidArgumentException(sprintf('The object %s is not an instance of %s', $class, $object::class));
+            throw new InvalidValueException(sprintf('The object <%s> is not an instance of <%s>', $class, $object::class));
         }
     }
 }

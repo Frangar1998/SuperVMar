@@ -2,7 +2,9 @@
 
 namespace SuperVMar\Shared\Domain\ValueObject;
 
-abstract readonly class StringValueObject
+use SuperVMar\Shared\Domain\Exception\InvalidValueException;
+
+abstract class StringValueObject
 {
 
     public function __construct(protected string $value)
@@ -18,7 +20,7 @@ abstract readonly class StringValueObject
     protected function validate(string $value): void
     {
         if (empty($value)) {
-            throw new \InvalidArgumentException('The string value cannot be empty');
+            throw new InvalidValueException('The string value cannot be empty');
         }
     }
 

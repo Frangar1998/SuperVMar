@@ -9,6 +9,10 @@ use ArrayIterator;
 
 abstract class Collection implements Countable, IteratorAggregate
 {
+    protected array $addedItems = [];
+    protected array $removedItems = [];
+    protected array $replacedItems = [];
+
     public function __construct(protected array $items = [])
     {
         Assert::arrayOf($this->type(), $this->items);
@@ -24,21 +28,50 @@ abstract class Collection implements Countable, IteratorAggregate
         return count($this->items);
     }
 
-    protected function items(): array
+    public function items(): array
     {
         return $this->items;
     }
 
+    public function addedItems(): array
+    {
+        return $this->addedItems;
+    }
+
+    public function removedItems(): array
+    {
+        return $this->removedItems;
+    }
+
+    public function replacedItems(): array
+    {
+        return $this->replacedItems;
+    }
+
     public function add(mixed $item): void
     {
+        Assert::instanceOf($this->type(), $item);
         $this->items[] = $item;
+        $this->addedItems[] = $item;
     }
+
     public function remove(mixed $itemToRemove): void
     {
-        foreach ($this->getIterator() as $key => $item) {
-            if ($item === $itemToRemove) {
+        Assert::instanceOf($this->type(), $itemToRemove);
+        foreach ($this->items as $key => $item) {
+            if ($item->equals($itemToRemove)) {
                 unset($this->items[$key]);
+                $this->removedItems[] = $itemToRemove;
             }
+        }
+    }
+
+    public function replace(mixed $itemToReplace, int $key): void
+    {
+        Assert::instanceOf($this->type(), $itemToReplace);
+        if (!$this->items[$key]->compare($itemToReplace)) {
+            $this->items[$key] = $itemToReplace;
+            $this->replacedItems[] = $itemToReplace;
         }
     }
 
@@ -51,4 +84,19 @@ abstract class Collection implements Countable, IteratorAggregate
             $this->items
         );
     }
+
+    public function empty(): bool
+    {
+        return empty($this->items);
+    }
+
+    public function find(mixed $itemSearched): mixed
+    {
+        Assert::instanceOf($this->type(), $itemSearched);
+        return array_find_key(
+            $this->items,
+            fn(mixed $item) => $item->equals($itemSearched)
+        );
+    }
+
 }

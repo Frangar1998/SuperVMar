@@ -2,6 +2,7 @@
 
 namespace SuperVMar\Supermarket\Domain\Entity;
 
+use SuperVMar\Supermarket\Domain\Exception\InvalidZoneCoordinatesException;
 use SuperVMar\Supermarket\Domain\ValueObject\Coord;
 use SuperVMar\Supermarket\Domain\ValueObject\Id;
 use SuperVMar\Supermarket\Domain\ValueObject\Name;
@@ -53,22 +54,24 @@ final readonly class Zone
         return $this->spaces;
     }
 
+    /**
+     * @throws InvalidZoneCoordinatesException
+     */
     public static function fromArray(array $data): self
     {
-        return new self(
+        $zone = new self(
             new Id($data['id']),
             new Name($data['name']),
-            Coord::fromJson($data['cornerTopLeft']),
-            Coord::fromJson($data['cornerTopRight']),
-            Coord::fromJson($data['cornerBottomLeft']),
-            Coord::fromJson($data['cornerBottomRight']),
-            new Spaces(
-                array_map(
-                    fn(array $space) => Space::fromArray($space),
-                    $data['spaces']
-                )
-            )
+            Coord::fromArray($data['cornerTopLeft']),
+            Coord::fromArray($data['cornerTopRight']),
+            Coord::fromArray($data['cornerBottomLeft']),
+            Coord::fromArray($data['cornerBottomRight']),
+            Spaces::fromArray($data['spaces'])
         );
+        if (!$zone->validateCoords()) {
+            throw new InvalidZoneCoordinatesException($zone->cornerTopLeft, $zone->cornerTopRight, $zone->cornerBottomLeft, $zone->cornerBottomRight);
+        }
+        return $zone;
     }
 
     public function toArray(): array
@@ -83,4 +86,53 @@ final readonly class Zone
             'spaces' => $this->spaces->toArray(),
         ];
     }
+
+    public function validateCoords(): bool
+    {
+        return $this->cornerTopLeft->x()->value() < $this->cornerTopRight->x()->value()
+            && $this->cornerTopLeft->x()->value() < $this->cornerBottomRight->x()->value()
+            && $this->cornerTopLeft->y()->value() > $this->cornerBottomRight->y()->value()
+            && $this->cornerTopLeft->y()->value() > $this->cornerBottomLeft->y()->value()
+            && $this->cornerTopRight->y()->value() > $this->cornerBottomRight->y()->value()
+            && $this->cornerTopRight->y()->value() > $this->cornerBottomLeft->y()->value()
+            && $this->cornerTopRight->x()->value() > $this->cornerBottomLeft->x()->value()
+            && $this->cornerBottomRight->x()->value() > $this->cornerBottomLeft->x()->value();
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this->id->value() === $other->id->value();
+    }
+
+    public function compare(self $other): bool
+    {
+        $this->compareAndChangeSpaces($other->spaces());
+
+        return $this->name->equals($other->name())
+            && $this->cornerTopLeft->equals($other->cornerTopLeft())
+            && $this->cornerTopRight->equals($other->cornerTopRight())
+            && $this->cornerBottomRight->equals($other->cornerBottomRight())
+            && $this->cornerBottomLeft->equals($other->cornerBottomLeft());
+
+    }
+
+    protected function compareAndChangeSpaces(Spaces $other): void
+    {
+        foreach ($this->spaces as $space) {
+            if ($other->find($space) === null) {
+                //TODO: Check if space has allocated products before removing it. Throw exception if yes.
+                $this->spaces->remove($space);
+            }
+        }
+        foreach ($other as $otherSpace) {
+            $spaceKey = $this->spaces->find($otherSpace);
+            if ($spaceKey !== null) {
+                //TODO: Check if space has allocated products before replacing it. If exceed max throw exception else replace.
+                $this->spaces->replace($otherSpace, $spaceKey);
+            } else {
+                $this->spaces->add($otherSpace);
+            }
+        }
+    }
+
 }

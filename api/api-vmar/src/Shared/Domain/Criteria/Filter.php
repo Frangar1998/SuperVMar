@@ -12,15 +12,6 @@ final readonly class Filter
     {
     }
 
-    public static function fromValues(array $values): self
-    {
-        return new self(
-            new FilterField($values['field']),
-            FilterOperator::tryFrom($values['operator']),
-            new FilterValue($values['value'])
-        );
-    }
-
     public function field(): FilterField
     {
         return $this->field;

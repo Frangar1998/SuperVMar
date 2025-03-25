@@ -5,7 +5,7 @@ namespace SuperVMar\Shared\Domain\ValueObject;
 use Ramsey\Uuid\Uuid as BaseUuid;
 use SuperVMar\Shared\Domain\Exception\InvalidUuidValueException;
 
-readonly class Uuid extends StringValueObject
+class Uuid extends StringValueObject
 {
     public function __construct(protected string $value)
     {
@@ -18,10 +18,13 @@ readonly class Uuid extends StringValueObject
         return new self(BaseUuid::uuid7()->toString());
     }
 
+    /**
+     * @throws InvalidUuidValueException
+     */
     protected function validate(string $value): void
     {
-        if (BaseUuid::isValid($value)) {
-            throw new InvalidUuidValueException(sprintf('The value %s is not a valid %s.', $value, Uuid::class));
+        if (!BaseUuid::isValid($value)) {
+            throw new InvalidUuidValueException($value);
         }
     }
 }

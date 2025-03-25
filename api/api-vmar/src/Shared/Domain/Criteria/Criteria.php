@@ -6,6 +6,8 @@ final readonly class Criteria
 {
     public function __construct(
         private Filters $filters,
+        private ?Select $select = null,
+        private ?Joins $joins = null,
         private ?Order  $order = null,
         private ?int    $offset = null,
         private ?int    $limit = null
@@ -13,9 +15,14 @@ final readonly class Criteria
     {
     }
 
-    public function hasFilters(): bool
+    public function hasSelect(): bool
     {
-        return $this->filters->count() > 0;
+        return $this->select !== null;
+    }
+
+    public function hasJoins(): bool
+    {
+        return $this->joins !== null && $this->joins->count() > 0;
     }
 
     public function hasOrder(): bool
@@ -36,6 +43,16 @@ final readonly class Criteria
     public function filters(): Filters
     {
         return $this->filters;
+    }
+
+    public function select(): ?Select
+    {
+        return $this->select;
+    }
+
+    public function joins(): Joins
+    {
+        return $this->joins;
     }
 
     public function order(): Order
