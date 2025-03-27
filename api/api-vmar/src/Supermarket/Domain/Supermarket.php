@@ -4,7 +4,6 @@ namespace SuperVMar\Supermarket\Domain;
 
 use SuperVMar\Shared\Domain\AggregateRoot;
 use SuperVMar\Supermarket\Domain\Entity\Address;
-use SuperVMar\Supermarket\Domain\Entity\Zone;
 use SuperVMar\Supermarket\Domain\Entity\Zones;
 use SuperVMar\Supermarket\Domain\ValueObject\Id;
 use SuperVMar\Supermarket\Domain\ValueObject\Name;
@@ -62,14 +61,14 @@ final class Supermarket extends AggregateRoot
         );
     }
 
-    public function changeToName(Name $name): void
+    public function changeName(Name $name): void
     {
         if (!$this->name->equals($name)) {
             $this->name = $name;
         }
     }
 
-    public function changeToPhone(Phone $phone): void
+    public function changePhone(Phone $phone): void
     {
         if (!$this->phone->equals($phone)) {
             $this->phone = $phone;
@@ -117,16 +116,5 @@ final class Supermarket extends AggregateRoot
             new Phone($data['phone']),
             Zones::fromArray($data['zones'])
         );
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id->value(),
-            'name' => $this->name->value(),
-            'address' => $this->address->toArray(),
-            'phone' => $this->phone->value(),
-            'zones' => $this->zones->toArray()
-        ];
     }
 }

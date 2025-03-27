@@ -13,6 +13,8 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\Exception\MandatoryParamsException;
 use SuperVMar\Shared\Domain\Exception\QueryNotRegisteredException;
 use SuperVMar\Supermarket\Domain\Exception\InvalidZoneCoordinatesException;
+use SuperVMar\User\Domain\Exception\CannotDeleteAdminException;
+use SuperVMar\User\Domain\Exception\InvalidPasswordException;
 use Symfony\Component\HttpFoundation\Response;
 
 final class ApiExceptionHttpStatusCodeMapping
@@ -29,6 +31,8 @@ final class ApiExceptionHttpStatusCodeMapping
         MandatoryParamsException::class => Response::HTTP_BAD_REQUEST,
         QueryNotRegisteredException::class => Response::HTTP_NOT_FOUND,
         InvalidZoneCoordinatesException::class => Response::HTTP_BAD_REQUEST,
+        InvalidPasswordException::class => Response::HTTP_BAD_REQUEST,
+        CannotDeleteAdminException::class => Response::HTTP_BAD_REQUEST,
     ];
 
     public function statusCodeFor(string $exceptionClass): int

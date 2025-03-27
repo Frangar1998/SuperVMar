@@ -6,7 +6,7 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Supermarket\Application\Search\SupermarketSearcher;
 use SuperVMar\Supermarket\Domain\Entity\Address;
 use SuperVMar\Supermarket\Domain\Entity\Zones;
-use SuperVMar\Supermarket\Domain\Repository\SupermarketRepository;
+use SuperVMar\Supermarket\Domain\SupermarketRepository;
 use SuperVMar\Supermarket\Domain\ValueObject\Id;
 use SuperVMar\Supermarket\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\ValueObject\Phone;
@@ -32,8 +32,8 @@ final readonly class SupermarketUpdater
     ): void
     {
         $supermarket = $this->supermarketSearcher->search($id);
-        $supermarket->changeToName($name);
-        $supermarket->changeToPhone($phone);
+        $supermarket->changeName($name);
+        $supermarket->changePhone($phone);
         $supermarket->movedToAddress($address);
         $supermarket->compareAndChangeZones($zones);
         $this->supermarketRepository->update($supermarket);

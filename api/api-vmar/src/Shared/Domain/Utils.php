@@ -32,6 +32,11 @@ final class Utils
         return lcfirst(str_replace('_', '', ucwords($text, '_')));
     }
 
+    public static function toTitleCase(string $text): string
+    {
+        return mb_convert_case($text, MB_CASE_TITLE, 'UTF-8');
+    }
+
     public static function tableField(TableNames $tableName, string $fieldName): string
     {
         return sprintf('%s.%s', $tableName->value, $fieldName);

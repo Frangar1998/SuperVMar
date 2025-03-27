@@ -1,11 +1,9 @@
 <?php
 
-namespace SuperVMar\Supermarket\Domain\Repository;
+namespace SuperVMar\Supermarket\Domain;
 
 use SuperVMar\Shared\Domain\Criteria\Criteria;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
-use SuperVMar\Supermarket\Domain\Supermarket;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
 
 interface SupermarketRepository
 {

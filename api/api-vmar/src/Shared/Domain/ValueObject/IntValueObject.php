@@ -16,4 +16,9 @@ abstract readonly class IntValueObject
     {
         return $this->value === $otherValue->value();
     }
+
+    public function __toString(): string
+    {
+        return $this->value;
+    }
 }

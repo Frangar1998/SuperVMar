@@ -1,13 +1,16 @@
 <?php
 
-namespace SuperVMar\Supermarket\Domain\Entity;
+namespace SuperVMar\User\Domain\Entity;
 
-use SuperVMar\Supermarket\Domain\ValueObject\City;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
-use SuperVMar\Supermarket\Domain\ValueObject\Name;
-use SuperVMar\Supermarket\Domain\ValueObject\Number;
-use SuperVMar\Supermarket\Domain\ValueObject\PostalCode;
-use SuperVMar\Supermarket\Domain\ValueObject\Province;
+use SuperVMar\User\Domain\ValueObject\City;
+use SuperVMar\User\Domain\ValueObject\Door;
+use SuperVMar\User\Domain\ValueObject\Floor;
+use SuperVMar\User\Domain\ValueObject\Id;
+use SuperVMar\User\Domain\ValueObject\Name;
+use SuperVMar\User\Domain\ValueObject\Number;
+use SuperVMar\User\Domain\ValueObject\Other;
+use SuperVMar\User\Domain\ValueObject\PostalCode;
+use SuperVMar\User\Domain\ValueObject\Province;
 
 final readonly class Address
 {
@@ -17,7 +20,10 @@ final readonly class Address
         private PostalCode $postalCode,
         private City       $city,
         private Number     $number,
-        private Province   $province
+        private Province   $province,
+        private Floor      $floor, 
+        private Door       $door,
+        private Other      $other,
     ){}
 
     public function id(): Id
@@ -49,6 +55,21 @@ final readonly class Address
     {
         return $this->province;
     }
+    
+    public function floor(): Floor
+    {
+        return $this->floor;
+    }
+    
+    public function door(): Door
+    {
+        return $this->door;
+    }
+    
+    public function other(): Other
+    {
+        return $this->other;
+    }
 
     public static function fromArray(array $data): self
     {
@@ -58,7 +79,10 @@ final readonly class Address
             new PostalCode($data['postalCode']),
             new City($data['city']),
             new Number($data['number']),
-            new Province($data['province'])
+            new Province($data['province']),
+            new Floor($data['floor']),
+            new Door($data['door']),
+            new Other($data['other'])
         );
     }
 
@@ -70,7 +94,10 @@ final readonly class Address
             'postalCode' => $this->postalCode->value(),
             'city' => $this->city->value(),
             'number' => $this->number->value(),
-            'province' => $this->province->value()
+            'province' => $this->province->value(),
+            'floor' => $this->floor->value(),
+            'door' => $this->door->value(),
+            'other' => $this->other->value()
         ];
     }
 
@@ -80,6 +107,9 @@ final readonly class Address
             && $this->postalCode->equals($other->postalCode())
             && $this->city->equals($other->city())
             && $this->number->equals($other->number())
-            && $this->province->equals($other->province());
+            && $this->province->equals($other->province())
+            && $this->floor->equals($other->floor())
+            && $this->door->equals($other->door())
+            && $this->other->equals($other->other());
     }
 }

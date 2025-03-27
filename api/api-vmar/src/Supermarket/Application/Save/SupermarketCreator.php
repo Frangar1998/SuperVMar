@@ -4,11 +4,8 @@ namespace SuperVMar\Supermarket\Application\Save;
 
 use SuperVMar\Supermarket\Domain\Entity\Address;
 use SuperVMar\Supermarket\Domain\Entity\Zones;
-use SuperVMar\Supermarket\Domain\Repository\AddressRepository;
-use SuperVMar\Supermarket\Domain\Repository\SpaceRepository;
-use SuperVMar\Supermarket\Domain\Repository\SupermarketRepository;
-use SuperVMar\Supermarket\Domain\Repository\ZoneRepository;
 use SuperVMar\Supermarket\Domain\Supermarket;
+use SuperVMar\Supermarket\Domain\SupermarketRepository;
 use SuperVMar\Supermarket\Domain\ValueObject\Id;
 use SuperVMar\Supermarket\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\ValueObject\Phone;

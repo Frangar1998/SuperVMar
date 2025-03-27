@@ -99,4 +99,9 @@ abstract class Collection implements Countable, IteratorAggregate
         );
     }
 
+    public function first(): mixed
+    {
+        return $this->items[0];
+    }
+
 }

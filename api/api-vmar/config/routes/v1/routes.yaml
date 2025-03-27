@@ -9,3 +9,27 @@ supermarket_get:
     controller: SuperVMar\App\Controller\Supermarket\SupermarketGetController
     defaults: { auth: false }
     methods: GET
+
+user_put:
+    path: /user/{id}
+    controller: SuperVMar\App\Controller\User\UserPutController
+    defaults: { auth: false }
+    methods: PUT
+
+user_get:
+    path: /user/{id}
+    controller: SuperVMar\App\Controller\User\UserGetController
+    defaults: { auth: false }
+    methods: GET
+
+user_delete:
+    path: /user/{id}
+    controller: SuperVMar\App\Controller\User\UserDeleteController
+    defaults: { auth: false }
+    methods: DELETE
+
+users:
+    path: /users
+    controller: SuperVMar\App\Controller\User\UsersGetController
+    defaults: { auth: false }
+    methods: GET

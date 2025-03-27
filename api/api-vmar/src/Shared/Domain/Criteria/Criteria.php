@@ -5,7 +5,7 @@ namespace SuperVMar\Shared\Domain\Criteria;
 final readonly class Criteria
 {
     public function __construct(
-        private Filters $filters,
+        private ?Filters $filters = null,
         private ?Select $select = null,
         private ?Joins $joins = null,
         private ?Order  $order = null,
@@ -13,6 +13,11 @@ final readonly class Criteria
         private ?int    $limit = null
     )
     {
+    }
+
+    public function hasFilters(): bool
+    {
+        return $this->filters !== null;
     }
 
     public function hasSelect(): bool
@@ -40,7 +45,7 @@ final readonly class Criteria
         return $this->limit !== null;
     }
 
-    public function filters(): Filters
+    public function filters(): ?Filters
     {
         return $this->filters;
     }
