@@ -3,7 +3,7 @@
 namespace SuperVMar\User\Application\Search\Users;
 
 use SuperVMar\Shared\Domain\Bus\Query\QueryHandler;
-use SuperVMar\User\Application\Search\UserSearcher;
+use SuperVMar\User\Domain\Service\UserSearcher;
 
 final readonly class SearchUsersQueryHandler implements QueryHandler
 {

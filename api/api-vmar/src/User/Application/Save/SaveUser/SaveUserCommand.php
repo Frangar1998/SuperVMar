@@ -1,6 +1,6 @@
 <?php
 
-namespace SuperVMar\User\Application\Save;
+namespace SuperVMar\User\Application\Save\SaveUser;
 
 use SuperVMar\Shared\Domain\Bus\Command\Command;
 

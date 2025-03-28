@@ -3,6 +3,7 @@
 namespace SuperVMar\Supermarket\Application\Search;
 
 use SuperVMar\Shared\Domain\Bus\Query\QueryHandler;
+use SuperVMar\Supermarket\Domain\Service\SupermarketSearcher;
 use SuperVMar\Supermarket\Domain\ValueObject\Id;
 
 final readonly class SearchSupermarketQueryHandler implements QueryHandler

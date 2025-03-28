@@ -1,6 +1,6 @@
 <?php
 
-namespace SuperVMar\User\Application\Search;
+namespace SuperVMar\User\Domain\Service;
 
 use SuperVMar\Shared\Domain\Criteria\Criteria;
 use SuperVMar\Shared\Domain\Criteria\Field;

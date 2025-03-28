@@ -3,8 +3,8 @@
 namespace SuperVMar\User\Application\Delete;
 
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
-use SuperVMar\User\Application\Search\UserSearcher;
 use SuperVMar\User\Domain\Exception\CannotDeleteAdminException;
+use SuperVMar\User\Domain\Service\UserSearcher;
 use SuperVMar\User\Domain\UserRepository;
 use SuperVMar\User\Domain\ValueObject\Id;
 

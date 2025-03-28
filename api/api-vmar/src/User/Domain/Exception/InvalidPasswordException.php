@@ -14,6 +14,7 @@ class InvalidPasswordException extends Exception
     private const string ERROR_LOWER = 'The password must has at least one lowercase letter.';
     private const string ERROR_SPECIAL = 'The password must has at least one of these special characters: ' . PasswordRequirements::VALID_SPECIAL_CHARACTERS;
     private const string ERROR_SAME = 'The passwords must be the same.';
+    private const string ERROR_CURRENT_PASSWORD = 'The current password is not correct.';
 
     public function __construct(array $errors)
     {
@@ -26,6 +27,7 @@ class InvalidPasswordException extends Exception
                 'ERROR_LOWER' => self::ERROR_LOWER . PHP_EOL,
                 'ERROR_SPECIAL' => self::ERROR_SPECIAL . PHP_EOL,
                 'ERROR_SAME' => self::ERROR_SAME . PHP_EOL,
+                'ERROR_CURRENT_PASSWORD' => self::ERROR_CURRENT_PASSWORD . PHP_EOL,
             };
         }
         $message = sprintf(self::MESSAGE, $message);

@@ -5,6 +5,7 @@ namespace SuperVMar\User\Domain;
 use SuperVMar\Shared\Domain\AggregateRoot;
 use SuperVMar\User\Domain\Entity\UserData;
 use SuperVMar\User\Domain\Exception\CannotDeleteAdminException;
+use SuperVMar\User\Domain\Exception\InvalidPasswordException;
 use SuperVMar\User\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\ValueObject\IsAdmin;
 use SuperVMar\User\Domain\ValueObject\Password;
@@ -71,11 +72,12 @@ final class User extends AggregateRoot
         }
     }
 
-    public function changePassword(Password $password): void
+    public function changePassword(Password $newPassword, Password $currentPassword): void
     {
-        if (!$this->password->equals($password)) {
-            $this->password = $password;
+        if (!$this->password->equals($currentPassword)) {
+            throw new InvalidPasswordException(['ERROR_CURRENT_PASSWORD']);
         }
+        $this->password = $newPassword;
     }
 
     public function changeIsAdmin(IsAdmin $isAdmin): void

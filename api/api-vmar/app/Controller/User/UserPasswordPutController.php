@@ -5,11 +5,11 @@ namespace SuperVMar\App\Controller\User;
 use JsonException;
 use SuperVMar\Shared\Domain\Exception\MandatoryParamsException;
 use SuperVMar\Shared\Infrastructure\Symfony\ApiController;
-use SuperVMar\User\Application\Save\SaveUser\SaveUserCommand;
+use SuperVMar\User\Application\Save\ChangePassword\ChangePasswordCommand;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final readonly class UserPutController extends ApiController
+final readonly class UserPasswordPutController extends ApiController
 {
     /**
      * @throws MandatoryParamsException
@@ -19,21 +19,19 @@ final readonly class UserPutController extends ApiController
     {
         $data = $this->dataFromRequest($request);
         $this->dispatch(
-            new SaveUserCommand(
+            new ChangePasswordCommand(
                 $id,
-                $data['username'],
-                $data['userData'],
-                $data['isAdmin'],
-                $data['password'] ?? null,
-                $data['passwordRepeat'] ?? null,
+                $data['currentPassword'],
+                $data['password'],
+                $data['passwordRepeat'],
             )
         );
 
-        return new Response(status: Response::HTTP_CREATED);
+        return new Response(status: Response::HTTP_OK);
     }
 
     protected function mandatoryParams(): array
     {
-        return ['username', 'userData', 'isAdmin'];
+        return ['currentPassword', 'password', 'passwordRepeat'];
     }
 }

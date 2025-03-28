@@ -10,9 +10,9 @@ use PhpAmqpLib\Wire\AMQPTable;
 
 final class RabbitMQConnection
 {
-    private const TTL = 3000;
-    private const DEFAULT_PREFETCH_COUNT = 1;
-    private const DEFAULT_MAX_MESSAGES = 1;
+    private const int TTL = 3000;
+    private const int DEFAULT_PREFETCH_COUNT = 1;
+    private const int DEFAULT_MAX_MESSAGES = 1;
     protected AMQPChannel $channel;
 
     public function __construct(
@@ -38,7 +38,7 @@ final class RabbitMQConnection
         }
     }
 
-    public function consume(string $queue, callable $callback = null): void
+    public function consume(string $queue, ?callable $callback = null): void
     {
         $this->channel->basic_consume(
             queue: $queue,
