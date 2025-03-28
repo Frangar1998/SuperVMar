@@ -11,6 +11,8 @@ final readonly class SaveUserCommand implements Command
         private string $username,
         private array $userData,
         private int $isAdmin,
+        private string $idSupermarket,
+        private string $idJob,
         private ?string $password = null,
         private ?string $passwordRepeat = null,
     )
@@ -20,6 +22,16 @@ final readonly class SaveUserCommand implements Command
     public function id(): string
     {
         return $this->id;
+    }
+
+    public function idSupermarket(): string
+    {
+        return $this->idSupermarket;
+    }
+
+    public function idJob(): string
+    {
+        return $this->idJob;
     }
 
     public function username(): string

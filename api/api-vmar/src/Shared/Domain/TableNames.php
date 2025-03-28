@@ -10,5 +10,6 @@ enum TableNames: string
     case TABLE_SPACE = 'space';
     case TABLE_USER = 'user';
     case TABLE_USER_DATA = 'user_data';
-    case TABLE_USER_JOB = 'user_job';
+    case TABLE_JOB = 'job';
+    case TABLE_WORKER_ALLOCATION = 'worker_allocation';
 }

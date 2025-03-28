@@ -3,9 +3,8 @@
 namespace SuperVMar\User\Application\Save\ChangePassword;
 
 use SuperVMar\Shared\Domain\Bus\Command\CommandHandler;
-use SuperVMar\User\Application\Save\UserCreator;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\User\Application\Save\UserUpdater;
-use SuperVMar\User\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\ValueObject\Password;
 
 final readonly class ChangePasswordCommandHandler implements CommandHandler

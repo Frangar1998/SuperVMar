@@ -2,13 +2,13 @@
 
 namespace SuperVMar\User\Domain\Entity;
 
-use SuperVMar\User\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\ValueObject\Name;
 
-final readonly class UserJob
+final readonly class Supermarket
 {
     public function __construct(
-        private Id $id,
+        private Id   $id,
         private Name $name
     )
     {
@@ -38,10 +38,5 @@ final readonly class UserJob
             'id' => $this->id->value(),
             'name' => $this->name->value()
         ];
-    }
-
-    public function equals(self $other): bool
-    {
-        return $this->id->equals($other->id());
     }
 }

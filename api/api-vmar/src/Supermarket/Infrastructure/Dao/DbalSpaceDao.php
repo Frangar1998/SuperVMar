@@ -16,10 +16,10 @@ use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
 use SuperVMar\Shared\Domain\Exception\InternalErrorException;
 use SuperVMar\Shared\Domain\TableNames;
 use SuperVMar\Shared\Domain\Utils;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Infrastructure\Doctrine\DbalCriteriaConverter;
 use SuperVMar\Supermarket\Domain\Entity\Space;
 use SuperVMar\Supermarket\Domain\Entity\Spaces;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
 use Throwable;
 
 final readonly class DbalSpaceDao

@@ -2,8 +2,8 @@
 
 namespace SuperVMar\Supermarket\Domain\Entity;
 
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Supermarket\Domain\ValueObject\Coord;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
 use SuperVMar\Supermarket\Domain\ValueObject\Spots;
 
 final readonly class Space

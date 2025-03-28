@@ -19,7 +19,7 @@ final readonly class DomainEventJsonSerializer
                     'id' => $domainEvent->eventId(),
                     'type' => $domainEvent::eventName(),
                     'occurred_on' => $domainEvent->occurredOn(),
-                    'attributes' => array_merge($domainEvent->toPrimitives(), ['id' => $domainEvent->aggregateId()]),
+                    'attributes' => array_merge($domainEvent->toArray(), ['id' => $domainEvent->aggregateId()]),
                 ],
                 'meta' => [],
             ]

@@ -10,11 +10,13 @@ use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
 use SuperVMar\Shared\Domain\Exception\InternalErrorException;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Infrastructure\Doctrine\DbalCriteriaConverter;
 use SuperVMar\User\Domain\User;
 use SuperVMar\User\Domain\UserRepository;
 use SuperVMar\User\Domain\Users;
 use SuperVMar\User\Infrastructure\Dao\DbalUserDataDao;
+use SuperVMar\User\Infrastructure\Dao\DbalAllocationDao;
 use Throwable;
 
 final readonly class DbalUserRepository implements UserRepository
@@ -24,7 +26,8 @@ final readonly class DbalUserRepository implements UserRepository
     public function __construct(
         private Connection $connection,
         private DbalCriteriaConverter $dbalCriteriaConverter,
-        private DbalUserDataDao $userDataDao
+        private DbalUserDataDao $userDataDao,
+        private DbalAllocationDao $allocationDataDao,
     )
     {
     }
@@ -126,6 +129,10 @@ final readonly class DbalUserRepository implements UserRepository
 
         if (!$users) {
             throw new ItemNotFoundException(User::class, $criteria->filters()->items());
+        }
+
+        foreach ($users as $key => $user) {
+            $users[$key]['allocations'] = $this->allocationDataDao->search(new Id($user['id']));
         }
 
         return Users::fromArray($users);

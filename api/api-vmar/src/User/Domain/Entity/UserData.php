@@ -2,8 +2,8 @@
 
 namespace SuperVMar\User\Domain\Entity;
 
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\ValueObject\Email;
-use SuperVMar\User\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\ValueObject\Name;
 use SuperVMar\User\Domain\ValueObject\Phone;
 use SuperVMar\User\Domain\ValueObject\Surname;

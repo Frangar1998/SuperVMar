@@ -3,7 +3,7 @@
 namespace SuperVMar\User\Application\Delete;
 
 use SuperVMar\Shared\Domain\Bus\Command\CommandHandler;
-use SuperVMar\User\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 
 final readonly class DeleteUserCommandHandler implements CommandHandler
 {

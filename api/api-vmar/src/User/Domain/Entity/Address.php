@@ -2,10 +2,10 @@
 
 namespace SuperVMar\User\Domain\Entity;
 
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\ValueObject\City;
 use SuperVMar\User\Domain\ValueObject\Door;
 use SuperVMar\User\Domain\ValueObject\Floor;
-use SuperVMar\User\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\ValueObject\Name;
 use SuperVMar\User\Domain\ValueObject\Number;
 use SuperVMar\User\Domain\ValueObject\Other;

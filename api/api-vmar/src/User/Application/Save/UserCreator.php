@@ -2,18 +2,20 @@
 
 namespace SuperVMar\User\Application\Save;
 
+use SuperVMar\Shared\Domain\Bus\Event\EventBus;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\Entity\UserData;
-use SuperVMar\User\Domain\ValueObject\Id;
+use SuperVMar\User\Domain\User;
+use SuperVMar\User\Domain\UserRepository;
 use SuperVMar\User\Domain\ValueObject\IsAdmin;
 use SuperVMar\User\Domain\ValueObject\Password;
 use SuperVMar\User\Domain\ValueObject\Username;
-use SuperVMar\User\Domain\User;
-use SuperVMar\User\Domain\UserRepository;
 
 final readonly class UserCreator
 {
     public function __construct(
         private UserRepository $userRepository,
+        private EventBus $eventBus,
     )
     {
     }
@@ -24,17 +26,21 @@ final readonly class UserCreator
         UserData $userData,
         IsAdmin  $isAdmin,
         Password $password,
+        Id       $idSupermarket,
+        Id       $idJob
     ): void
     {
-        $this->userRepository->insert(
-            User::create(
-                $id,
-                $username,
-                $userData,
-                $isAdmin,
-                $password,
-            )
+        $user = User::create(
+            $id,
+            $username,
+            $userData,
+            $isAdmin,
+            $password,
+            $idSupermarket,
+            $idJob
         );
+        $this->userRepository->insert($user);
 
+        $this->eventBus->publish(...$user->pullDomainEvents());
     }
 }

@@ -7,8 +7,8 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
 use SuperVMar\Shared\Domain\Exception\InternalErrorException;
 use SuperVMar\Shared\Domain\TableNames;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Supermarket\Domain\Entity\Address;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
 use Throwable;
 
 final readonly class DbalAddressDao

@@ -23,10 +23,10 @@ use SuperVMar\Shared\Domain\Criteria\OnSecondField;
 use SuperVMar\Shared\Domain\Criteria\Select;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\User;
 use SuperVMar\User\Domain\UserRepository;
 use SuperVMar\User\Domain\Users;
-use SuperVMar\User\Domain\ValueObject\Id;
 
 final readonly class UserSearcher
 {

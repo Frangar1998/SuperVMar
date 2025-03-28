@@ -4,7 +4,6 @@ namespace SuperVMar\User\Domain;
 
 use SuperVMar\Shared\Domain\Criteria\Criteria;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
-use SuperVMar\User\Domain\ValueObject\Id;
 
 interface UserRepository
 {

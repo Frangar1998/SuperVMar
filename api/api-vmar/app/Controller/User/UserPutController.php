@@ -24,6 +24,8 @@ final readonly class UserPutController extends ApiController
                 $data['username'],
                 $data['userData'],
                 $data['isAdmin'],
+                $data['idSupermarket'],
+                $data['idJob'],
                 $data['password'] ?? null,
                 $data['passwordRepeat'] ?? null,
             )
@@ -34,6 +36,6 @@ final readonly class UserPutController extends ApiController
 
     protected function mandatoryParams(): array
     {
-        return ['username', 'userData', 'isAdmin'];
+        return ['username', 'userData', 'isAdmin', 'idSupermarket', 'idJob'];
     }
 }

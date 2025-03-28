@@ -3,10 +3,12 @@
 namespace SuperVMar\User\Domain;
 
 use SuperVMar\Shared\Domain\AggregateRoot;
+use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\User\Domain\Entity\Allocations;
 use SuperVMar\User\Domain\Entity\UserData;
+use SuperVMar\User\Domain\Event\UserSavedDomainEvent;
 use SuperVMar\User\Domain\Exception\CannotDeleteAdminException;
 use SuperVMar\User\Domain\Exception\InvalidPasswordException;
-use SuperVMar\User\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\ValueObject\IsAdmin;
 use SuperVMar\User\Domain\ValueObject\Password;
 use SuperVMar\User\Domain\ValueObject\Username;
@@ -14,11 +16,12 @@ use SuperVMar\User\Domain\ValueObject\Username;
 final class User extends AggregateRoot
 {
     public function __construct(
-        private readonly Id $id,
-        private Username    $username,
-        private UserData    $userData,
-        private IsAdmin     $isAdmin,
-        private ?Password   $password = null,
+        private readonly Id           $id,
+        private Username              $username,
+        private UserData              $userData,
+        private IsAdmin               $isAdmin,
+        private ?Password             $password = null,
+        private readonly ?Allocations $allocations = null,
     )
     {
     }
@@ -47,6 +50,11 @@ final class User extends AggregateRoot
     {
         return $this->userData;
     }
+
+    public function allocations(): Allocations
+    {
+        return $this->allocations;
+    }
     
     public static function create(
         Id       $id,
@@ -54,14 +62,47 @@ final class User extends AggregateRoot
         UserData $userData,
         IsAdmin  $isAdmin,
         Password $password,
+        Id       $idSupermarket,
+        Id       $idJob
     ): self
     {
-        return new self(
+        $user = new self(
             $id,
             $username,
             $userData,
             $isAdmin,
             $password,
+        );
+
+        $user->record(
+            new UserSavedDomainEvent(
+                $id->value(),
+                $idSupermarket->value(),
+                $idJob->value(),
+            )
+        );
+
+        return $user;
+    }
+
+    public function update(
+        USername $username,
+        UserData $userData,
+        IsAdmin  $isAdmin,
+        Id       $idSupermarket,
+        Id       $idJob
+    ): void
+    {
+        $this->changeUsername($username);
+        $this->changeUserData($userData);
+        $this->changeIsAdmin($isAdmin);
+
+        $this->record(
+            new UserSavedDomainEvent(
+                $this->id->value(),
+                $idSupermarket->value(),
+                $idJob->value(),
+            )
         );
     }
 
@@ -124,6 +165,7 @@ final class User extends AggregateRoot
             ]),
             new IsAdmin($data['isAdmin']),
             isset($data['password']) ? new Password($data['password'], $data['password']) : null,
+            isset($data['allocations']) ? Allocations::fromArray($data['allocations']) : null,
         );
     }
 
@@ -134,6 +176,7 @@ final class User extends AggregateRoot
             'username' => $this->username->value(),
             'userData' => $this->userData->toArray(),
             'isAdmin' => $this->isAdmin->value(),
+            'allocations' => $this->allocations->toArray(),
         ];
     }
     

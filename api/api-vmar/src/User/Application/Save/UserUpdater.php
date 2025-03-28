@@ -2,11 +2,12 @@
 
 namespace SuperVMar\User\Application\Save;
 
+use SuperVMar\Shared\Domain\Bus\Event\EventBus;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\Entity\UserData;
 use SuperVMar\User\Domain\Service\UserSearcher;
 use SuperVMar\User\Domain\UserRepository;
-use SuperVMar\User\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\ValueObject\IsAdmin;
 use SuperVMar\User\Domain\ValueObject\Password;
 use SuperVMar\User\Domain\ValueObject\Username;
@@ -16,6 +17,7 @@ final readonly class UserUpdater
     public function __construct(
         private UserSearcher $userSearcher,
         private UserRepository $userRepository,
+        private EventBus $eventBus,
     )
     {
     }
@@ -27,14 +29,17 @@ final readonly class UserUpdater
         Id       $id,
         Username $username,
         UserData $userData,
-        IsAdmin  $isAdmin
+        IsAdmin  $isAdmin,
+        Id       $idSupermarket,
+        Id       $idJob,
     ): void
     {
         $user = $this->userSearcher->search($id);
-        $user->changeUsername($username);
-        $user->changeUserData($userData);
-        $user->changeIsAdmin($isAdmin);
+
+        $user->update($username, $userData, $isAdmin, $idSupermarket, $idJob);
         $this->userRepository->update($user);
+
+        $this->eventBus->publish(...$user->pullDomainEvents());
     }
 
     public function updatePassword(

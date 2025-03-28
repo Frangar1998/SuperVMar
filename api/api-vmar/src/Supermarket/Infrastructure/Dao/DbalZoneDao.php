@@ -16,10 +16,10 @@ use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
 use SuperVMar\Shared\Domain\Exception\InternalErrorException;
 use SuperVMar\Shared\Domain\TableNames;
 use SuperVMar\Shared\Domain\Utils;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Infrastructure\Doctrine\DbalCriteriaConverter;
 use SuperVMar\Supermarket\Domain\Entity\Zone;
 use SuperVMar\Supermarket\Domain\Entity\Zones;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
 use Throwable;
 
 final readonly class DbalZoneDao

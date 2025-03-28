@@ -23,9 +23,9 @@ use SuperVMar\Shared\Domain\Criteria\OnSecondField;
 use SuperVMar\Shared\Domain\Criteria\Select;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Supermarket\Domain\Supermarket;
 use SuperVMar\Supermarket\Domain\SupermarketRepository;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
 
 final readonly class SupermarketSearcher
 {
