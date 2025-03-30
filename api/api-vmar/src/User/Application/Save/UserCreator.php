@@ -4,6 +4,7 @@ namespace SuperVMar\User\Application\Save;
 
 use SuperVMar\Shared\Domain\Bus\Event\EventBus;
 use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\User\Domain\Entity\Allocations;
 use SuperVMar\User\Domain\Entity\UserData;
 use SuperVMar\User\Domain\User;
 use SuperVMar\User\Domain\UserRepository;
@@ -21,13 +22,12 @@ final readonly class UserCreator
     }
 
     public function create(
-        Id       $id,
-        Username $username,
-        UserData $userData,
-        IsAdmin  $isAdmin,
-        Password $password,
-        Id       $idSupermarket,
-        Id       $idJob
+        Id          $id,
+        Username    $username,
+        UserData    $userData,
+        IsAdmin     $isAdmin,
+        Password    $password,
+        Allocations $allocations
     ): void
     {
         $user = User::create(
@@ -36,8 +36,7 @@ final readonly class UserCreator
             $userData,
             $isAdmin,
             $password,
-            $idSupermarket,
-            $idJob
+            $allocations,
         );
         $this->userRepository->insert($user);
 

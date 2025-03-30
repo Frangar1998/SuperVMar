@@ -8,9 +8,9 @@ use SuperVMar\Shared\Domain\ValueObject\Id;
 final class WorkerAllocation extends AggregateRoot
 {
     public function __construct(
-        private Id $idUser,
-        private Id $idSupermarket,
-        private Id $idJob
+        private readonly Id $idUser,
+        private readonly Id $idSupermarket,
+        private Id          $idJob
     )
     {
     }
@@ -56,6 +56,23 @@ final class WorkerAllocation extends AggregateRoot
             new Id($data['idSupermarket']),
             new Id($data['idJob'])
         );
+    }
+
+    public static function fromPrimitives(
+        string $idUser,
+        array $data
+    ): self
+    {
+        return new self(
+            new Id($idUser),
+            new Id($data['supermarket']['id']),
+            new Id($data['job']['id'])
+        );
+    }
+
+    public function equals(self $other): bool
+    {
+        return $this->idUser->equals($other->idUser()) && $this->idSupermarket->equals($other->idSupermarket());
     }
 
 }

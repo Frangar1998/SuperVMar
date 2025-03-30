@@ -12,13 +12,10 @@ use Symfony\Component\Messenger\Handler\HandlersLocator;
 use Symfony\Component\Messenger\MessageBus;
 use Symfony\Component\Messenger\Middleware\HandleMessageMiddleware;
 
-final readonly class InMemorySymfonyEventBus implements EventBus
+readonly class InMemorySymfonyEventBus implements EventBus
 {
     private MessageBus $bus;
 
-    /**
-     * @throws ReflectionException
-     */
     public function __construct(iterable $subscribers)
     {
         $this->bus = new MessageBus(

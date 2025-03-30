@@ -7,6 +7,7 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\User\Application\Save\UserCreator;
 use SuperVMar\User\Application\Save\UserUpdater;
+use SuperVMar\User\Domain\Entity\Allocations;
 use SuperVMar\User\Domain\Entity\UserData;
 use SuperVMar\User\Domain\ValueObject\IsAdmin;
 use SuperVMar\User\Domain\ValueObject\Password;
@@ -24,8 +25,7 @@ final readonly class SaveUserCommandHandler implements CommandHandler
     public function __invoke(SaveUserCommand $command): void
     {
         $id = new Id($command->id());
-        $idSupermarket = new Id($command->idSupermarket());
-        $idJob = new Id($command->idJob());
+        $allocations = Allocations::fromArray($command->allocations());
         $username = new Username($command->username());
         $userData = UserData::fromPrimitives($command->userData());
         $isAdmin = new IsAdmin($command->isAdmin());
@@ -37,8 +37,7 @@ final readonly class SaveUserCommandHandler implements CommandHandler
                 $username,
                 $userData,
                 $isAdmin,
-                $idSupermarket,
-                $idJob
+                $allocations
             );
         } catch (ItemNotFoundException) {
             $this->userCreator->create(
@@ -47,8 +46,7 @@ final readonly class SaveUserCommandHandler implements CommandHandler
                 $userData,
                 $isAdmin,
                 $password,
-                $idSupermarket,
-                $idJob
+                $allocations
             );
         }
     }

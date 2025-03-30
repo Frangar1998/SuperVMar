@@ -7,6 +7,7 @@ use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
 use SuperVMar\AllocateWorker\Domain\WorkerAllocation;
 use SuperVMar\AllocateWorker\Domain\WorkerAllocationRepository;
+use SuperVMar\AllocateWorker\Domain\WorkerAllocations;
 use SuperVMar\Shared\Domain\Criteria\Criteria;
 use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
 use SuperVMar\Shared\Domain\Exception\InternalErrorException;
@@ -40,13 +41,13 @@ final readonly class DbalWorkerAllocationRepository implements WorkerAllocationR
                     [
                         'idUser' => ':idUser',
                         'idSupermarket' => ':idSupermarket',
-                        'idUserJob' => ':idUserJob',
+                        'idJob' => ':idJob',
                     ])
                 ->setParameters(
                     [
                         'idUser' => $workerAllocation->idUser(),
                         'idSupermarket' => $workerAllocation->idSupermarket(),
-                        'idUserJob' => $workerAllocation->idJob(),
+                        'idJob' => $workerAllocation->idJob(),
                     ])
                 ->executeStatement();
 
@@ -68,14 +69,14 @@ final readonly class DbalWorkerAllocationRepository implements WorkerAllocationR
         try {
             $this->connection->createQueryBuilder()
                 ->update(self::TABLE_WORKER_ALLOCATION)
-                ->set('idUserJob', ':idUserJob')
+                ->set('idJob', ':idJob')
                 ->where('idUser = :idUser')
                 ->andWhere('idSupermarket = :idSupermarket')
                 ->setParameters(
                     [
                         'idUser' => $workerAllocation->idUser(),
                         'idSupermarket' => $workerAllocation->idSupermarket(),
-                        'idUserJob' => $workerAllocation->idJob(),
+                        'idJob' => $workerAllocation->idJob(),
                     ])
                 ->executeStatement();
 
@@ -87,7 +88,7 @@ final readonly class DbalWorkerAllocationRepository implements WorkerAllocationR
     /**
      * @throws InternalErrorException
      */
-    public function delete(Id $userId, Id $supermarketId): void
+    public function delete(WorkerAllocation $workerAllocation): void
     {
         try {
             $this->connection->createQueryBuilder()
@@ -96,8 +97,28 @@ final readonly class DbalWorkerAllocationRepository implements WorkerAllocationR
                 ->andWhere('idSupermarket = :idSupermarket')
                 ->setParameters(
                     [
-                        'idUser' => $userId,
-                        'idSupermarket' => $supermarketId,
+                        'idUser' => $workerAllocation->idUser(),
+                        'idSupermarket' => $workerAllocation->idSupermarket(),
+                    ])
+                ->executeStatement();
+
+        } catch (Throwable $e) {
+            throw new InternalErrorException($e->getMessage(), $e);
+        }
+    }
+
+    /**
+     * @throws InternalErrorException
+     */
+    public function deleteAll(Id $idUser): void
+    {
+        try {
+            $this->connection->createQueryBuilder()
+                ->delete(self::TABLE_WORKER_ALLOCATION)
+                ->where('idUser = :idUser')
+                ->setParameters(
+                    [
+                        'idUser' => $idUser,
                     ])
                 ->executeStatement();
 
@@ -110,20 +131,20 @@ final readonly class DbalWorkerAllocationRepository implements WorkerAllocationR
      * @throws InternalErrorException
      * @throws ItemNotFoundException
      */
-    public function searchByCriteria(Criteria $criteria): WorkerAllocation
+    public function searchByCriteria(Criteria $criteria): WorkerAllocations
     {
         try {
             $query = $this->buildQueryByCriteria($criteria);
-            $workerAllocation = $query->executeQuery()->fetchAssociative();
+            $workerAllocations = $query->executeQuery()->fetchAllAssociative();
         } catch (Throwable $e) {
             throw new InternalErrorException($e->getMessage(), $e);
         }
 
-        if (!$workerAllocation) {
-            throw new ItemNotFoundException($workerAllocation::class, $criteria->filters()->items());
+        if (!$workerAllocations) {
+            throw new ItemNotFoundException(WorkerAllocation::class, $criteria->filters()->toArray());
         }
 
-        return WorkerAllocation::fromArray($workerAllocation);
+        return WorkerAllocations::fromArray($workerAllocations);
     }
 
     private function buildQueryByCriteria(Criteria $criteria): QueryBuilder

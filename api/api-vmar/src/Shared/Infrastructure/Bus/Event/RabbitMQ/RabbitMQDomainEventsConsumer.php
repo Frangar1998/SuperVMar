@@ -9,7 +9,7 @@ use SuperVMar\Shared\Infrastructure\Bus\Event\DomainEventJsonDeserializer;
 
 final class RabbitMQDomainEventsConsumer
 {
-    private const DEFAULT_MAX_RETRIES = 3;
+    private const int DEFAULT_MAX_RETRIES = 3;
 
     public function __construct(
         private readonly RabbitMqConnection          $rabbitMqConnection,

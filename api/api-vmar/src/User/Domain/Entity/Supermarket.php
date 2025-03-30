@@ -9,7 +9,7 @@ final readonly class Supermarket
 {
     public function __construct(
         private Id   $id,
-        private Name $name
+        private ?Name $name = null
     )
     {
     }
@@ -19,7 +19,7 @@ final readonly class Supermarket
         return $this->id;
     }
 
-    public function name(): Name
+    public function name(): ?Name
     {
         return $this->name;
     }
@@ -28,7 +28,7 @@ final readonly class Supermarket
     {
         return new self(
             new Id($data['id']),
-            new Name($data['name'])
+            $data['name'] != null ? new Name($data['name']) : $data['name']
         );
     }
 
@@ -36,7 +36,7 @@ final readonly class Supermarket
     {
         return [
             'id' => $this->id->value(),
-            'name' => $this->name->value()
+            'name' => $this->name?->value()
         ];
     }
 }

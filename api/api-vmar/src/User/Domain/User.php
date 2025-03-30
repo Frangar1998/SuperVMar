@@ -6,6 +6,7 @@ use SuperVMar\Shared\Domain\AggregateRoot;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\Entity\Allocations;
 use SuperVMar\User\Domain\Entity\UserData;
+use SuperVMar\User\Domain\Event\UserDeletedDomainEvent;
 use SuperVMar\User\Domain\Event\UserSavedDomainEvent;
 use SuperVMar\User\Domain\Exception\CannotDeleteAdminException;
 use SuperVMar\User\Domain\Exception\InvalidPasswordException;
@@ -57,13 +58,12 @@ final class User extends AggregateRoot
     }
     
     public static function create(
-        Id       $id,
-        Username $username,
-        UserData $userData,
-        IsAdmin  $isAdmin,
-        Password $password,
-        Id       $idSupermarket,
-        Id       $idJob
+        Id          $id,
+        Username    $username,
+        UserData    $userData,
+        IsAdmin     $isAdmin,
+        Password    $password,
+        Allocations $allocations,
     ): self
     {
         $user = new self(
@@ -72,13 +72,13 @@ final class User extends AggregateRoot
             $userData,
             $isAdmin,
             $password,
+            $allocations
         );
 
         $user->record(
             new UserSavedDomainEvent(
                 $id->value(),
-                $idSupermarket->value(),
-                $idJob->value(),
+                $allocations->toArray()
             )
         );
 
@@ -86,11 +86,10 @@ final class User extends AggregateRoot
     }
 
     public function update(
-        USername $username,
-        UserData $userData,
-        IsAdmin  $isAdmin,
-        Id       $idSupermarket,
-        Id       $idJob
+        Username    $username,
+        UserData    $userData,
+        IsAdmin     $isAdmin,
+        Allocations $allocations
     ): void
     {
         $this->changeUsername($username);
@@ -100,8 +99,7 @@ final class User extends AggregateRoot
         $this->record(
             new UserSavedDomainEvent(
                 $this->id->value(),
-                $idSupermarket->value(),
-                $idJob->value(),
+                $allocations->toArray()
             )
         );
     }
@@ -135,11 +133,17 @@ final class User extends AggregateRoot
         }
     }
 
-    public function checkIfIsAdmin(): void
+    public function checkIfIsAdminToDelete(): void
     {
-        if ($this->isAdmin) {
+        if ($this->isAdmin->value() === 1) {
             throw new CannotDeleteAdminException();
         }
+
+        $this->record(
+            new UserDeletedDomainEvent(
+                $this->id->value(),
+            )
+        );
     }
 
     public static function fromArray(array $data): self

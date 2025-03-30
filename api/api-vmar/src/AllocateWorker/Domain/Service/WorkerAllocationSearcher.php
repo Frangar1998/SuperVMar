@@ -4,6 +4,7 @@ namespace SuperVMar\AllocateWorker\Domain\Service;
 
 use SuperVMar\AllocateWorker\Domain\WorkerAllocation;
 use SuperVMar\AllocateWorker\Domain\WorkerAllocationRepository;
+use SuperVMar\AllocateWorker\Domain\WorkerAllocations;
 use SuperVMar\Shared\Domain\Criteria\Criteria;
 use SuperVMar\Shared\Domain\Criteria\FieldName;
 use SuperVMar\Shared\Domain\Criteria\Filter;
@@ -41,6 +42,26 @@ final readonly class WorkerAllocationSearcher
                             new FilterField(TableNames::TABLE_WORKER_ALLOCATION, new FieldName('idSupermarket')),
                             FilterOperator::EQUAL,
                             new FilterValue($idSupermarket)
+                        )
+                    ]
+                )
+            )
+        )->first();
+    }
+
+    /**
+     * @throws ItemNotFoundException
+     */
+    public function searchAll(Id $idUser): WorkerAllocations
+    {
+        return $this->workerAllocationRepository->searchByCriteria(
+            new Criteria(
+                filters: new Filters(
+                    [
+                        new Filter(
+                            new FilterField(TableNames::TABLE_WORKER_ALLOCATION, new FieldName('idUser')),
+                            FilterOperator::EQUAL,
+                            new FilterValue($idUser)
                         )
                     ]
                 )

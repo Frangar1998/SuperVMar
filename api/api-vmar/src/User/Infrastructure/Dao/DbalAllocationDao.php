@@ -70,7 +70,7 @@ final readonly class DbalAllocationDao
                     new Join(
                         JoinType::INNER,
                         new JoinFirstTable(TableNames::TABLE_WORKER_ALLOCATION->value),
-                        new JoinSecondTable(TableNames::TABLE_USER_DATA->value),
+                        new JoinSecondTable(TableNames::TABLE_JOB->value),
                         new On(
                             new OnFirstField(TableNames::TABLE_WORKER_ALLOCATION, new FieldName('idJob')),
                             OnOperator::EQUAL,
@@ -80,7 +80,7 @@ final readonly class DbalAllocationDao
                     new Join(
                         JoinType::INNER,
                         new JoinFirstTable(TableNames::TABLE_WORKER_ALLOCATION->value),
-                        new JoinSecondTable(TableNames::TABLE_ADDRESS->value),
+                        new JoinSecondTable(TableNames::TABLE_SUPERMARKET->value),
                         new On(
                             new OnFirstField(TableNames::TABLE_WORKER_ALLOCATION, new FieldName('idSupermarket')),
                             OnOperator::EQUAL,

@@ -5,6 +5,7 @@ namespace SuperVMar\User\Application\Save;
 use SuperVMar\Shared\Domain\Bus\Event\EventBus;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\User\Domain\Entity\Allocations;
 use SuperVMar\User\Domain\Entity\UserData;
 use SuperVMar\User\Domain\Service\UserSearcher;
 use SuperVMar\User\Domain\UserRepository;
@@ -26,17 +27,16 @@ final readonly class UserUpdater
      * @throws ItemNotFoundException
      */
     public function update(
-        Id       $id,
-        Username $username,
-        UserData $userData,
-        IsAdmin  $isAdmin,
-        Id       $idSupermarket,
-        Id       $idJob,
+        Id          $id,
+        Username    $username,
+        UserData    $userData,
+        IsAdmin     $isAdmin,
+        Allocations $allocations
     ): void
     {
         $user = $this->userSearcher->search($id);
 
-        $user->update($username, $userData, $isAdmin, $idSupermarket, $idJob);
+        $user->update($username, $userData, $isAdmin, $allocations);
         $this->userRepository->update($user);
 
         $this->eventBus->publish(...$user->pullDomainEvents());

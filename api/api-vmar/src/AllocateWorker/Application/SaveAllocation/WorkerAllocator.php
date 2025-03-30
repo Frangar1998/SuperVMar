@@ -5,6 +5,7 @@ namespace SuperVMar\AllocateWorker\Application\SaveAllocation;
 use SuperVMar\AllocateWorker\Domain\Service\WorkerAllocationSearcher;
 use SuperVMar\AllocateWorker\Domain\WorkerAllocation;
 use SuperVMar\AllocateWorker\Domain\WorkerAllocationRepository;
+use SuperVMar\AllocateWorker\Domain\WorkerAllocations;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
@@ -17,26 +18,46 @@ final readonly class WorkerAllocator
     {
     }
 
-    public function allocate(
+    public function handleAllocations(
         Id $idUser,
-        Id $idSupermarket,
-        Id $idJob
+        WorkerAllocations $newAllocations
     ): void
     {
         try {
-            $workerAllocation = $this->workerAllocationSearcher->search($idUser, $idSupermarket);
-            $workerAllocation->changeJob($idJob);
+            $workerAllocations = $this->workerAllocationSearcher->searchAll($idUser);
+            foreach ($workerAllocations as $workerAllocation) {
+                if ($newAllocations->find($workerAllocation) === null) {
+                    $this->deallocate($workerAllocation);
+                }
+            }
 
-            $this->workerAllocationRepository->update($workerAllocation);
+            foreach ($newAllocations as $newAllocation) {
+                if ($workerAllocations->find($newAllocation) !== null) {
+                    $this->updateAllocation($newAllocation);
+                } else {
+                    $this->allocate($newAllocation);
+                }
+            }
 
         } catch (ItemNotFoundException) {
-            $this->workerAllocationRepository->insert(
-                new WorkerAllocation(
-                    $idUser,
-                    $idSupermarket,
-                    $idJob
-                )
-            );
+            foreach ($newAllocations as $allocation) {
+                $this->allocate($allocation);
+            }
         }
+    }
+
+    protected function allocate(WorkerAllocation $allocation): void
+    {
+        $this->workerAllocationRepository->insert($allocation);
+    }
+
+    protected function updateAllocation(WorkerAllocation $allocation): void
+    {
+        $this->workerAllocationRepository->update($allocation);
+    }
+
+    protected function deallocate(WorkerAllocation $allocation): void
+    {
+        $this->workerAllocationRepository->delete($allocation);
     }
 }

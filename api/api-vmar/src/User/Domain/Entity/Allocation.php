@@ -26,11 +26,11 @@ final readonly class Allocation
         return new self(
             Supermarket::fromArray([
                 'id' => $data['idSupermarket'],
-                'name' => $data['nameSupermarket'],
+                'name' => $data['nameSupermarket'] ?? null,
             ]),
             Job::fromArray([
                 'id' => $data['idJob'],
-                'name' => $data['nameJob'],
+                'name' => $data['nameJob'] ?? null,
             ]),
         );
     }

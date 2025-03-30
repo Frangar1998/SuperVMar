@@ -127,7 +127,7 @@ final readonly class DbalSupermarketRepository implements SupermarketRepository
         }
 
         if (!$supermarket) {
-            throw new ItemNotFoundException(Supermarket::class, $criteria->filters()->items());
+            throw new ItemNotFoundException(Supermarket::class, $criteria->filters()->toArray());
         }
 
         $supermarket['zones'] = $this->zoneDao->search(new Id($supermarket['id']));

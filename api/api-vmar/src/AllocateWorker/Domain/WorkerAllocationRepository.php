@@ -10,9 +10,10 @@ interface WorkerAllocationRepository
 {
     public function insert(WorkerAllocation $workerAllocation): void;
     public function update(WorkerAllocation $workerAllocation): void;
-    public function delete(Id $userId, Id $supermarketId): void;
+    public function delete(WorkerAllocation $workerAllocation): void;
+    public function deleteAll(Id $idUser): void;
     /**
      * @throws ItemNotFoundException
      */
-    public function searchByCriteria(Criteria $criteria): WorkerAllocation;
+    public function searchByCriteria(Criteria $criteria): WorkerAllocations;
 }

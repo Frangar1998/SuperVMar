@@ -4,11 +4,10 @@ namespace SuperVMar\User\Domain\Event;
 
 use SuperVMar\Shared\Domain\Bus\Event\DomainEvent;
 
-final class UserSavedDomainEvent extends DomainEvent
+final class UserDeletedDomainEvent extends DomainEvent
 {
     public function __construct(
         string $aggregateId,
-        private readonly array $allocations,
         ?string $eventId = null,
         ?string $occurredOn = null
     ) {
@@ -17,14 +16,12 @@ final class UserSavedDomainEvent extends DomainEvent
 
     public static function eventName(): string
     {
-        return 'supervmar.event.user.saved';
+        return 'supervmar.event.user.deleted';
     }
 
     public function toArray(): array
     {
-        return [
-            'allocations' => $this->allocations,
-        ];
+        return [];
     }
 
     public static function fromPrimitives(
@@ -36,7 +33,6 @@ final class UserSavedDomainEvent extends DomainEvent
     {
         return new self(
             $aggregateId,
-            $body['allocations'],
             $eventId,
             $occurredOn
         );

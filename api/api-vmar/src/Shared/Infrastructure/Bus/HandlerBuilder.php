@@ -61,7 +61,7 @@ final class HandlerBuilder
         return $eventSubscribers;
     }
 
-    private static function pipedCallablesReducer(array $eventSubscribers, DomainEventSubscriber $subscriber): callable
+    private static function pipedCallablesReducer(array $eventSubscribers, DomainEventSubscriber $subscriber): array
     {
         $subscribedEvents = $subscriber::subscribedTo();
 

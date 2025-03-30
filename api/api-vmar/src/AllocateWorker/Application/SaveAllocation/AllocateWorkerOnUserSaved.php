@@ -2,6 +2,7 @@
 
 namespace SuperVMar\AllocateWorker\Application\SaveAllocation;
 
+use SuperVMar\AllocateWorker\Domain\WorkerAllocations;
 use SuperVMar\Shared\Domain\Bus\Event\DomainEvent;
 use SuperVMar\Shared\Domain\Bus\Event\DomainEventSubscriber;
 use SuperVMar\Shared\Domain\ValueObject\Id;
@@ -19,11 +20,15 @@ final readonly class AllocateWorkerOnUserSaved implements DomainEventSubscriber
     {
         $body = $event->toArray();
 
-        $this->workerAllocator->allocate(
+        $this->workerAllocator->handleAllocations(
             new Id($event->aggregateId()),
-            new Id($body['idSupermarket']),
-            new Id($body['idJob'])
+            WorkerAllocations::fromPrimitives(
+                $event->aggregateId(),
+                $body['allocations']
+            )
         );
+
+
     }
 
     public static function subscribedTo(): array

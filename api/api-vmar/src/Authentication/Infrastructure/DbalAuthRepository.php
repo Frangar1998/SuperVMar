@@ -38,7 +38,7 @@ final readonly class DbalAuthRepository implements AuthRepository
         }
 
         if (!$user) {
-            throw new ItemNotFoundException(AuthUser::class, $criteria->filters()->items());
+            throw new ItemNotFoundException(AuthUser::class, $criteria->filters()->toArray());
         }
 
         return AuthUser::fromArray($user);

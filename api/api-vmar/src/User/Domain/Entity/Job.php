@@ -9,7 +9,7 @@ final readonly class Job
 {
     public function __construct(
         private Id $id,
-        private Name $name
+        private ?Name $name = null
     )
     {
     }
@@ -19,7 +19,7 @@ final readonly class Job
         return $this->id;
     }
 
-    public function name(): Name
+    public function name(): ?Name
     {
         return $this->name;
     }
@@ -28,7 +28,7 @@ final readonly class Job
     {
         return new self(
             new Id($data['id']),
-            new Name($data['name'])
+            $data['name'] != null ? new Name($data['name']) : $data['name']
         );
     }
 
@@ -36,12 +36,7 @@ final readonly class Job
     {
         return [
             'id' => $this->id->value(),
-            'name' => $this->name->value()
+            'name' => $this->name?->value()
         ];
-    }
-
-    public function equals(self $other): bool
-    {
-        return $this->id->equals($other->id());
     }
 }

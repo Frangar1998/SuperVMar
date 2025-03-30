@@ -128,7 +128,7 @@ final readonly class DbalUserRepository implements UserRepository
         }
 
         if (!$users) {
-            throw new ItemNotFoundException(User::class, $criteria->filters()->items());
+            throw new ItemNotFoundException(User::class, $criteria->filters()->toArray());
         }
 
         foreach ($users as $key => $user) {
