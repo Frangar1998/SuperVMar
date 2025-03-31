@@ -3,3 +3,6 @@ supermarket:
 
 user:
     resource: user-routes.yaml
+
+job:
+    resource: job-routes.yaml
