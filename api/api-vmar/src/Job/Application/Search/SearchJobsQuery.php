@@ -6,5 +6,4 @@ use SuperVMar\Shared\Domain\Bus\Query\Query;
 
 final readonly class SearchJobsQuery implements Query
 {
-
 }

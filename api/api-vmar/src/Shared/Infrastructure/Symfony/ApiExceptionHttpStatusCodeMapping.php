@@ -3,6 +3,7 @@
 namespace SuperVMar\Shared\Infrastructure\Symfony;
 
 use InvalidArgumentException;
+use SuperVMar\Shared\Domain\Exception\CannotDeleteException;
 use SuperVMar\Shared\Domain\Exception\CommandNotRegisteredException;
 use SuperVMar\Shared\Domain\Exception\DomainEventNotRegisteredException;
 use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
@@ -13,7 +14,6 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\Exception\MandatoryParamsException;
 use SuperVMar\Shared\Domain\Exception\QueryNotRegisteredException;
 use SuperVMar\Supermarket\Domain\Exception\InvalidZoneCoordinatesException;
-use SuperVMar\User\Domain\Exception\CannotDeleteAdminException;
 use SuperVMar\User\Domain\Exception\InvalidPasswordException;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -32,7 +32,7 @@ final class ApiExceptionHttpStatusCodeMapping
         QueryNotRegisteredException::class => Response::HTTP_NOT_FOUND,
         InvalidZoneCoordinatesException::class => Response::HTTP_BAD_REQUEST,
         InvalidPasswordException::class => Response::HTTP_BAD_REQUEST,
-        CannotDeleteAdminException::class => Response::HTTP_BAD_REQUEST,
+        CannotDeleteException::class => Response::HTTP_BAD_REQUEST,
     ];
 
     public function statusCodeFor(string $exceptionClass): int

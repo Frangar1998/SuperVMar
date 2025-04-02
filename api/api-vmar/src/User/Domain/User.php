@@ -3,12 +3,12 @@
 namespace SuperVMar\User\Domain;
 
 use SuperVMar\Shared\Domain\AggregateRoot;
+use SuperVMar\Shared\Domain\Exception\CannotDeleteException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\Entity\Allocations;
 use SuperVMar\User\Domain\Entity\UserData;
 use SuperVMar\User\Domain\Event\UserDeletedDomainEvent;
 use SuperVMar\User\Domain\Event\UserSavedDomainEvent;
-use SuperVMar\User\Domain\Exception\CannotDeleteAdminException;
 use SuperVMar\User\Domain\Exception\InvalidPasswordException;
 use SuperVMar\User\Domain\ValueObject\IsAdmin;
 use SuperVMar\User\Domain\ValueObject\Password;
@@ -133,10 +133,13 @@ final class User extends AggregateRoot
         }
     }
 
+    /**
+     * @throws CannotDeleteException
+     */
     public function checkIfIsAdminToDelete(): void
     {
         if ($this->isAdmin->value() === 1) {
-            throw new CannotDeleteAdminException();
+            throw new CannotDeleteException("User admin cannot be deleted.");
         }
 
         $this->record(

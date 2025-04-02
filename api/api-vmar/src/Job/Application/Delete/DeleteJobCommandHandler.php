@@ -17,6 +17,6 @@ final readonly class DeleteJobCommandHandler implements CommandHandler
     {
         $id = new Id($command->id());
 
-        $this->jobDeleter->delete($id,);
+        $this->jobDeleter->delete($id);
     }
 }

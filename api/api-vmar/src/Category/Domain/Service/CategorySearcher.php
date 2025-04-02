@@ -1,10 +1,10 @@
 <?php
 
-namespace SuperVMar\Job\Domain\Service;
+namespace SuperVMar\Category\Domain\Service;
 
-use SuperVMar\Job\Domain\Job;
-use SuperVMar\Job\Domain\JobRepository;
-use SuperVMar\Job\Domain\Jobs;
+use SuperVMar\Category\Domain\Categories;
+use SuperVMar\Category\Domain\Category;
+use SuperVMar\Category\Domain\CategoryRepository;
 use SuperVMar\Shared\Domain\Criteria\Criteria;
 use SuperVMar\Shared\Domain\Criteria\FieldName;
 use SuperVMar\Shared\Domain\Criteria\Filter;
@@ -16,10 +16,10 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class JobSearcher
+final readonly class CategorySearcher
 {
     public function __construct(
-        private JobRepository $jobRepository,
+        private CategoryRepository $categoryRepository,
     )
     {
     }
@@ -27,16 +27,16 @@ final readonly class JobSearcher
     /**
      * @throws ItemNotFoundException
      */
-    public function search(Id $idJob): Job
+    public function search(Id $idCategory): Category
     {
-        return $this->jobRepository->searchByCriteria(
+        return $this->categoryRepository->searchByCriteria(
             new Criteria(
                 filters: new Filters(
                     [
                         new Filter(
-                            new FilterField(TableNames::TABLE_JOB, new FieldName('id')),
+                            new FilterField(TableNames::TABLE_CATEGORY, new FieldName('id')),
                             FilterOperator::EQUAL,
-                            new FilterValue($idJob)
+                            new FilterValue($idCategory)
                         )
                     ]
                 )
@@ -47,9 +47,9 @@ final readonly class JobSearcher
     /**
      * @throws ItemNotFoundException
      */
-    public function searchAll(): Jobs
+    public function searchAll(): Categories
     {
-        return $this->jobRepository->searchByCriteria(
+        return $this->categoryRepository->searchByCriteria(
             new Criteria()
         );
     }
@@ -57,8 +57,8 @@ final readonly class JobSearcher
     /**
      * @throws ItemNotFoundException
      */
-    public function checkAllocations(Id $idJob): void
+    public function checkCategorizedProductsExists(Id $idCategory): void
     {
-        $this->jobRepository->checkAllocationsExists($idJob);
+        $this->categoryRepository->checkCategorizedProductsExists($idCategory);
     }
 }

@@ -1,14 +1,14 @@
 <?php
 
-namespace SuperVMar\Job\Infrastructure;
+namespace SuperVMar\Category\Infrastructure;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
-use SuperVMar\Job\Domain\Job;
-use SuperVMar\Job\Domain\JobRepository;
-use SuperVMar\Job\Domain\Jobs;
-use SuperVMar\Job\Infrastructure\Dao\DbalWorkerAllocationDao;
+use SuperVMar\Category\Domain\Categories;
+use SuperVMar\Category\Domain\Category;
+use SuperVMar\Category\Domain\CategoryRepository;
+use SuperVMar\Category\Infrastructure\Dao\DbalProductDao;
 use SuperVMar\Shared\Domain\Criteria\Criteria;
 use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
 use SuperVMar\Shared\Domain\Exception\InternalErrorException;
@@ -18,14 +18,14 @@ use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Infrastructure\Doctrine\DbalCriteriaConverter;
 use Throwable;
 
-final readonly class DbalJobRepository implements JobRepository
+final readonly class DbalCategoryRepository implements CategoryRepository
 {
-    private const string TABLE_JOB = TableNames::TABLE_JOB->value;
+    private const string TABLE_CATEGORY = TableNames::TABLE_CATEGORY->value;
 
     public function __construct(
         private Connection $connection,
         private DbalCriteriaConverter $dbalCriteriaConverter,
-        private DbalWorkerAllocationDao  $workerAllocationDao
+        private DbalProductDao $dbalProductDao
     )
     {
     }
@@ -34,11 +34,11 @@ final readonly class DbalJobRepository implements JobRepository
      * @throws DuplicateItemException
      * @throws InternalErrorException
      */
-    public function insert(Job $job): void
+    public function insert(Category $category): void
     {
         try {
             $this->connection->createQueryBuilder()
-                ->insert(self::TABLE_JOB)
+                ->insert(self::TABLE_CATEGORY)
                 ->values(
                     [
                         'id' => ':id',
@@ -46,13 +46,13 @@ final readonly class DbalJobRepository implements JobRepository
                     ])
                 ->setParameters(
                     [
-                        'id' => $job->id(),
-                        'name' => $job->name(),
+                        'id' => $category->id(),
+                        'name' => $category->name(),
                     ])
                 ->executeStatement();
 
         } catch (UniqueConstraintViolationException) {
-            throw new DuplicateItemException(Job::class, $job->id());
+            throw new DuplicateItemException(Category::class, $category->id());
         } catch (Throwable $e) {
             throw new InternalErrorException($e->getMessage(), $e);
         }
@@ -61,17 +61,17 @@ final readonly class DbalJobRepository implements JobRepository
     /**
      * @throws InternalErrorException
      */
-    public function update(Job $job): void
+    public function update(Category $category): void
     {
         try {
             $this->connection->createQueryBuilder()
-                ->update(self::TABLE_JOB)
+                ->update(self::TABLE_CATEGORY)
                 ->set('name', ':name')
                 ->where('id = :id')
                 ->setParameters(
                     [
-                        'id' => $job->id(),
-                        'name' => $job->name(),
+                        'id' => $category->id(),
+                        'name' => $category->name(),
                     ])
                 ->executeStatement();
 
@@ -83,15 +83,15 @@ final readonly class DbalJobRepository implements JobRepository
     /**
      * @throws InternalErrorException
      */
-    public function delete(Id $idJob): void
+    public function delete(Id $idCategory): void
     {
         try {
             $this->connection->createQueryBuilder()
-                ->delete(self::TABLE_JOB)
+                ->delete(self::TABLE_CATEGORY)
                 ->where('id = :id')
                 ->setParameters(
                     [
-                        'id' => $idJob,
+                        'id' => $idCategory,
                     ])
                 ->executeStatement();
 
@@ -104,35 +104,35 @@ final readonly class DbalJobRepository implements JobRepository
      * @throws InternalErrorException
      * @throws ItemNotFoundException
      */
-    public function searchByCriteria(Criteria $criteria): Jobs
+    public function searchByCriteria(Criteria $criteria): Categories
     {
         try {
             $query = $this->buildQueryByCriteria($criteria);
-            $jobs = $query->executeQuery()->fetchAllAssociative();
+            $categories = $query->executeQuery()->fetchAllAssociative();
         } catch (Throwable $e) {
             throw new InternalErrorException($e->getMessage(), $e);
         }
 
-        if (!$jobs) {
-            throw new ItemNotFoundException(Job::class, $criteria->filters()?->toArray());
+        if (!$categories) {
+            throw new ItemNotFoundException(Category::class, $criteria->filters()?->toArray());
         }
 
-        return Jobs::fromArray($jobs);
+        return Categories::fromArray($categories);
     }
 
     /**
      * @throws ItemNotFoundException
      * @throws InternalErrorException
      */
-    public function checkAllocationsExists(Id $idJob): void
+    public function checkCategorizedProductsExists(Id $idCategory): void
     {
-        $this->workerAllocationDao->checkAllocationsExists($idJob);
+        $this->dbalProductDao->checkCategorizedProductsExists($idCategory);
     }
 
     private function buildQueryByCriteria(Criteria $criteria): QueryBuilder
     {
         return $this->dbalCriteriaConverter->convert(
-            self::TABLE_JOB,
+            self::TABLE_CATEGORY,
             $criteria,
             $this->connection->createQueryBuilder()
         );

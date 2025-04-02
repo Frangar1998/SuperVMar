@@ -1,12 +1,12 @@
 <?php
 
-namespace SuperVMar\Job\Domain;
+namespace SuperVMar\Category\Domain;
 
-use SuperVMar\Job\Domain\ValueObject\Name;
+use SuperVMar\Category\Domain\ValueObject\Name;
 use SuperVMar\Shared\Domain\AggregateRoot;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final class Job extends AggregateRoot
+final class Category extends AggregateRoot
 {
     public function __construct(
         private readonly Id $id,

@@ -1,0 +1,32 @@
+<?php
+
+namespace SuperVMar\Category\Application\Save;
+
+use SuperVMar\Category\Domain\CategoryRepository;
+use SuperVMar\Category\Domain\Service\CategorySearcher;
+use SuperVMar\Category\Domain\ValueObject\Name;
+use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
+use SuperVMar\Shared\Domain\ValueObject\Id;
+
+final readonly class CategoryUpdater
+{
+    public function __construct(
+        private CategorySearcher $categorySearcher,
+        private CategoryRepository $categoryRepository
+    )
+    {
+    }
+
+    /**
+     * @throws ItemNotFoundException
+     */
+    public function update(
+        Id      $id,
+        Name    $name
+    ): void
+    {
+        $category = $this->categorySearcher->search($id);
+        $category->changeName($name);
+        $this->categoryRepository->update($category);
+    }
+}

@@ -6,3 +6,6 @@ user:
 
 job:
     resource: job-routes.yaml
+
+category:
+    resource: category-routes.yaml

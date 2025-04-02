@@ -3,9 +3,9 @@
 namespace SuperVMar\User\Application\Delete;
 
 use SuperVMar\Shared\Domain\Bus\Event\EventBus;
+use SuperVMar\Shared\Domain\Exception\CannotDeleteException;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
-use SuperVMar\User\Domain\Exception\CannotDeleteAdminException;
 use SuperVMar\User\Domain\Service\UserSearcher;
 use SuperVMar\User\Domain\UserRepository;
 
@@ -21,7 +21,7 @@ final readonly class UserDeleter
 
     /**
      * @throws ItemNotFoundException
-     * @throws CannotDeleteAdminException
+     * @throws CannotDeleteException
      */
     public function delete(
         Id $id
