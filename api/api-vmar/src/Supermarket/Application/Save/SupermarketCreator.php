@@ -7,6 +7,7 @@ use SuperVMar\Supermarket\Domain\Entity\Address;
 use SuperVMar\Supermarket\Domain\Entity\Zones;
 use SuperVMar\Supermarket\Domain\Supermarket;
 use SuperVMar\Supermarket\Domain\SupermarketRepository;
+use SuperVMar\Supermarket\Domain\ValueObject\Email;
 use SuperVMar\Supermarket\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\ValueObject\Phone;
 
@@ -23,6 +24,7 @@ final readonly class SupermarketCreator
         Name    $name,
         Address $address,
         Phone   $phone,
+        Email   $email,
         Zones   $zones
     ): void
     {
@@ -32,6 +34,7 @@ final readonly class SupermarketCreator
                 $name,
                 $address,
                 $phone,
+                $email,
                 $zones
             )
         );

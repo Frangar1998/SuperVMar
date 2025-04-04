@@ -1,15 +1,15 @@
 <?php
 
-namespace SuperVMar\App\Controller\Supermarket;
+namespace SuperVMar\App\Controller\Supplier;
 
 use JsonException;
 use SuperVMar\Shared\Domain\Exception\MandatoryParamsException;
 use SuperVMar\Shared\Infrastructure\Symfony\ApiController;
-use SuperVMar\Supermarket\Application\Save\SaveSupermarketCommand;
+use SuperVMar\Supplier\Application\Save\SaveSupplierCommand;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-final readonly class SupermarketPutController extends ApiController
+final readonly class SupplierPutController extends ApiController
 {
     /**
      * @throws MandatoryParamsException
@@ -19,13 +19,12 @@ final readonly class SupermarketPutController extends ApiController
     {
         $data = $this->dataFromRequest($request);
         $this->dispatch(
-            new SaveSupermarketCommand(
+            new SaveSupplierCommand(
                 $id,
                 $data['name'],
-                $data['address'],
                 $data['phone'],
                 $data['email'],
-                $data['zones']
+                $data['contact']
             )
         );
 
@@ -34,6 +33,6 @@ final readonly class SupermarketPutController extends ApiController
 
     protected function mandatoryParams(): array
     {
-        return ['name', 'address', 'phone', 'email', 'zones'];
+        return ['name', 'phone', 'email', 'contact'];
     }
 }

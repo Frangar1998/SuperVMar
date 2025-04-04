@@ -1,18 +1,17 @@
 <?php
 
-namespace SuperVMar\Supermarket\Application\Save;
+namespace SuperVMar\Supplier\Application\Save;
 
 use SuperVMar\Shared\Domain\Bus\Command\Command;
 
-final readonly class SaveSupermarketCommand implements Command
+final readonly class SaveSupplierCommand implements Command
 {
     public function __construct(
         private string $id,
         private string $name,
-        private array $address,
         private string $phone,
         private string $email,
-        private array $zones
+        private string $contact
     )
     {
     }
@@ -27,11 +26,6 @@ final readonly class SaveSupermarketCommand implements Command
         return $this->name;
     }
 
-    public function address(): array
-    {
-        return $this->address;
-    }
-
     public function phone(): string
     {
         return $this->phone;
@@ -42,10 +36,8 @@ final readonly class SaveSupermarketCommand implements Command
         return $this->email;
     }
 
-    public function zones(): array
+    public function contact(): string
     {
-        return $this->zones;
+        return $this->contact;
     }
-
-
 }

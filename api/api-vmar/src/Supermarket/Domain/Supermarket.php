@@ -6,6 +6,7 @@ use SuperVMar\Shared\Domain\AggregateRoot;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Supermarket\Domain\Entity\Address;
 use SuperVMar\Supermarket\Domain\Entity\Zones;
+use SuperVMar\Supermarket\Domain\ValueObject\Email;
 use SuperVMar\Supermarket\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\ValueObject\Phone;
 
@@ -16,6 +17,7 @@ final class Supermarket extends AggregateRoot
         private Name        $name,
         private Address     $address,
         private Phone       $phone,
+        private Email       $email,
         private Zones       $zones
     ){}
 
@@ -39,6 +41,11 @@ final class Supermarket extends AggregateRoot
         return $this->phone;
     }
 
+    public function email(): Email
+    {
+        return $this->email;
+    }
+
     public function zones(): Zones
     {
         return $this->zones;
@@ -49,6 +56,7 @@ final class Supermarket extends AggregateRoot
         Name    $nameSupermarket,
         Address $address,
         Phone   $phone,
+        Email   $email,
         Zones   $zones
     ): self
     {
@@ -57,6 +65,7 @@ final class Supermarket extends AggregateRoot
             $nameSupermarket,
             $address,
             $phone,
+            $email,
             $zones
         );
     }
@@ -72,6 +81,13 @@ final class Supermarket extends AggregateRoot
     {
         if (!$this->phone->equals($phone)) {
             $this->phone = $phone;
+        }
+    }
+
+    public function changeEmail(Email $email): void
+    {
+        if (!$this->email->equals($email)) {
+            $this->email = $email;
         }
     }
 
@@ -114,6 +130,7 @@ final class Supermarket extends AggregateRoot
                 'province' => $data['province'],
             ]),
             new Phone($data['phone']),
+            new Email($data['email']),
             Zones::fromArray($data['zones'])
         );
     }

@@ -11,6 +11,7 @@ final readonly class SupermarketResponse implements Response
         private string $name,
         private array $address,
         private string $phone,
+        private string $email,
         private array $zones
     )
     {
@@ -23,6 +24,7 @@ final readonly class SupermarketResponse implements Response
             'name' => $this->name,
             'address' => $this->address,
             'phone' => $this->phone,
+            'email' => $this->email,
             'zones' => $this->zones
         ];
     }

@@ -24,6 +24,7 @@ final readonly class SearchSupermarketQueryHandler implements QueryHandler
             $supermarket->name()->value(),
             $supermarket->address()->toArray(),
             $supermarket->phone()->value(),
+            $supermarket->email()->value(),
             $supermarket->zones()->toArray()
         );
     }

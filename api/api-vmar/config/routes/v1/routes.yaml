@@ -12,3 +12,6 @@ category:
 
 tax:
     resource: tax-routes.yaml
+
+supplier:
+    resource: supplier-routes.yaml

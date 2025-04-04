@@ -1,0 +1,17 @@
+supplier_put:
+  path: /supplier/{id}
+  controller: SuperVMar\App\Controller\Supplier\SupplierPutController
+  defaults: { auth: false }
+  methods: PUT
+
+supplier_delete:
+  path: /supplier/{id}
+  controller: SuperVMar\App\Controller\Supplier\SupplierDeleteController
+  defaults: { auth: false }
+  methods: DELETE
+
+suppliers_get:
+  path: /suppliers
+  controller: SuperVMar\App\Controller\Supplier\SuppliersGetController
+  defaults: { auth: false }
+  methods: GET

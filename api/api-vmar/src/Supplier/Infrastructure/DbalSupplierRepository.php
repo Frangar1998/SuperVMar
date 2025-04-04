@@ -1,6 +1,6 @@
 <?php
 
-namespace SuperVMar\Supermarket\Infrastructure;
+namespace SuperVMar\Supplier\Infrastructure;
 
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
@@ -12,21 +12,20 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Infrastructure\Doctrine\DbalCriteriaConverter;
-use SuperVMar\Supermarket\Domain\Supermarket;
-use SuperVMar\Supermarket\Domain\SupermarketRepository;
-use SuperVMar\Supermarket\Infrastructure\Dao\DbalAddressDao;
-use SuperVMar\Supermarket\Infrastructure\Dao\DbalZoneDao;
+use SuperVMar\Supplier\Domain\Supplier;
+use SuperVMar\Supplier\Domain\SupplierRepository;
+use SuperVMar\Supplier\Domain\Suppliers;
+use SuperVMar\Supplier\Infrastructure\Dao\DbalProductDao;
 use Throwable;
 
-final readonly class DbalSupermarketRepository implements SupermarketRepository
+final readonly class DbalSupplierRepository implements SupplierRepository
 {
-    private const string TABLE_SUPERMARKET = TableNames::TABLE_SUPERMARKET->value;
+    private const string TABLE_SUPPLIER = TableNames::TABLE_SUPPLIER->value;
 
     public function __construct(
         private Connection $connection,
         private DbalCriteriaConverter $dbalCriteriaConverter,
-        private DbalAddressDao $addressDao,
-        private DbalZoneDao $zoneDao
+        private DbalProductDao $dbalProductDao
     )
     {
     }
@@ -35,34 +34,31 @@ final readonly class DbalSupermarketRepository implements SupermarketRepository
      * @throws DuplicateItemException
      * @throws InternalErrorException
      */
-    public function insert(Supermarket $supermarket): void
+    public function insert(Supplier $supplier): void
     {
         try {
-            $this->addressDao->insert($supermarket->address());
-
             $this->connection->createQueryBuilder()
-                ->insert(self::TABLE_SUPERMARKET)
+                ->insert(self::TABLE_SUPPLIER)
                 ->values(
                     [
                         'id' => ':id',
                         'name' => ':name',
                         'phone' => ':phone',
                         'email' => ':email',
-                        'idAddress' => ':idAddress',
+                        'contact' => ':contact',
                     ])
                 ->setParameters(
                     [
-                        'id' => $supermarket->id(),
-                        'name' => $supermarket->name(),
-                        'phone' => $supermarket->phone(),
-                        'email' => $supermarket->email(),
-                        'idAddress' => $supermarket->address()->id(),
+                        'id' => $supplier->id(),
+                        'name' => $supplier->name(),
+                        'phone' => $supplier->phone(),
+                        'email' => $supplier->email(),
+                        'contact' => $supplier->contact(),
                     ])
                 ->executeStatement();
 
-            $this->zoneDao->insert($supermarket->zones(), $supermarket->id());
         } catch (UniqueConstraintViolationException) {
-            throw new DuplicateItemException(Supermarket::class, $supermarket->id());
+            throw new DuplicateItemException(Supplier::class, $supplier->id());
         } catch (Throwable $e) {
             throw new InternalErrorException($e->getMessage(), $e);
         }
@@ -71,26 +67,26 @@ final readonly class DbalSupermarketRepository implements SupermarketRepository
     /**
      * @throws InternalErrorException
      */
-    public function update(Supermarket $supermarket): void
+    public function update(Supplier $supplier): void
     {
         try {
             $this->connection->createQueryBuilder()
-                ->update(self::TABLE_SUPERMARKET)
+                ->update(self::TABLE_SUPPLIER)
                 ->set('name', ':name')
                 ->set('phone', ':phone')
                 ->set('email', ':email')
+                ->set('contact', ':contact')
                 ->where('id = :id')
                 ->setParameters(
                     [
-                        'id' => $supermarket->id(),
-                        'name' => $supermarket->name(),
-                        'phone' => $supermarket->phone(),
-                        'email' => $supermarket->email(),
+                        'id' => $supplier->id(),
+                        'name' => $supplier->name(),
+                        'phone' => $supplier->phone(),
+                        'email' => $supplier->email(),
+                        'contact' => $supplier->contact(),
                     ])
                 ->executeStatement();
 
-            $this->addressDao->update($supermarket->address());
-            $this->zoneDao->update($supermarket->zones(), $supermarket->id());
         } catch (Throwable $e) {
             throw new InternalErrorException($e->getMessage(), $e);
         }
@@ -99,50 +95,52 @@ final readonly class DbalSupermarketRepository implements SupermarketRepository
     /**
      * @throws InternalErrorException
      */
-    public function delete(Supermarket $supermarket): void
+    public function delete(Id $idSupplier): void
     {
         try {
-            $this->zoneDao->deleteAll($supermarket->zones(), $supermarket->id());
-
             $this->connection->createQueryBuilder()
-                ->delete(self::TABLE_SUPERMARKET)
+                ->delete(self::TABLE_SUPPLIER)
                 ->where('id = :id')
-                ->setParameter('id', $supermarket->id())
+                ->setParameters(
+                    [
+                        'id' => $idSupplier,
+                    ])
                 ->executeStatement();
-
-            $this->addressDao->delete($supermarket->address()->id());
 
         } catch (Throwable $e) {
             throw new InternalErrorException($e->getMessage(), $e);
         }
     }
 
-    /**
-     * @throws ItemNotFoundException
-     * @throws InternalErrorException
-     */
-    public function searchByCriteria(Criteria $criteria): ?Supermarket
+    public function searchByCriteria(Criteria $criteria): Suppliers
     {
         try {
             $query = $this->buildQueryByCriteria($criteria);
-            $supermarket = $query->executeQuery()->fetchAssociative();
+            $suppliers = $query->executeQuery()->fetchAllAssociative();
         } catch (Throwable $e) {
             throw new InternalErrorException($e->getMessage(), $e);
         }
 
-        if (!$supermarket) {
-            throw new ItemNotFoundException(Supermarket::class, $criteria->filters()->toArray());
+        if (!$suppliers) {
+            throw new ItemNotFoundException(Supplier::class, $criteria->filters()?->toArray());
         }
 
-        $supermarket['zones'] = $this->zoneDao->search(new Id($supermarket['id']));
+        return Suppliers::fromArray($suppliers);
+    }
 
-        return Supermarket::fromArray($supermarket);
+    /**
+     * @throws InternalErrorException
+     * @throws ItemNotFoundException
+     */
+    public function checkSuppliedProductsExists(Id $idSupplier): void
+    {
+        $this->dbalProductDao->checkSuppliedProductsExists($idSupplier);
     }
 
     private function buildQueryByCriteria(Criteria $criteria): QueryBuilder
     {
         return $this->dbalCriteriaConverter->convert(
-            self::TABLE_SUPERMARKET,
+            self::TABLE_SUPPLIER,
             $criteria,
             $this->connection->createQueryBuilder()
         );

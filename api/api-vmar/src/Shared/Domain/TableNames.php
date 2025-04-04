@@ -14,5 +14,6 @@ enum TableNames: string
     case TABLE_WORKER_ALLOCATION = 'worker_allocation';
     case TABLE_CATEGORY = 'category';
     case TABLE_TAX = 'tax';
+    case TABLE_SUPPLIER = 'supplier';
     case TABLE_PRODUCT = 'product';
 }
