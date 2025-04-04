@@ -9,3 +9,6 @@ job:
 
 category:
     resource: category-routes.yaml
+
+tax:
+    resource: tax-routes.yaml
