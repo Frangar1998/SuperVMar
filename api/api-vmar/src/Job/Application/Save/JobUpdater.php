@@ -4,9 +4,9 @@ namespace SuperVMar\Job\Application\Save;
 
 use SuperVMar\Job\Domain\JobRepository;
 use SuperVMar\Job\Domain\Service\JobSearcher;
-use SuperVMar\Job\Domain\ValueObject\Name;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 
 final readonly class JobUpdater
 {

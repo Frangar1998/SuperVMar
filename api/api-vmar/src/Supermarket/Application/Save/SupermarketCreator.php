@@ -3,12 +3,12 @@
 namespace SuperVMar\Supermarket\Application\Save;
 
 use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\Entity\Address;
 use SuperVMar\Supermarket\Domain\Entity\Zones;
 use SuperVMar\Supermarket\Domain\Supermarket;
 use SuperVMar\Supermarket\Domain\SupermarketRepository;
 use SuperVMar\Supermarket\Domain\ValueObject\Email;
-use SuperVMar\Supermarket\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\ValueObject\Phone;
 
 final readonly class SupermarketCreator

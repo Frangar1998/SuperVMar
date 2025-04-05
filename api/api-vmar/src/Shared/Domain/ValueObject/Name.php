@@ -1,9 +1,8 @@
 <?php
 
-namespace SuperVMar\Tax\Domain\ValueObject;
+namespace SuperVMar\Shared\Domain\ValueObject;
 
 use SuperVMar\Shared\Domain\Exception\InvalidValueException;
-use SuperVMar\Shared\Domain\ValueObject\StringValueObject;
 
 final class Name extends StringValueObject
 {
@@ -18,8 +17,8 @@ final class Name extends StringValueObject
             throw new InvalidValueException('Name cannot be empty');
         }
 
-        if (strlen($value) > 100) {
-            throw new InvalidValueException('Name cannot be longer than 100 characters');
+        if (strlen($value) > 255) {
+            throw new InvalidValueException('Name cannot be longer than 255 characters');
         }
     }
 }

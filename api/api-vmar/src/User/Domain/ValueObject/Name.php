@@ -19,8 +19,8 @@ final class Name extends StringValueObject
             throw new InvalidValueException('Name cannot be empty');
         }
 
-        if (strlen($value) > 100) {
-            throw new InvalidValueException('Name cannot be longer than 100 characters');
+        if (strlen($value) > 255) {
+            throw new InvalidValueException('Name cannot be longer than 255 characters');
         }
     }
 }

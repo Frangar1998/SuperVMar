@@ -5,7 +5,7 @@ namespace SuperVMar\Tax\Application\Save;
 use SuperVMar\Shared\Domain\Bus\Command\CommandHandler;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
-use SuperVMar\Tax\Domain\ValueObject\Name;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 use SuperVMar\Tax\Domain\ValueObject\Percent;
 
 final readonly class SaveTaxCommandHandler implements CommandHandler

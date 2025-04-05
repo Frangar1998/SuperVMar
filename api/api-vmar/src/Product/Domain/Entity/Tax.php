@@ -1,16 +1,17 @@
 <?php
 
-namespace SuperVMar\Job\Domain;
+namespace SuperVMar\Product\Domain\Entity;
 
-use SuperVMar\Shared\Domain\AggregateRoot;
+use SuperVMar\Product\Domain\ValueObject\Percent;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Domain\ValueObject\Name;
 
-final class Job extends AggregateRoot
+final readonly class Tax
 {
     public function __construct(
-        private readonly Id $id,
-        private Name       $name
+        private Id      $id,
+        private Name    $name,
+        private Percent $percent
     )
     {
     }
@@ -25,29 +26,17 @@ final class Job extends AggregateRoot
         return $this->name;
     }
 
-    public function changeName(Name $name): void
+    public function percent(): Percent
     {
-        if (!$this->name->equals($name)) {
-            $this->name = $name;
-        }
-    }
-
-    public static function create(
-        Id   $id,
-        Name $name,
-    ): self
-    {
-        return new self(
-            $id,
-            $name
-        );
+        return $this->percent;
     }
 
     public static function fromArray(array $data): self
     {
         return new self(
             new Id($data['id']),
-            new Name($data['name'])
+            new Name($data['name']),
+            new Percent($data['percent'])
         );
     }
 
@@ -55,7 +44,8 @@ final class Job extends AggregateRoot
     {
         return [
             'id' => $this->id->value(),
-            'name' => $this->name->value()
+            'name' => $this->name->value(),
+            'percent' => $this->percent->value()
         ];
     }
 }

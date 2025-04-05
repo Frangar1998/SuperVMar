@@ -4,9 +4,9 @@ namespace SuperVMar\Category\Application\Save;
 
 use SuperVMar\Category\Domain\CategoryRepository;
 use SuperVMar\Category\Domain\Service\CategorySearcher;
-use SuperVMar\Category\Domain\ValueObject\Name;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 
 final readonly class CategoryUpdater
 {

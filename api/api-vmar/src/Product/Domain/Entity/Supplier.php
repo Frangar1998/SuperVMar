@@ -1,16 +1,15 @@
 <?php
 
-namespace SuperVMar\Category\Domain;
+namespace SuperVMar\Product\Domain\Entity;
 
-use SuperVMar\Shared\Domain\AggregateRoot;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Domain\ValueObject\Name;
 
-final class Category extends AggregateRoot
+final readonly class Supplier
 {
     public function __construct(
-        private readonly Id $id,
-        private Name       $name
+        private Id   $id,
+        private Name $name,
     )
     {
     }
@@ -23,24 +22,6 @@ final class Category extends AggregateRoot
     public function name(): Name
     {
         return $this->name;
-    }
-
-    public function changeName(Name $name): void
-    {
-        if (!$this->name->equals($name)) {
-            $this->name = $name;
-        }
-    }
-
-    public static function create(
-        Id   $id,
-        Name $name,
-    ): self
-    {
-        return new self(
-            $id,
-            $name
-        );
     }
 
     public static function fromArray(array $data): self

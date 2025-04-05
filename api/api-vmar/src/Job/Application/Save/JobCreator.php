@@ -4,8 +4,8 @@ namespace SuperVMar\Job\Application\Save;
 
 use SuperVMar\Job\Domain\Job;
 use SuperVMar\Job\Domain\JobRepository;
-use SuperVMar\Job\Domain\ValueObject\Name;
 use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 
 final readonly class JobCreator
 {

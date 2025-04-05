@@ -3,8 +3,8 @@
 namespace SuperVMar\Supermarket\Domain\Entity;
 
 use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\ValueObject\City;
-use SuperVMar\Supermarket\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\ValueObject\Number;
 use SuperVMar\Supermarket\Domain\ValueObject\PostalCode;
 use SuperVMar\Supermarket\Domain\ValueObject\Province;

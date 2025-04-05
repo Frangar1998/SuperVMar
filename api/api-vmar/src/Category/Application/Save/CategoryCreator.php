@@ -4,8 +4,8 @@ namespace SuperVMar\Category\Application\Save;
 
 use SuperVMar\Category\Domain\Category;
 use SuperVMar\Category\Domain\CategoryRepository;
-use SuperVMar\Category\Domain\ValueObject\Name;
 use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 
 final readonly class CategoryCreator
 {

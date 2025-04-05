@@ -2,10 +2,10 @@
 
 namespace SuperVMar\Category\Application\Save;
 
-use SuperVMar\Category\Domain\ValueObject\Name;
 use SuperVMar\Shared\Domain\Bus\Command\CommandHandler;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 
 final readonly class SaveCategoryCommandHandler implements CommandHandler
 {

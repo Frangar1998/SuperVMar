@@ -4,7 +4,7 @@ namespace SuperVMar\Tax\Domain;
 
 use SuperVMar\Shared\Domain\AggregateRoot;
 use SuperVMar\Shared\Domain\ValueObject\Id;
-use SuperVMar\Tax\Domain\ValueObject\Name;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 use SuperVMar\Tax\Domain\ValueObject\Percent;
 
 final class Tax extends AggregateRoot

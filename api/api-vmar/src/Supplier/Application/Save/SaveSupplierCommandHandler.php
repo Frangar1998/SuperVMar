@@ -5,9 +5,9 @@ namespace SuperVMar\Supplier\Application\Save;
 use SuperVMar\Shared\Domain\Bus\Command\CommandHandler;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 use SuperVMar\Supplier\Domain\ValueObject\Contact;
 use SuperVMar\Supplier\Domain\ValueObject\Email;
-use SuperVMar\Supplier\Domain\ValueObject\Name;
 use SuperVMar\Supplier\Domain\ValueObject\Phone;
 
 final readonly class SaveSupplierCommandHandler implements CommandHandler
