@@ -19,4 +19,16 @@ final readonly class Stock extends IntValueObject
             throw new InvalidValueException('Product stock must be positive integer.');
         }
     }
+
+    public function add(self $addedStock): self
+    {
+        return new self($this->value + $addedStock->value());
+    }
+
+    public function subtract(self $substractedStock): self
+    {
+        return new self(
+            max($this->value - $substractedStock->value(), 0)
+        );
+    }
 }

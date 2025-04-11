@@ -39,4 +39,9 @@ final readonly class Category
             'name' => $this->name->value()
         ];
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->id->equals($other->id());
+    }
 }

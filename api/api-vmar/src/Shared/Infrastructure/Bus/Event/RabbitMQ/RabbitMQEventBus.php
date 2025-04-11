@@ -3,11 +3,12 @@
 namespace SuperVMar\Shared\Infrastructure\Bus\Event\RabbitMQ;
 
 use SuperVMar\Shared\Domain\Bus\Event\DomainEvent;
+use SuperVMar\Shared\Domain\Bus\Event\QueueEventBus;
 use SuperVMar\Shared\Infrastructure\Bus\Event\DomainEventJsonSerializer;
 
-final readonly class RabbitMQEventBus
+final readonly class RabbitMQEventBus implements QueueEventBus
 {
-    public function __construct(private RabbitMqConnection $connection)
+    public function __construct(private RabbitMQConnection $connection)
     {
     }
 

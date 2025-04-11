@@ -44,6 +44,10 @@ services:
         arguments: [ !tagged supervmar.domain_event_subscriber ]
         lazy: true
 
+    SuperVMar\Shared\Infrastructure\Bus\Event\RabbitMQ\RabbitMQEventBus:
+        arguments: [ !tagged supervmar.domain_event_subscriber ]
+        lazy: true
+
     SuperVMar\Shared\Infrastructure\Bus\Event\DomainEventMapping:
         arguments: [ !tagged supervmar.domain_event_subscriber ]
 
@@ -51,7 +55,7 @@ services:
         arguments: [ !tagged supervmar.domain_event_subscriber ]
 
     ## RabbitMQ ##
-    SuperVMar\Shared\Infrastructure\Bus\Event\RabbitMq\RabbitMqConnection:
+    SuperVMar\Shared\Infrastructure\Bus\Event\RabbitMQ\RabbitMQConnection:
         arguments:
             $exchangeName: '%env(RABBITMQ_EXCHANGE)%'
             $maxMessages: '%env(default:defaultMaxMessages:RABBITMQ_MAX_MESSAGES)%'
@@ -67,3 +71,9 @@ services:
             $ssl_options:
                 - verify_peer: false
     PhpAmqpLib\Connection\AbstractConnection: '@PhpAmqpLib\Connection\AMQPSSLConnection'
+
+    SuperVMar\App\Command\RabbitMQConsumeCommand:
+        arguments:
+            $consumerList: !tagged supervmar.domain_event_subscriber
+        tags:
+            - { name: rabbit.command }

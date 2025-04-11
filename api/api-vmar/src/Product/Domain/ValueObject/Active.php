@@ -15,8 +15,14 @@ final readonly class Active extends IntValueObject
 
     protected function validate(int $value): void
     {
-        if ($value !== 0 && $value !== 1) {
-            throw new InvalidValueException('Product active must be 0 or 1.');
+        if ($value !== Status::INACTIVE->value && $value !== Status::ACTIVE->value) {
+            throw new InvalidValueException(
+                sprintf(
+                    'Product active must be %d or %d.',
+                    Status::ACTIVE->value,
+                    Status::INACTIVE->value
+                )
+            );
         }
     }
 }

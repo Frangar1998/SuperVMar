@@ -48,4 +48,9 @@ final readonly class Tax
             'percent' => $this->percent->value()
         ];
     }
+
+    public function equals(self $other): bool
+    {
+        return $this->id->equals($other->id());
+    }
 }

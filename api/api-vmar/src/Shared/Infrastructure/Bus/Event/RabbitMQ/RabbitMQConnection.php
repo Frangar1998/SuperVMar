@@ -29,8 +29,8 @@ final class RabbitMQConnection
         $this->channel = $connection->channel();
 
         $exchangeNames = [
-            RabbitMqExchangeNameFormatter::retry($exchangeName),
-            RabbitMqExchangeNameFormatter::deadLetter($exchangeName),
+            RabbitMQExchangeNameFormatter::retry($exchangeName),
+            RabbitMQExchangeNameFormatter::deadLetter($exchangeName),
             $exchangeName,
         ];
         foreach ($exchangeNames as $name) {
@@ -81,7 +81,7 @@ final class RabbitMQConnection
         return $this->exchangeName;
     }
 
-    public function setExchangeName(string $exchangeName): RabbitMqConnection
+    public function setExchangeName(string $exchangeName): RabbitMQConnection
     {
         $this->exchangeName = $exchangeName;
 
@@ -108,11 +108,11 @@ final class RabbitMQConnection
 
     public function declareQueues(string $queueName, string $routingKey): void
     {
-        $queueName = RabbitMqQueueNameFormatter::clean($queueName);
+        $queueName = RabbitMQQueueNameFormatter::clean($queueName);
         $queues = [
             $this->getExchangeName() => $queueName,
-            RabbitMqExchangeNameFormatter::retry($this->getExchangeName()) => RabbitMqQueueNameFormatter::retry($queueName),
-            RabbitMqExchangeNameFormatter::deadLetter($this->getExchangeName()) => RabbitMqQueueNameFormatter::deadLetter($queueName),
+            RabbitMQExchangeNameFormatter::retry($this->getExchangeName()) => RabbitMQQueueNameFormatter::retry($queueName),
+            RabbitMQExchangeNameFormatter::deadLetter($this->getExchangeName()) => RabbitMQQueueNameFormatter::deadLetter($queueName),
         ];
         foreach ($queues as $exchange => $queue) {
             $arguments = str_starts_with($exchange, 'retry') ?

@@ -24,7 +24,7 @@ abstract readonly class DateValueObject
 
     public function __toString(): string
     {
-        return $this->value->format('Y-m-d H:i:s');
+        return $this->format('Y-m-d H:i:s');
     }
 
     final public function equals(self $otherValue): bool
@@ -35,5 +35,10 @@ abstract readonly class DateValueObject
     final public function value(): DateTime
     {
         return $this->value;
+    }
+
+    final public function format(string $format): string
+    {
+        return $this->value->format($format);
     }
 }

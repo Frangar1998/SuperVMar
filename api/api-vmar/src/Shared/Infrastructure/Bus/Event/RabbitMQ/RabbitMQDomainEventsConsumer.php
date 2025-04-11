@@ -12,7 +12,7 @@ final class RabbitMQDomainEventsConsumer
     private const int DEFAULT_MAX_RETRIES = 3;
 
     public function __construct(
-        private readonly RabbitMqConnection          $rabbitMqConnection,
+        private readonly RabbitMQConnection          $rabbitMqConnection,
         private readonly DomainEventJsonDeserializer $domainEventJsonDeserializer,
         private readonly int                         $maxRetries = self::DEFAULT_MAX_RETRIES
     ) {
@@ -66,15 +66,15 @@ final class RabbitMQDomainEventsConsumer
 
     private function sendToDeadLetter(AMQPMessage $envelope, string $queue): void
     {
-        $exchangeName = RabbitMqExchangeNameFormatter::deadLetter($this->rabbitMqConnection->getExchangeName());
-        $queue = RabbitMqQueueNameFormatter::deadLetter($queue);
+        $exchangeName = RabbitMQExchangeNameFormatter::deadLetter($this->rabbitMqConnection->getExchangeName());
+        $queue = RabbitMQQueueNameFormatter::deadLetter($queue);
         $this->sendMessageTo($exchangeName, $envelope, $queue);
     }
 
     private function sendToRetry(AMQPMessage $envelope, string $queue): void
     {
-        $exchangeName = RabbitMqExchangeNameFormatter::retry($this->rabbitMqConnection->getExchangeName());
-        $queue = RabbitMqQueueNameFormatter::retry($queue);
+        $exchangeName = RabbitMQExchangeNameFormatter::retry($this->rabbitMqConnection->getExchangeName());
+        $queue = RabbitMQQueueNameFormatter::retry($queue);
         $this->sendMessageTo($exchangeName, $envelope, $queue);
     }
 

@@ -6,4 +6,8 @@ use SuperVMar\Shared\Domain\ValueObject\DateValueObject;
 
 final readonly class StartDate extends DateValueObject
 {
+    public function formatDate(): string
+    {
+        return $this->format('Y-m-d H:i:s');
+    }
 }

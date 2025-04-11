@@ -55,6 +55,13 @@ abstract class Collection implements Countable, IteratorAggregate
         $this->addedItems[] = $item;
     }
 
+    public function addFirst(mixed $item): void
+    {
+        Assert::instanceOf($this->type(), $item);
+        array_unshift($this->items, $item);
+        $this->addedItems[] = $item;
+    }
+
     public function remove(mixed $itemToRemove): void
     {
         Assert::instanceOf($this->type(), $itemToRemove);

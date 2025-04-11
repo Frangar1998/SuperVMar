@@ -58,8 +58,16 @@ final class HistoricalPrice
         return [
             'id' => $this->id->value(),
             'price' => $this->price->value(),
-            'startDate' => $this->startDate->value(),
-            'endDate' => $this->endDate
+            'startDate' => $this->startDate->formatDate(),
+            'endDate' => $this->endDate?->formatDate()
         ];
+    }
+
+    public function compare(self $other): bool
+    {
+        return $this->id->equals($other->id())
+            && $this->price->equals($other->price())
+            && $this->startDate->equals($other->startDate())
+            && $this->endDate?->equals($other->endDate());
     }
 }

@@ -15,3 +15,6 @@ tax:
 
 supplier:
     resource: supplier-routes.yaml
+
+product:
+    resource: product-routes.yaml
