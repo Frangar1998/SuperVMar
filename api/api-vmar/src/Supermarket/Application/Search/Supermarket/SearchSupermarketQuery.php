@@ -1,6 +1,6 @@
 <?php
 
-namespace SuperVMar\Supermarket\Application\Search;
+namespace SuperVMar\Supermarket\Application\Search\Supermarket;
 
 use SuperVMar\Shared\Domain\Bus\Query\Query;
 

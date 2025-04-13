@@ -1,6 +1,6 @@
 <?php
 
-namespace SuperVMar\Supermarket\Domain\ValueObject;
+namespace SuperVMar\ProductAllocation\Domain\ValueObject;
 
 use SuperVMar\Shared\Domain\Utils;
 

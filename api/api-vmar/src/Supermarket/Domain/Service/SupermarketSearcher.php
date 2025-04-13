@@ -51,31 +51,41 @@ final readonly class SupermarketSearcher
                         )
                     ]
                 ),
-                select: new Select(
-                    new Fields([
-                        new Field(TableNames::TABLE_SUPERMARKET, new FieldName('*')),
-                        new Field(TableNames::TABLE_ADDRESS, new FieldName('name AS nameAddress')),
-                        new Field(TableNames::TABLE_ADDRESS, new FieldName('postalCode')),
-                        new Field(TableNames::TABLE_ADDRESS, new FieldName('city')),
-                        new Field(TableNames::TABLE_ADDRESS, new FieldName('number')),
-                        new Field(TableNames::TABLE_ADDRESS, new FieldName('province')),
-                    ])
-                ),
-                joins: new Joins(
-                    [
-                        new Join(
-                            JoinType::INNER,
-                            new JoinFirstTable(TableNames::TABLE_SUPERMARKET->value),
-                            new JoinSecondTable(TableNames::TABLE_ADDRESS->value),
-                            new On(
-                                new OnFirstField(TableNames::TABLE_SUPERMARKET, new FieldName('idAddress')),
-                                OnOperator::EQUAL,
-                                new OnSecondField(TableNames::TABLE_ADDRESS, new FieldName('id'))
-                            )
-                        )
-                    ]
-                )
+                select: $this->getSelect(),
+                joins: $this->getJoins(),
             )
+        );
+    }
+
+    protected function getSelect(): Select
+    {
+        return new Select(
+            new Fields([
+                new Field(TableNames::TABLE_SUPERMARKET, new FieldName('*')),
+                new Field(TableNames::TABLE_ADDRESS, new FieldName('name AS nameAddress')),
+                new Field(TableNames::TABLE_ADDRESS, new FieldName('postalCode')),
+                new Field(TableNames::TABLE_ADDRESS, new FieldName('city')),
+                new Field(TableNames::TABLE_ADDRESS, new FieldName('number')),
+                new Field(TableNames::TABLE_ADDRESS, new FieldName('province')),
+            ])
+        );
+    }
+
+    protected function getJoins(): Joins
+    {
+        return new Joins(
+            [
+                new Join(
+                    JoinType::INNER,
+                    new JoinFirstTable(TableNames::TABLE_SUPERMARKET->value),
+                    new JoinSecondTable(TableNames::TABLE_ADDRESS->value),
+                    new On(
+                        new OnFirstField(TableNames::TABLE_SUPERMARKET, new FieldName('idAddress')),
+                        OnOperator::EQUAL,
+                        new OnSecondField(TableNames::TABLE_ADDRESS, new FieldName('id'))
+                    )
+                )
+            ]
         );
     }
 }

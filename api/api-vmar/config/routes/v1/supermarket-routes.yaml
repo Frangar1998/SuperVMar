@@ -9,3 +9,9 @@ supermarket_get:
   controller: SuperVMar\App\Controller\Supermarket\SupermarketGetController
   defaults: { auth: false }
   methods: GET
+
+zones_get:
+  path: /zones/{idSupermarket}
+  controller: SuperVMar\App\Controller\Supermarket\ZonesGetController
+  defaults: { auth: false }
+  methods: GET
