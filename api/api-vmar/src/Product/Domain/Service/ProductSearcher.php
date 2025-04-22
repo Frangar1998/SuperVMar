@@ -61,6 +61,28 @@ final readonly class ProductSearcher
     /**
      * @throws ItemNotFoundException
      */
+    public function searchByField(string $field, string $value): Product
+    {
+        return $this->productRepository->searchByCriteria(
+            new Criteria(
+                filters: new Filters(
+                    [
+                        new Filter(
+                            new FilterField(TableNames::TABLE_PRODUCT, new FieldName($field)),
+                            FilterOperator::EQUAL,
+                            new FilterValue($value)
+                        )
+                    ]
+                ),
+                select: $this->getSelect(),
+                joins: $this->getJoins(),
+            )
+        )->first();
+    }
+
+    /**
+     * @throws ItemNotFoundException
+     */
     public function searchAll(): Products
     {
         return $this->productRepository->searchByCriteria(

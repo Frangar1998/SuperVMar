@@ -44,10 +44,6 @@ services:
         arguments: [ !tagged supervmar.domain_event_subscriber ]
         lazy: true
 
-    SuperVMar\Shared\Infrastructure\Bus\Event\RabbitMQ\RabbitMQEventBus:
-        arguments: [ !tagged supervmar.domain_event_subscriber ]
-        lazy: true
-
     SuperVMar\Shared\Infrastructure\Bus\Event\DomainEventMapping:
         arguments: [ !tagged supervmar.domain_event_subscriber ]
 
@@ -68,8 +64,7 @@ services:
             $user: '%env(RABBITMQ_USER)%'
             $password: '%env(RABBITMQ_PASSWORD)%'
             $vhost: '%env(RABBITMQ_VHOST)%'
-            $ssl_options:
-                - verify_peer: false
+
     PhpAmqpLib\Connection\AbstractConnection: '@PhpAmqpLib\Connection\AMQPSSLConnection'
 
     SuperVMar\App\Command\RabbitMQConsumeCommand:

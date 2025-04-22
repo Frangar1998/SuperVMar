@@ -73,6 +73,12 @@ abstract class Collection implements Countable, IteratorAggregate
         }
     }
 
+    public function removeByKey(int $key): void
+    {
+        $this->removedItems[] = $this->items[$key];
+        unset($this->items[$key]);
+    }
+
     public function replace(mixed $itemToReplace, int $key): void
     {
         Assert::instanceOf($this->type(), $itemToReplace);
@@ -109,6 +115,11 @@ abstract class Collection implements Countable, IteratorAggregate
     public function first(): mixed
     {
         return $this->items[0];
+    }
+
+    public function getItem(int $key): mixed
+    {
+        return $this->items[$key];
     }
 
 }

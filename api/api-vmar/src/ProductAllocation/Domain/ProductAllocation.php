@@ -42,6 +42,11 @@ final class ProductAllocation extends AggregateRoot
         }
     }
 
+    public function subtractQuantity(Quantity $quantity): void
+    {
+        $this->quantity = $this->quantity->subtract($quantity);
+    }
+
     public function changeProduct(Product $product): void
     {
         if (!$this->product->equals($product)) {

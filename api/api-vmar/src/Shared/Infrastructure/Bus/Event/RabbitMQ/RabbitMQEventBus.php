@@ -6,9 +6,11 @@ use SuperVMar\Shared\Domain\Bus\Event\DomainEvent;
 use SuperVMar\Shared\Domain\Bus\Event\QueueEventBus;
 use SuperVMar\Shared\Infrastructure\Bus\Event\DomainEventJsonSerializer;
 
-final readonly class RabbitMQEventBus implements QueueEventBus
+readonly class RabbitMQEventBus implements QueueEventBus
 {
-    public function __construct(private RabbitMQConnection $connection)
+    public function __construct(
+        private RabbitMQConnection $connection
+    )
     {
     }
 

@@ -26,17 +26,17 @@ use SuperVMar\Shared\Domain\ValueObject\Uuid;
 final class Product extends AggregateRoot
 {
     public function __construct(
-        private readonly Id       $id,
-        private Name              $name,
-        private Price             $price,
-        private readonly Ean      $ean,
-        private Stock             $stock,
-        private Tax               $tax,
-        private Category          $category,
-        private readonly Supplier $supplier,
-        private Active            $active,
-        private PriceHistory      $priceHistory,
-        private ?Image            $image = null,
+        private readonly Id           $id,
+        private Name                  $name,
+        private Price                 $price,
+        private readonly Ean          $ean,
+        private Stock                 $stock,
+        private Tax                   $tax,
+        private Category              $category,
+        private readonly Supplier     $supplier,
+        private Active                $active,
+        private readonly PriceHistory $priceHistory,
+        private ?Image                $image = null,
     )
     {
     }
@@ -152,9 +152,9 @@ final class Product extends AggregateRoot
         $this->stock = $newStock;
     }
 
-    public function substractStock(Stock $substractedStock): void
+    public function subtractStock(Stock $subtractedStock): void
     {
-        $newStock = $this->stock->subtract($substractedStock);
+        $newStock = $this->stock->subtract($subtractedStock);
         $this->stock = $newStock;
     }
 

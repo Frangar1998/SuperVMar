@@ -9,17 +9,12 @@ abstract readonly class DateValueObject
 {
     protected DateTime $value;
 
-    public function __construct(string $value)
-    {
-        $this->validate($value);
-        $this->value = date_create($value);
-    }
-
-    protected function validate(string $value): void
+    public function __construct(string $value = '')
     {
         if (empty($value)) {
-            throw new InvalidValueException('The date value cannot be empty');
+            $value = 'now';
         }
+        $this->value = date_create($value);
     }
 
     public function __toString(): string

@@ -8,7 +8,6 @@ use Doctrine\DBAL\Query\QueryBuilder;
 use SuperVMar\Product\Domain\Product;
 use SuperVMar\Product\Domain\ProductRepository;
 use SuperVMar\Product\Domain\Products;
-use SuperVMar\Product\Domain\ValueObject\Status;
 use SuperVMar\Product\Domain\ValueObject\Stock;
 use SuperVMar\Product\Infrastructure\Dao\DbalPriceHistoryDao;
 use SuperVMar\Product\Infrastructure\Dao\DbalProductAllocationDao;

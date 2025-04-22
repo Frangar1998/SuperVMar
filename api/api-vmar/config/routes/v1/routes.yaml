@@ -21,3 +21,6 @@ product:
 
 product_allocation:
     resource: product-allocation-routes.yaml
+
+sale:
+    resource: sale-routes.yaml

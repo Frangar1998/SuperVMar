@@ -15,3 +15,9 @@ products_get:
   controller: SuperVMar\App\Controller\Product\ProductsGetController
   defaults: { auth: false }
   methods: GET
+
+product_get:
+  path: /product
+  controller: SuperVMar\App\Controller\Product\ProductGetController
+  defaults: { auth: false }
+  methods: GET

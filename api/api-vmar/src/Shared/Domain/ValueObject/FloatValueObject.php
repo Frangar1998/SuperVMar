@@ -5,7 +5,7 @@ namespace SuperVMar\Shared\Domain\ValueObject;
 abstract readonly class FloatValueObject
 {
     protected float $value;
-    public function __construct(float $value)
+    public function __construct(float $value = 0)
     {
         $this->value = round($value, 2);
     }

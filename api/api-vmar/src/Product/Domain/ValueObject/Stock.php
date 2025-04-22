@@ -25,10 +25,10 @@ final readonly class Stock extends IntValueObject
         return new self($this->value + $addedStock->value());
     }
 
-    public function subtract(self $substractedStock): self
+    public function subtract(self $subtractedStock): self
     {
         return new self(
-            max($this->value - $substractedStock->value(), 0)
+            max($this->value - $subtractedStock->value(), 0)
         );
     }
 }

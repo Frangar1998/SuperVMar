@@ -10,7 +10,7 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Traversable;
 
-final class RabbitMQConsumeCommand extends Command
+class RabbitMQConsumeCommand extends Command
 {
     protected static string $defaultName = 'rabbitmq:consume';
 
@@ -24,7 +24,7 @@ final class RabbitMQConsumeCommand extends Command
         private readonly RabbitMQDomainEventsConsumer $consumer,
         iterable $consumerList,
     ) {
-        parent::__construct();
+        parent::__construct(self::$defaultName);
         $this->consumerList = $consumerList instanceof Traversable ?
             iterator_to_array($consumerList) :
             (array) $consumerList;

@@ -131,7 +131,7 @@ final class RabbitMQConnection
     {
         $this->channel->exchange_declare(
             $exchangeName,
-            type: AMQPExchangeType::TOPIC,
+            type: AMQPExchangeType::DIRECT,
             durable: true,
             auto_delete: false,
         );
