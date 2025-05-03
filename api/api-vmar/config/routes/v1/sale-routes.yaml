@@ -10,6 +10,12 @@ sale_get:
   defaults: { auth: false }
   methods: GET
 
+sales_get:
+  path: /sales
+  controller: SuperVMar\App\Controller\Sale\SalesGetController
+  defaults: { auth: false }
+  methods: GET
+
 sale_finish_patch:
   path: /sale_finish/{id}
   controller: SuperVMar\App\Controller\Sale\SaleFinishPutController

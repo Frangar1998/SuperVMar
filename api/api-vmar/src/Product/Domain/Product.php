@@ -154,8 +154,7 @@ final class Product extends AggregateRoot
 
     public function subtractStock(Stock $subtractedStock): void
     {
-        $newStock = $this->stock->subtract($subtractedStock);
-        $this->stock = $newStock;
+        $this->stock = $this->stock->subtract($subtractedStock);
     }
 
     public function changeTax(Tax $tax): void

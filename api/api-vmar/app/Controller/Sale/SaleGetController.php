@@ -2,8 +2,8 @@
 
 namespace SuperVMar\App\Controller\Sale;
 
-use SuperVMar\Sale\Application\Search\SearchSaleQuery;
 use SuperVMar\Shared\Infrastructure\Symfony\ApiController;
+use SuperVMar\src\Sale\Application\Search\Sale\SearchSaleQuery;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 final readonly class SaleGetController extends ApiController
