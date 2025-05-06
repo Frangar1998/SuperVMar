@@ -1,11 +1,10 @@
 <?php
 
-namespace SuperVMar\src\Sale\Application\Search\Sales;
+namespace SuperVMar\Sale\Application\Search\Sales;
 
 use SuperVMar\Sale\Domain\Service\SaleSearcher;
 use SuperVMar\Sale\Domain\ValueObject\FinishedDate;
 use SuperVMar\Shared\Domain\Bus\Query\QueryHandler;
-use SuperVMar\Shared\Domain\ValueObject\Id;
 
 final readonly class SearchSalesQueryHandler implements QueryHandler
 {

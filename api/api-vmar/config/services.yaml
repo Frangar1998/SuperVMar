@@ -32,6 +32,10 @@ services:
         SuperVMar\Shared\Domain\Bus\Query\QueryHandler:
             tags: [ 'supervmar.query_handler' ]
 
+    SuperVMar\Shared\Infrastructure\Symfony\AuthenticationMiddleware:
+        tags:
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+
     ## Command and Query
     SuperVMar\Shared\Infrastructure\Bus\Command\InMemorySymfonyCommandBus:
         arguments: [ !tagged supervmar.command_handler ]

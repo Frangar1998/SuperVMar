@@ -1,17 +1,14 @@
 job_put:
   path: /job/{id}
   controller: SuperVMar\App\Controller\Job\JobPutController
-  defaults: { auth: false }
   methods: PUT
 
 job_delete:
   path: /job/{id}
   controller: SuperVMar\App\Controller\Job\JobDeleteController
-  defaults: { auth: false }
   methods: DELETE
 
 jobs_get:
   path: /jobs
   controller: SuperVMar\App\Controller\Job\JobsGetController
-  defaults: { auth: false }
   methods: GET

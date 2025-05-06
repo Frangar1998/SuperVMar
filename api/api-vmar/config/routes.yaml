@@ -1,3 +1,9 @@
 v1_controllers:
     resource: routes/v1/routes.yaml
     prefix: '/api/v1'
+
+api_login:
+    path: /api/login
+    controller: SuperVMar\App\Controller\Login\LoginPostController
+    defaults: { auth: false }
+    methods: POST

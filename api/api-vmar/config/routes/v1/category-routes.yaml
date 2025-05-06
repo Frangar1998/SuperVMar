@@ -1,17 +1,14 @@
 category_put:
   path: /category/{id}
   controller: SuperVMar\App\Controller\Category\CategoryPutController
-  defaults: { auth: false }
   methods: PUT
 
 category_delete:
   path: /category/{id}
   controller: SuperVMar\App\Controller\Category\CategoryDeleteController
-  defaults: { auth: false }
   methods: DELETE
 
 categories_get:
   path: /categories
   controller: SuperVMar\App\Controller\Category\CategoriesGetController
-  defaults: { auth: false }
   methods: GET

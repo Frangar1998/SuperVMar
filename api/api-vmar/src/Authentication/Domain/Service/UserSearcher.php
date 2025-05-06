@@ -35,9 +35,6 @@ final readonly class UserSearcher
     {
     }
 
-    /**
-     * @throws ItemNotFoundException
-     */
     public function search(Username $username): AuthUser
     {
         return $this->repository->search(

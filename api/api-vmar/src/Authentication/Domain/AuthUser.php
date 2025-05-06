@@ -15,7 +15,10 @@ final readonly class AuthUser
     {
     }
 
-    public function validateCredentials(Password $password): bool
+    /**
+     * @throws InvalidCredentialsException
+     */
+    public function validateCredentials(Password $password): void
     {
         if (!$this->password->equals($password)) {
             throw new InvalidCredentialsException();

@@ -4675,6 +4675,7 @@
         "php": ">=8.2",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "ext-json": "*",
         "ext-sockets": "*"
     },
     "platform-dev": {},
