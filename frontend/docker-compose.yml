@@ -1,0 +1,11 @@
+services:
+  react:
+    container_name: ${PROJECT_NAME}_frontend
+    build:
+      context: ./
+    volumes:
+      - ./supervmar
+
+networks:
+  supervmar:
+    name: supervmar
