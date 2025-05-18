@@ -1,11 +1,16 @@
 services:
   react:
     container_name: ${PROJECT_NAME}_frontend
-    build:
-      context: ./
+    image: node:24-alpine
+    ports:
+      - '3000:3000'
     volumes:
-      - ./supervmar
+      - ./supervmar:/var/www/html/supervmar
+    networks:
+      - supervmar
+
 
 networks:
   supervmar:
     name: supervmar
+    external: true

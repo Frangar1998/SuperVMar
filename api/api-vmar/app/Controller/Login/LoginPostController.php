@@ -9,6 +9,8 @@ use SuperVMar\Shared\Domain\Bus\Query\QueryBus;
 use SuperVMar\Shared\Domain\Exception\MandatoryParamsException;
 use SuperVMar\Shared\Infrastructure\Symfony\ApiController;
 use SuperVMar\Shared\Infrastructure\Symfony\ApiExceptionHttpStatusCodeMapping;
+use SuperVMar\User\Application\Search\UserLogin\SearchUserLoginQuery;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -27,7 +29,7 @@ final readonly class LoginPostController extends ApiController
      * @throws MandatoryParamsException
      * @throws JsonException
      */
-    public function __invoke(Request $request): Response
+    public function __invoke(Request $request): JsonResponse
     {
         $data = $this->dataFromRequest($request);
         $this->dispatch(
@@ -37,7 +39,13 @@ final readonly class LoginPostController extends ApiController
             )
         );
 
-        return new Response(status: Response::HTTP_ACCEPTED);
+        $user = $this->ask(
+            new SearchUserLoginQuery(
+                $data['username']
+            )
+        );
+
+        return new JsonResponse(data: $user->toArray(),status: Response::HTTP_ACCEPTED);
     }
 
     protected function mandatoryParams(): array

@@ -22,8 +22,8 @@ final readonly class AuthenticationMiddleware
         $shouldAuthenticate = $event->getRequest()->attributes->get('auth', true);
 
         if ($shouldAuthenticate) {
-            $user = $event->getRequest()->headers->get('php-auth-user');
-            $pass = $event->getRequest()->headers->get('php-auth-password');
+            $user = $event->getRequest()->headers->get('auth-user');
+            $pass = $event->getRequest()->headers->get('auth-password');
 
             $this->hasIntroducedCredentials($user)
                 ? $this->authenticate($user, $pass, $event)
