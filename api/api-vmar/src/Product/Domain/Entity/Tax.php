@@ -26,6 +26,11 @@ final readonly class Tax
         return $this->name;
     }
 
+    public function nameValue(): string
+    {
+        return $this->name->value();
+    }
+
     public function percent(): Percent
     {
         return $this->percent;

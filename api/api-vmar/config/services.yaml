@@ -36,6 +36,10 @@ services:
         tags:
             - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
 
+    SuperVMar\Shared\Infrastructure\Symfony\ImageUploader:
+        arguments:
+            $targetDirectory: '%kernel.project_dir%/public/images/'
+
     ## Command and Query
     SuperVMar\Shared\Infrastructure\Bus\Command\InMemorySymfonyCommandBus:
         arguments: [ !tagged supervmar.command_handler ]

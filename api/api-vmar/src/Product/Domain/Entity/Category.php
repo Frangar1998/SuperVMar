@@ -24,6 +24,11 @@ final readonly class Category
         return $this->name;
     }
 
+    public function nameValue(): string
+    {
+        return $this->name->value();
+    }
+
     public static function fromArray(array $data): self
     {
         return new self(

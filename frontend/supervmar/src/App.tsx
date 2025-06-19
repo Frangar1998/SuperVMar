@@ -63,7 +63,7 @@ const NAVIGATION: Navigation = [
 const BRANDING = {
     title: 'SuperVMar',
     logo: (
-        <img src={"images/supervmar-logo.png"} alt={"SuperVMar"}/>
+        <img src={"/images/supervmar-logo.png"} alt={"SuperVMar"}/>
     )
 };
 

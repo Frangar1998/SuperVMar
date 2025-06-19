@@ -98,6 +98,14 @@ abstract class Collection implements Countable, IteratorAggregate
         );
     }
 
+    public function toTableData(): array
+    {
+        return array_map(
+            fn($item) => $item->toTableData(),
+            $this->items
+        );
+    }
+
     public function empty(): bool
     {
         return empty($this->items);

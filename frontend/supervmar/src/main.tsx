@@ -7,14 +7,15 @@ import './styles.css';
 import { DashboardComponent } from "./modules/commons/components/DashboardComponent.tsx";
 import { HomePage } from "./modules/home/pages/HomePage.tsx";
 import { SupermarketPage } from "./modules/supermarket/pages/SupermarketPage.tsx";
-import { ProductsPage } from "./modules/product/pages/ProductsPage.tsx";
+import { ProductsPage } from "./modules/product/pages/Product/ProductsPage.tsx";
 import { SalesPage } from "./modules/sale/pages/SalesPage.tsx";
 import { UsersPage } from "./modules/user/pages/UsersPage.tsx";
-import { CategoriesPage } from "./modules/product/pages/CategoriesPage.tsx";
-import { SuppliersPage } from "./modules/product/pages/SuppliersPage.tsx";
-import { TaxesPage } from "./modules/product/pages/TaxesPage.tsx";
-import { AllocationsPage } from "./modules/product/pages/AllocationsPage.tsx";
-import { ProductPage } from "./modules/product/pages/ProductPage.tsx";
+import { CategoriesPage } from "./modules/product/pages/Category/CategoriesPage.tsx";
+import { SuppliersPage } from "./modules/product/pages/Supplier/SuppliersPage.tsx";
+import { TaxesPage } from "./modules/product/pages/Tax/TaxesPage.tsx";
+import { AllocationsPage } from "./modules/product/pages/Allocation/AllocationsPage.tsx";
+import { ProductPage } from "./modules/product/pages/Product/ProductPage.tsx";
+import { ProductCreatePage } from "./modules/product/pages/Product/ProductCreatePage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -46,12 +47,14 @@ const router = createBrowserRouter([
                             {
                                 path: 'catalogo',
                                 Component: ProductsPage,
-                                children: [
-                                    {
-                                        path: ':id',
-                                        Component: ProductPage,
-                                    },
-                                ]
+                            },
+                            {
+                                path: 'nuevo',
+                                Component: ProductCreatePage,
+                            },
+                            {
+                                path: ':id',
+                                Component: ProductPage,
                             },
                             {
                                 path: 'asignaciones',

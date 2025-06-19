@@ -14,8 +14,6 @@ final readonly class SuppliersResponse implements Response
 
     public function toArray(): array
     {
-        return [
-            'suppliers' => $this->suppliers,
-        ];
+        return $this->suppliers;
     }
 }

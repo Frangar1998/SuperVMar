@@ -112,4 +112,15 @@ final class Supplier extends AggregateRoot
             'contact' => $this->contact->value(),
         ];
     }
+
+    public function toTableData(): array
+    {
+        return [
+            'id' => $this->id->value(),
+            'name' => $this->name->value(),
+            'phone' => $this->phone->value(),
+            'email' => $this->email->value(),
+            'contact' => $this->contact->value()
+        ];
+    }
 }

@@ -19,7 +19,7 @@ final readonly class SearchTaxesQueryHandler implements QueryHandler
         $taxes = $this->taxSearcher->searchAll();
 
         return new TaxesResponse(
-            $taxes->toArray(),
+            $taxes->toTableData(),
         );
     }
 }

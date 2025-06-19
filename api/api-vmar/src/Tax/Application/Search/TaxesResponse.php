@@ -14,8 +14,6 @@ final readonly class TaxesResponse implements Response
 
     public function toArray(): array
     {
-        return [
-            'taxes' => $this->taxes,
-        ];
+        return $this->taxes;
     }
 }

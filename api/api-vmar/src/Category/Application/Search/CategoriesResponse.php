@@ -14,8 +14,6 @@ final readonly class CategoriesResponse implements Response
 
     public function toArray(): array
     {
-        return [
-            'categories' => $this->categories,
-        ];
+        return $this->categories;
     }
 }

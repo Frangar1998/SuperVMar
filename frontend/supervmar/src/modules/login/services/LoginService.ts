@@ -1,7 +1,7 @@
-import { api } from "../../commons/services/Http.ts";
+import { HttpService } from "../../commons/services/HttpService.ts";
 import type { CustomSession } from "../contexts/SessionContext.ts";
 
-const URI = '/login';
+const ENDPOINT = '/login';
 
 interface LoginProps {
     username: string;
@@ -9,8 +9,8 @@ interface LoginProps {
 }
 
 export const login = async (loginProps: LoginProps, session: CustomSession | null) => {
-    return await api({
-        uri: URI,
+    return await HttpService.api({
+        endpoint: ENDPOINT,
         method: 'POST',
         body: {
             username: loginProps.username,

@@ -12,6 +12,8 @@ dist
 dist-ssr
 *.local
 .env
+public/images/products/*
+!public/images/products/.gitkeep
 
 # Editor directories and files
 .vscode/*

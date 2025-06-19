@@ -19,7 +19,7 @@ final readonly class SearchProductsQueryHandler implements QueryHandler
         $products = $this->productSearcher->searchAll();
 
         return new ProductsResponse(
-            $products->toArray(),
+            $products->toTableData(),
         );
     }
 }

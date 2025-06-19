@@ -42,7 +42,7 @@ final readonly class Password
 
     public function equals(self $other): bool
     {
-        return password_verify(md5($other->value()), $this->encodedPassword);
+        return $this->encodedPassword === $other->encodedPassword;
     }
 
     protected function validate(string $password): void

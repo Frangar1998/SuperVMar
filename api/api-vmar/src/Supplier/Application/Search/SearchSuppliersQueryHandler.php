@@ -19,7 +19,7 @@ final readonly class SearchSuppliersQueryHandler implements QueryHandler
         $suppliers = $this->supplierSearcher->searchAll();
 
         return new SuppliersResponse(
-            $suppliers->toArray(),
+            $suppliers->toTableData(),
         );
     }
 }

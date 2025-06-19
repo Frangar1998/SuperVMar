@@ -58,4 +58,12 @@ final class Category extends AggregateRoot
             'name' => $this->name->value()
         ];
     }
+
+    public function toTableData(): array
+    {
+        return [
+            'id' => $this->id->value(),
+            'name' => $this->name->value()
+        ];
+    }
 }

@@ -14,8 +14,6 @@ final readonly class ProductsResponse implements Response
 
     public function toArray(): array
     {
-        return [
-            'products' => $this->products,
-        ];
+        return $this->products;
     }
 }

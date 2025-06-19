@@ -76,4 +76,13 @@ final class Tax extends AggregateRoot
             'percent' => $this->percent->value()
         ];
     }
+
+    public function toTableData(): array
+    {
+        return [
+            'id' => $this->id->value(),
+            'name' => $this->name->value(),
+            'percent' => $this->percent->value()
+        ];
+    }
 }

@@ -19,7 +19,7 @@ final readonly class SearchCategoriesQueryHandler implements QueryHandler
         $categories = $this->categorySearcher->searchAll();
 
         return new CategoriesResponse(
-            $categories->toArray(),
+            $categories->toTableData(),
         );
     }
 }

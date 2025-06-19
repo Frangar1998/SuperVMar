@@ -1,20 +1,32 @@
-import { api } from "../../commons/services/Http.ts";
+import { HttpService } from "../../commons/services/HttpService.ts";
 import type { CustomSession } from "../../login/contexts/SessionContext.ts";
+import type { Product, ProductTable } from "../types/ProductTypes.ts";
+import { v7 } from "uuid";
 
-const URI = '/login';
+export const ProductService = {
+    getProducts: async (session: CustomSession | null): Promise<ProductTable[]> => {
+        return await HttpService.apiv1({
+            endpoint: '/products',
+            method: 'GET'
+        }, session);
+    },
 
-interface LoginProps {
-    username: string;
-    password: string;
-}
+    createProduct: async (product: Omit<Product, 'id'>, image: File | null, session: CustomSession | null): Promise<Product> => {
+        const id = v7();
+        const formData = new FormData();
+        formData.append('data', JSON.stringify({
+            ...product,
+            image: undefined
+        }));
 
-export const login = async (loginProps: LoginProps, session: CustomSession | null) => {
-    return await api({
-        uri: URI,
-        method: 'POST',
-        body: {
-            username: loginProps.username,
-            password: loginProps.password
+        if (image) {
+            formData.append('image', image);
         }
-    }, session);
+
+        return await HttpService.apiv1({
+            endpoint: `/product/${id}`,
+            method: 'POST',
+            body: formData
+        }, session);
+    }
 }

@@ -277,6 +277,20 @@ final class Product extends AggregateRoot
             'image' => $this->image?->value()
         ];
     }
-    
+
+    public function toTableData(): array
+    {
+        return [
+            'id' => $this->id->value(),
+            'name' => $this->name->value(),
+            'price' => $this->price->value(),
+            'ean' => $this->ean->value(),
+            'stock' => $this->stock->value(),
+            'tax' => $this->tax->nameValue(),
+            'category' => $this->category->nameValue(),
+            'active' => $this->active->value(),
+            'image' => $this->image?->value()
+        ];
+    }
     
 }

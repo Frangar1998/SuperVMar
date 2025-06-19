@@ -1,7 +1,7 @@
-product_put:
+product_post:
   path: /product/{id}
-  controller: SuperVMar\App\Controller\Product\ProductPutController
-  methods: PUT
+  controller: SuperVMar\App\Controller\Product\ProductPostController
+  methods: POST
 
 product_delete:
   path: /product/{id}
