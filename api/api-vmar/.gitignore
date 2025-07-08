@@ -7,6 +7,6 @@
 /var/
 /vendor/
 *.log
-/public/uploads/products/*
-!public/uploads/products/.gitkeep
+/public/images/products/*
+!public/images/products/.gitkeep
 ###< symfony/framework-bundle ###
