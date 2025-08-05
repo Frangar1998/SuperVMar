@@ -28,5 +28,32 @@ export const ProductService = {
             method: 'POST',
             body: formData
         }, session);
-    }
+    },
+
+    getProduct: async (field: string, value: any, session: CustomSession | null): Promise<Product> => {
+        return await HttpService.apiv1({
+            endpoint: `/product?field=${field}&value=${value}`,
+            method: 'GET'
+        }, session);
+    },
+
+    updateProduct: async (id: string, product: Omit<Product, 'id'>, image: File | null, session: CustomSession | null): Promise<Product> => {
+        const formData = new FormData();
+        formData.append('data', JSON.stringify({
+            ...product,
+            image: undefined
+        }));
+
+        if (image) {
+            formData.append('image', image);
+        }
+
+        return await HttpService.apiv1({
+            endpoint: `/product/${id}`,
+            method: 'PUT',
+            body: formData
+        }, session);
+    },
+
+
 }

@@ -23,7 +23,13 @@ final readonly class SearchProductQueryHandler implements QueryHandler
             $product->name()->value(),
             $product->price()->value(),
             $product->ean()->value(),
-            $product->tax()->toArray()
+            $product->stock()->value(),
+            $product->tax()->toArray(),
+            $product->category()->toArray(),
+            $product->supplier()->toArray(),
+            $product->active()->value(),
+            $product->priceHistory()->toArray(),
+            $product->image()?->value()
         );
     }
 }

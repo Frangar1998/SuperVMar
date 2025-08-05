@@ -9,6 +9,19 @@ export interface Product {
     stock: number;
     active: number;
     supplier: Supplier;
+    priceHistory?: PriceHistory[];
+}
+
+export interface ProductFormData {
+    name: string;
+    ean: string;
+    image: string;
+    category: Category;
+    price: string;
+    tax: Tax;
+    supplier: Supplier;
+    stock: string;
+    active: boolean;
 }
 
 export interface ProductTable {
@@ -37,6 +50,13 @@ export interface Tax {
 export interface Supplier {
     id: string;
     name: string;
+}
+
+export interface PriceHistory {
+    id: string;
+    price: number;
+    startDate: string;
+    endDate: string | null;
 }
 
 export interface ProductsTableHeader {

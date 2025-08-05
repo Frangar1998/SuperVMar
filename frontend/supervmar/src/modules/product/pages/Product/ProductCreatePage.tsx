@@ -16,22 +16,10 @@ import {
 import Box from "@mui/material/Box";
 import { ButtonComponent } from "../../../commons/components/ButtonComponent.tsx";
 import { Delete } from '@mui/icons-material';
-import type { Category, Supplier, Tax } from "../../types/ProductTypes.ts";
+import type { Category, ProductFormData, Supplier, Tax } from "../../types/ProductTypes.ts";
 import { CategoryService } from "../../services/CategoryService.ts";
 import { TaxService } from "../../services/TaxService.ts";
 import { SupplierService } from "../../services/SupplierService.ts";
-
-interface ProductFormData {
-    name: string;
-    ean: string;
-    image: string;
-    category: Category;
-    price: string;
-    tax: Tax;
-    supplier: Supplier;
-    stock: string;
-    active: boolean;
-}
 
 const initialFormData: ProductFormData = {
     name: "",
