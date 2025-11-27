@@ -36,6 +36,7 @@ final readonly class LoginPostController extends ApiController
             new AuthenticationCommand(
                 $data['username'],
                 $data['password'],
+                true
             )
         );
 

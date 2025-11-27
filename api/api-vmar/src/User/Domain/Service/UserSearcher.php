@@ -62,6 +62,32 @@ final readonly class UserSearcher
     /**
      * @throws ItemNotFoundException
      */
+    public function searchWithPassword(Id $idUser): User
+    {
+        return $this->repository->searchByCriteria(
+            new Criteria(
+                filters: new Filters(
+                    [
+                        new Filter(
+                            new FilterField(TableNames::TABLE_USER, new FieldName('id')),
+                            FilterOperator::EQUAL,
+                            new FilterValue($idUser)
+                        )
+                    ]
+                ),
+                select: $this->getSelect(
+                    new Fields([
+                        new Field(TableNames::TABLE_USER, new FieldName('password')),
+                    ])
+                ),
+                joins: $this->getJoins()
+            )
+        )->first();
+    }
+
+    /**
+     * @throws ItemNotFoundException
+     */
     public function searchByUsername(Username $username): User
     {
         return $this->repository->searchByCriteria(
@@ -120,8 +146,10 @@ final readonly class UserSearcher
             new Field(TableNames::TABLE_ADDRESS, new FieldName('other')),
         ]);
 
-        foreach ($additionalFields as $additionalField) {
-            $fields->add($additionalField);
+        if (isset($additionalFields)) {
+            foreach ($additionalFields as $additionalField) {
+                $fields->add($additionalField);
+            }
         }
 
         return new Select($fields);

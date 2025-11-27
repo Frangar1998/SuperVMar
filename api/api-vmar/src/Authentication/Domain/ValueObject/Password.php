@@ -45,6 +45,11 @@ final readonly class Password
         return $this->encodedPassword === $other->encodedPassword;
     }
 
+    public function equalsLogin(self $other): bool
+    {
+        return password_verify(md5($other->value()), $this->encodedPassword);
+    }
+
     protected function validate(string $password): void
     {
         if (empty($password)) {

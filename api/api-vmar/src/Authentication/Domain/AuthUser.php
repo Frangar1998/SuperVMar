@@ -18,11 +18,16 @@ final readonly class AuthUser
     /**
      * @throws InvalidCredentialsException
      */
-    public function validateCredentials(Password $password): void
+    public function validateCredentials(Password $password, bool $isLogin = false): void
     {
-        if (!$this->password->equals($password)) {
+        $validation = $isLogin
+            ? $this->password->equalsLogin($password)
+            : $this->password->equals($password);
+
+        if (!$validation) {
             throw new InvalidCredentialsException();
         }
+
     }
 
     public function username(): Username

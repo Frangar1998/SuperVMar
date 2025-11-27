@@ -18,7 +18,8 @@ final readonly class AuthenticationCommandHandler implements CommandHandler
     {
         $this->authenticator->authenticate(
             new Username($command->username()),
-            new Password($command->password())
+            new Password($command->password()),
+            $command->isLogin()
         );
     }
 }

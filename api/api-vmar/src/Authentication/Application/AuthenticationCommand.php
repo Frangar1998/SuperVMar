@@ -8,7 +8,8 @@ final readonly class AuthenticationCommand implements Command
 {
     public function __construct(
         private string $username,
-        private string $password
+        private string $password,
+        private bool   $isLogin = false
     )
     {
     }
@@ -21,5 +22,10 @@ final readonly class AuthenticationCommand implements Command
     public function password(): string
     {
         return $this->password;
+    }
+
+    public function isLogin(): bool
+    {
+        return $this->isLogin;
     }
 }

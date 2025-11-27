@@ -48,7 +48,7 @@ final readonly class UserUpdater
         Password $newPassword
     ): void
     {
-        $user = $this->userSearcher->search($id);
+        $user = $this->userSearcher->searchWithPassword($id);
         $user->changePassword($newPassword, $currentPassword);
         $this->userRepository->update($user);
     }
