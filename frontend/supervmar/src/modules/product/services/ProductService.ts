@@ -50,10 +50,18 @@ export const ProductService = {
 
         return await HttpService.apiv1({
             endpoint: `/product/${id}`,
-            method: 'PUT',
+            method: 'POST',
             body: formData
         }, session);
     },
+
+    deleteProduct: async (id: string, session: CustomSession | null): Promise<void> => {
+        return await HttpService.apiv1({
+            endpoint: `/product/${id}`,
+            method: 'DELETE'
+        }, session);
+    },
+
 
 
 }

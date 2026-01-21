@@ -16,7 +16,7 @@ final readonly class SaveProductCommand implements Command
         private array   $category,
         private array   $supplier,
         private int     $active,
-        private ?string $image = null,
+        private string  $image = '',
     )
     {
     }
@@ -66,7 +66,7 @@ final readonly class SaveProductCommand implements Command
         return $this->active;
     }
 
-    public function image(): ?string
+    public function image(): string
     {
         return $this->image;
     }

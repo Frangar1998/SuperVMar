@@ -14,7 +14,7 @@ import {
     Typography
 } from "@mui/material";
 import Box from "@mui/material/Box";
-import { ButtonComponent } from "../../../commons/components/ButtonComponent.tsx";
+import { ButtonComponent } from "../../../commons/components/Buttons/ButtonComponent.tsx";
 import { Delete } from '@mui/icons-material';
 import type { Category, ProductFormData, Supplier, Tax } from "../../types/ProductTypes.ts";
 import { CategoryService } from "../../services/CategoryService.ts";

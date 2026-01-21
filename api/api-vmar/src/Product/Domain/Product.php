@@ -36,7 +36,7 @@ final class Product extends AggregateRoot
         private readonly Supplier     $supplier,
         private Active                $active,
         private readonly PriceHistory $priceHistory,
-        private ?Image                $image = null,
+        private Image                 $image = new Image(''),
     )
     {
     }
@@ -91,7 +91,7 @@ final class Product extends AggregateRoot
         return $this->priceHistory;
     }
 
-    public function image(): ?Image
+    public function image(): Image
     {
         return $this->image;
     }
@@ -178,9 +178,9 @@ final class Product extends AggregateRoot
         }
     }
 
-    public function changeImage(?Image $image): void
+    public function changeImage(Image $image): void
     {
-        if (!$this->image?->equals($image)) {
+        if (!$this->image->equals($image)) {
             $this->image = $image;
         }
     }
@@ -210,7 +210,7 @@ final class Product extends AggregateRoot
         Category $category,
         Supplier $supplier,
         Active $active,
-        ?Image $image = null
+        Image $image
     ): self
     {
         $product = new self(
@@ -257,7 +257,7 @@ final class Product extends AggregateRoot
             ]),
             new Active($data['active']),
             PriceHistory::fromArray($data['priceHistory']),
-            isset($data['image']) ? new Image($data['image']) : null
+            new Image($data['image'])
         );
     }
 

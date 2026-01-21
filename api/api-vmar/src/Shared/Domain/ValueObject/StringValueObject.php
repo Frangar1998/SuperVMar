@@ -17,12 +17,7 @@ abstract class StringValueObject
         return $this->value;
     }
 
-    protected function validate(string $value): void
-    {
-        if (empty($value)) {
-            throw new InvalidValueException('The string value cannot be empty');
-        }
-    }
+    protected function validate(string $value): void {}
 
     final public function equals(self $otherValue): bool
     {

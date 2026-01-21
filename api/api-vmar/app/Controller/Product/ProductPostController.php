@@ -34,7 +34,7 @@ final readonly class ProductPostController extends ApiController
     {
         $data = $this->dataFromRequest($request, true);
 
-        $imageUrl = null;
+        $imageUrl = '';
         if ($request->files->has('image')) {
             $uploadedFile = $request->files->get('image');
             $imageUrl = $this->imageUploader->upload($uploadedFile, 'products');

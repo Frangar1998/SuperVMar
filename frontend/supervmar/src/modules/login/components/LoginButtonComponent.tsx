@@ -1,4 +1,4 @@
-import { ButtonComponent } from "../../commons/components/ButtonComponent.tsx";
+import { ButtonComponent } from "../../commons/components/Buttons/ButtonComponent.tsx";
 
 export const LoginButtonComponent = () => {
     return (

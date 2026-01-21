@@ -34,7 +34,7 @@ final readonly class SaveProductCommandHandler implements CommandHandler
         $tax = Tax::fromArray($command->tax());
         $category = Category::fromArray($command->category());
         $active = new Active($command->active());
-        $image = !empty($command->image()) ? new Image($command->image()) : null;
+        $image = new Image($command->image());
 
         try {
             $this->productUpdater->update(

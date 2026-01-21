@@ -1,13 +1,12 @@
-import { useNavigate, useParams } from "react-router";
+import {useNavigate, useParams} from "react-router";
 import Box from "@mui/material/Box";
 import {
     FormControl, FormControlLabel, FormHelperText,
     Grid, IconButton, InputLabel, MenuItem, Select,
     type SelectChangeEvent, Switch, Tab, Tabs,
-    TextField,
-    Typography
+    TextField, Typography
 } from "@mui/material";
-import { Delete, Save } from '@mui/icons-material';
+import {Delete} from '@mui/icons-material';
 import {
     type ChangeEvent,
     type FormEvent,
@@ -17,16 +16,20 @@ import {
     useRef,
     useState
 } from "react";
-import { useSession } from "../../../login/contexts/SessionContext.ts";
-import type { Category, PriceHistory, ProductFormData, Supplier, Tax } from "../../types/ProductTypes.ts";
-import { ProductService } from "../../services/ProductService.ts";
-import { CategoryService } from "../../services/CategoryService.ts";
-import { TaxService } from "../../services/TaxService.ts";
-import { SupplierService } from "../../services/SupplierService.ts";
-import { ButtonComponent } from "../../../commons/components/ButtonComponent.tsx";
+import {useSession} from "../../../login/contexts/SessionContext.ts";
+import type {Category, PriceHistory, ProductFormData, Supplier, Tax} from "../../types/ProductTypes.ts";
+import {ProductService} from "../../services/ProductService.ts";
+import {CategoryService} from "../../services/CategoryService.ts";
+import {TaxService} from "../../services/TaxService.ts";
+import {SupplierService} from "../../services/SupplierService.ts";
+import {ButtonComponent} from "../../../commons/components/Buttons/ButtonComponent.tsx";
 import Paper from "@mui/material/Paper";
-import { LoadingComponent } from "../../../commons/components/LoadingComponent.tsx";
-import { DataGrid, type GridColDef } from '@mui/x-data-grid';
+import {LoadingComponent} from "../../../commons/components/LoadingComponent.tsx";
+import {DataGrid, type GridColDef} from '@mui/x-data-grid';
+import { DeleteButtonComponent } from "../../../commons/components/Buttons/DeleteButtonComponent.tsx";
+import { ConfirmDialogComponent } from "../../../commons/components/ConfirmDialogComponent.tsx";
+import { useDeleteConfirmation } from "../../../commons/hooks/useDeleteConfirmation.ts";
+
 
 interface TabPanelProps {
     children?: ReactNode;
@@ -35,7 +38,7 @@ interface TabPanelProps {
 }
 
 function CustomTabPanel(props: TabPanelProps) {
-    const { children, value, index, ...other } = props;
+    const {children, value, index, ...other} = props;
 
     return (
         <div
@@ -46,7 +49,7 @@ function CustomTabPanel(props: TabPanelProps) {
             {...other}
         >
             {value === index && (
-                <Box sx={{ p: 3 }}>
+                <Box sx={{p: 3}}>
                     {children}
                 </Box>
             )}
@@ -83,6 +86,7 @@ export const ProductPage = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [tabValue, setTabValue] = useState(0);
     const [priceHistory, setPriceHistory] = useState<PriceHistory[]>([]);
+
 
     const handleTabChange = (_event: SyntheticEvent, newValue: number) => {
         setTabValue(newValue);
@@ -286,7 +290,6 @@ export const ProductPage = () => {
         try {
             setIsUploading(true);
 
-            // Add updateProduct method to ProductService
             await ProductService.updateProduct(
                 id,
                 {
@@ -306,7 +309,6 @@ export const ProductPage = () => {
             if (fileInputRef.current) {
                 fileInputRef.current.value = '';
             }
-
 
         } catch (error) {
             console.error('Error updating product:', error);
@@ -345,10 +347,14 @@ export const ProductPage = () => {
         return Object.keys(newErrors).length === 0;
     };
 
-
-    const handleDelete = async () => {
-        navigate(`/productos/catalogo`);
-    }
+    const deleteConfirmation = useDeleteConfirmation({
+        onDelete: async () => {
+            if (!id) return;
+            await ProductService.deleteProduct(id, session);
+            navigate('/productos/catalogo');
+        },
+        itemName: 'producto'
+    });
 
     if (isLoading || !formData) {
         return <LoadingComponent/>;
@@ -356,19 +362,19 @@ export const ProductPage = () => {
 
     return (
         <Box>
-            <Typography variant="h4" gutterBottom sx={{ mb: 4 }}>
+            <Typography variant="h4" gutterBottom sx={{mb: 4}}>
                 Detalles del producto
             </Typography>
             <Paper sx={{maxWidth: 800, margin: 'auto'}}>
 
-                <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
+                <Box sx={{borderBottom: 1, borderColor: 'divider'}}>
                     <Tabs
                         value={tabValue}
                         onChange={handleTabChange}
                         aria-label="product tabs"
                     >
-                        <Tab label="Información general" />
-                        <Tab label="Histórico de precios" />
+                        <Tab label="Información general"/>
+                        <Tab label="Histórico de precios"/>
                     </Tabs>
                 </Box>
 
@@ -557,6 +563,11 @@ export const ProductPage = () => {
                                 />
                             </Grid>
                             <Grid size={{xs: 12}} sx={{display: 'flex', justifyContent: 'flex-end', gap: 2}}>
+                                <DeleteButtonComponent
+                                    text="Eliminar"
+                                    onClick={deleteConfirmation.openDialog}
+                                    disabled={isUploading || deleteConfirmation.isDeleting}
+                                />
                                 <ButtonComponent
                                     text="Guardar"
                                     type="submit"
@@ -578,7 +589,7 @@ export const ProductPage = () => {
                         columns={priceHistoryColumns}
                         initialState={{
                             sorting: {
-                                sortModel: [{ field: 'startDate', sort: 'desc' }],
+                                sortModel: [{field: 'startDate', sort: 'desc'}],
                             },
                         }}
                         density="comfortable"
@@ -594,6 +605,17 @@ export const ProductPage = () => {
                 </CustomTabPanel>
 
             </Paper>
+            <ConfirmDialogComponent
+                open={deleteConfirmation.isOpen}
+                title={deleteConfirmation.getDialogTitle()}
+                message={deleteConfirmation.getDialogMessage(formData.name)}
+                confirmText="Eliminar"
+                cancelText="Cancelar"
+                confirmColor="error"
+                onConfirm={deleteConfirmation.handleConfirm}
+                onCancel={deleteConfirmation.closeDialog}
+                isLoading={deleteConfirmation.isDeleting}
+            />
         </Box>
     );
 };

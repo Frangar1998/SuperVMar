@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router";
-import { ButtonComponent } from "../../../commons/components/ButtonComponent.tsx";
+import { ButtonComponent } from "../../../commons/components/Buttons/ButtonComponent.tsx";
 import { Add } from '@mui/icons-material';
 
 

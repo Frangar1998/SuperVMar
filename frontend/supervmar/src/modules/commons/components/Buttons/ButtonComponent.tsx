@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import type { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from "../types/ButtonTypes.ts";
+import type { ButtonColor, ButtonSize, ButtonType, ButtonVariant } from "../../types/ButtonTypes.ts";
 
 
 interface ButtonProps {

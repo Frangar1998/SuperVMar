@@ -39,25 +39,20 @@ const request = async (apiUrl: string, apiProps: ApiProps, session: CustomSessio
             throw new Error(`Invalid HTTP method: ${method}`);
 
     }
-    try {
-        let response = await fetch(
-            url,
-            requestOptions
-        );
-        if (!response.ok) {
-            throw new Error(response.statusText);
-        }
+    const response = await fetch(
+        url,
+        requestOptions
+    );
+    if (!response.ok) {
+        throw new Error(response.statusText);
+    }
 
-        const contentType = response.headers.get("content-type");
+    const contentType = response.headers.get("content-type");
 
-        if (contentType && contentType.includes("application/json")) {
-            return await response.json();
-        } else {
-            return { success: true };
-        }
-
-    } catch (error) {
-        throw error;
+    if (contentType && contentType.includes("application/json")) {
+        return await response.json();
+    } else {
+        return { success: true };
     }
 
 };
