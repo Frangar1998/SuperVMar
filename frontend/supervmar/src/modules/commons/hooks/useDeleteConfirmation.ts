@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { ApiError } from "../services/HttpService.ts";
 
 interface UseDeleteConfirmationProps {
     onDelete: () => Promise<void>;
@@ -8,18 +9,26 @@ interface UseDeleteConfirmationProps {
 export const useDeleteConfirmation = ({ onDelete, itemName }: UseDeleteConfirmationProps) => {
     const [isOpen, setIsOpen] = useState(false);
     const [isDeleting, setIsDeleting] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     const openDialog = () => setIsOpen(true);
     const closeDialog = () => setIsOpen(false);
+    const clearError = () => setError(null);
 
     const handleConfirm = async () => {
         try {
             setIsDeleting(true);
             await onDelete();
             closeDialog();
-        } catch (error) {
-            console.error('Error deleting item:', error);
+        } catch (err) {
+            console.error('Error deleting item:', err);
+            closeDialog();
             setIsDeleting(false);
+            if (err instanceof ApiError) {
+                setError(err.message);
+            } else {
+                setError('Ha ocurrido un error inesperado al eliminar.');
+            }
         }
     };
 
@@ -33,8 +42,10 @@ export const useDeleteConfirmation = ({ onDelete, itemName }: UseDeleteConfirmat
     return {
         isOpen,
         isDeleting,
+        error,
         openDialog,
         closeDialog,
+        clearError,
         handleConfirm,
         getDialogTitle,
         getDialogMessage

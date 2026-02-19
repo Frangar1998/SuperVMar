@@ -9,7 +9,7 @@ export interface Product {
     stock: number;
     active: number;
     supplier: Supplier;
-    priceHistory?: PriceHistory[];
+    price_history?: PriceHistory[];
 }
 
 export interface ProductFormData {
@@ -39,6 +39,17 @@ export interface ProductTable {
 export interface Category {
     id: string;
     name: string;
+}
+
+export interface CategoryTable {
+    id: string;
+    name: string;
+}
+
+export interface CategoryTableHeader {
+    id: keyof CategoryTable;
+    numeric: boolean;
+    label: string;
 }
 
 export interface Tax {

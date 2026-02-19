@@ -16,6 +16,8 @@ import { TaxesPage } from "./modules/product/pages/Tax/TaxesPage.tsx";
 import { AllocationsPage } from "./modules/product/pages/Allocation/AllocationsPage.tsx";
 import { ProductPage } from "./modules/product/pages/Product/ProductPage.tsx";
 import { ProductCreatePage } from "./modules/product/pages/Product/ProductCreatePage.tsx";
+import { CategoryPage } from "./modules/product/pages/Category/CategoryPage.tsx";
+import { CategoryCreatePage } from "./modules/product/pages/Category/CategoryCreatePage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -63,6 +65,14 @@ const router = createBrowserRouter([
                             {
                                 path: 'categorias',
                                 Component: CategoriesPage,
+                            },
+                            {
+                                path: 'categorias/nueva',
+                                Component: CategoryCreatePage,
+                            },
+                            {
+                                path: 'categorias/:id',
+                                Component: CategoryPage,
                             },
                             {
                                 path: 'proveedores',

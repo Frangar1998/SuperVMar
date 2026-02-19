@@ -104,7 +104,7 @@ export const App = () => {
                 localStorage.removeItem('session');
             }
         }
-    }), []);
+    }), [session]);
 
 
     return (

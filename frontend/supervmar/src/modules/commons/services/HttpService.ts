@@ -7,6 +7,18 @@ interface ApiProps {
     queryParams?: Record<string, string>;
 }
 
+export class ApiError extends Error {
+    public readonly code: string;
+    public readonly statusCode: number;
+
+    constructor(message: string, code: string, statusCode: number) {
+        super(message);
+        this.name = 'ApiError';
+        this.code = code;
+        this.statusCode = statusCode;
+    }
+}
+
 const request = async (apiUrl: string, apiProps: ApiProps, session: CustomSession | null) => {
     const {endpoint, method, body} = apiProps;
 
@@ -44,7 +56,16 @@ const request = async (apiUrl: string, apiProps: ApiProps, session: CustomSessio
         requestOptions
     );
     if (!response.ok) {
-        throw new Error(response.statusText);
+        const contentType = response.headers.get("content-type");
+        if (contentType && contentType.includes("application/json")) {
+            const errorBody = await response.json();
+            throw new ApiError(
+                errorBody.message || response.statusText,
+                errorBody.code || 'unknown_error',
+                response.status
+            );
+        }
+        throw new ApiError(response.statusText, 'unknown_error', response.status);
     }
 
     const contentType = response.headers.get("content-type");

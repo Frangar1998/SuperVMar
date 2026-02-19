@@ -29,6 +29,7 @@ import {DataGrid, type GridColDef} from '@mui/x-data-grid';
 import { DeleteButtonComponent } from "../../../commons/components/Buttons/DeleteButtonComponent.tsx";
 import { ConfirmDialogComponent } from "../../../commons/components/ConfirmDialogComponent.tsx";
 import { useDeleteConfirmation } from "../../../commons/hooks/useDeleteConfirmation.ts";
+import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
 
 
 interface TabPanelProps {
@@ -97,24 +98,37 @@ export const ProductPage = () => {
             field: 'price',
             headerName: 'Precio',
             flex: 1,
-            valueFormatter: (params) => {
-                return `${params.value.toFixed(2)} €`;
+            valueFormatter: (value) => {
+                return `${Number(value).toFixed(2)} €`;
             },
         },
         {
             field: 'startDate',
             headerName: 'Fecha de inicio',
             flex: 1,
-            valueFormatter: (params) => {
-                return new Date(params.value);
+            valueFormatter: (value) => {
+                return new Date(value).toLocaleString('es-ES', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
             },
         },
         {
             field: 'endDate',
             headerName: 'Fecha de fin',
             flex: 1,
-            valueFormatter: (params) => {
-                return params.value ? new Date(params.value) : 'Actual';
+            valueFormatter: (value) => {
+                if (!value) return 'Actual';
+                return new Date(value).toLocaleString('es-ES', {
+                    year: 'numeric',
+                    month: '2-digit',
+                    day: '2-digit',
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
             },
         },
     ];
@@ -136,7 +150,8 @@ export const ProductPage = () => {
                 active: product.active === 1
             });
             setPreviewUrl(product.image);
-            setPriceHistory(product.priceHistory ?? [])
+            console.log('Product price history:', product.price_history);
+            setPriceHistory(product.price_history ?? [])
         } catch (error) {
             console.error('Error fetching product:', error);
             navigate('/productos/catalogo');
@@ -148,6 +163,7 @@ export const ProductPage = () => {
             const fetchedCategories = await CategoryService.getCategories(session);
             setCategories(fetchedCategories);
         } catch (error) {
+            console.error('Error fetching categories:', error);
         }
     };
 
@@ -156,6 +172,7 @@ export const ProductPage = () => {
             const fetchedTaxes = await TaxService.getTaxes(session);
             setTaxes(fetchedTaxes);
         } catch (error) {
+            console.error('Error fetching taxes:', error);
         }
     };
 
@@ -164,6 +181,7 @@ export const ProductPage = () => {
             const fetchedSuppliers = await SupplierService.getSuppliers(session);
             setSuppliers(fetchedSuppliers);
         } catch (error) {
+            console.error('Error fetching suppliers:', error);
         }
     };
 
@@ -615,6 +633,11 @@ export const ProductPage = () => {
                 onConfirm={deleteConfirmation.handleConfirm}
                 onCancel={deleteConfirmation.closeDialog}
                 isLoading={deleteConfirmation.isDeleting}
+            />
+            <ErrorSnackbarComponent
+                open={!!deleteConfirmation.error}
+                message={deleteConfirmation.error}
+                onClose={deleteConfirmation.clearError}
             />
         </Box>
     );
