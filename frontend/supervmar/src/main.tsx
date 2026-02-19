@@ -18,6 +18,8 @@ import { ProductPage } from "./modules/product/pages/Product/ProductPage.tsx";
 import { ProductCreatePage } from "./modules/product/pages/Product/ProductCreatePage.tsx";
 import { CategoryPage } from "./modules/product/pages/Category/CategoryPage.tsx";
 import { CategoryCreatePage } from "./modules/product/pages/Category/CategoryCreatePage.tsx";
+import { TaxPage } from "./modules/product/pages/Tax/TaxPage.tsx";
+import { TaxCreatePage } from "./modules/product/pages/Tax/TaxCreatePage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -81,6 +83,14 @@ const router = createBrowserRouter([
                             {
                                 path: 'iva',
                                 Component: TaxesPage,
+                            },
+                            {
+                                path: 'iva/nuevo',
+                                Component: TaxCreatePage,
+                            },
+                            {
+                                path: 'iva/:id',
+                                Component: TaxPage,
                             },
                         ],
                     },

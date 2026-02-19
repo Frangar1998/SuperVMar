@@ -58,6 +58,18 @@ export interface Tax {
     percent: string | number;
 }
 
+export interface TaxTable {
+    id: string;
+    name: string;
+    percent: string | number;
+}
+
+export interface TaxTableHeader {
+    id: keyof TaxTable;
+    numeric: boolean;
+    label: string;
+}
+
 export interface Supplier {
     id: string;
     name: string;
