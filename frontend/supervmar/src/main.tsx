@@ -20,6 +20,8 @@ import { CategoryPage } from "./modules/product/pages/Category/CategoryPage.tsx"
 import { CategoryCreatePage } from "./modules/product/pages/Category/CategoryCreatePage.tsx";
 import { TaxPage } from "./modules/product/pages/Tax/TaxPage.tsx";
 import { TaxCreatePage } from "./modules/product/pages/Tax/TaxCreatePage.tsx";
+import { SupplierPage } from "./modules/product/pages/Supplier/SupplierPage.tsx";
+import { SupplierCreatePage } from "./modules/product/pages/Supplier/SupplierCreatePage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -79,6 +81,14 @@ const router = createBrowserRouter([
                             {
                                 path: 'proveedores',
                                 Component: SuppliersPage,
+                            },
+                            {
+                                path: 'proveedores/nuevo',
+                                Component: SupplierCreatePage,
+                            },
+                            {
+                                path: 'proveedores/:id',
+                                Component: SupplierPage,
                             },
                             {
                                 path: 'iva',

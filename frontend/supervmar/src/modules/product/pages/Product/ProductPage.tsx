@@ -66,7 +66,7 @@ const initialFormData: ProductFormData = {
     category: {id: "", name: ""},
     price: "",
     tax: {id: "", name: "", percent: ""},
-    supplier: {id: "", name: ""},
+    supplier: {id: "", name: "", phone: "", email: "", contact: ""},
     stock: "",
     active: false,
 }

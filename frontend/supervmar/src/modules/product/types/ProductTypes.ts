@@ -73,6 +73,30 @@ export interface TaxTableHeader {
 export interface Supplier {
     id: string;
     name: string;
+    phone: string;
+    email: string;
+    contact: string;
+}
+
+export interface SupplierFormData {
+    name: string;
+    phone: string;
+    email: string;
+    contact: string;
+}
+
+export interface SupplierTable {
+    id: string;
+    name: string;
+    phone: string;
+    email: string;
+    contact: string;
+}
+
+export interface SupplierTableHeader {
+    id: keyof SupplierTable;
+    numeric: boolean;
+    label: string;
 }
 
 export interface PriceHistory {
