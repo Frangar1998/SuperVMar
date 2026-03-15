@@ -14,4 +14,8 @@ interface SupermarketRepository
      * @throws ItemNotFoundException
      */
     public function searchByCriteria(Criteria $criteria): ?Supermarket;
+    /**
+     * @throws ItemNotFoundException
+     */
+    public function searchAllByCriteria(Criteria $criteria): Supermarkets;
 }

@@ -116,6 +116,18 @@ final class Supermarket extends AggregateRoot
         }
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id->value(),
+            'name' => $this->name->value(),
+            'address' => $this->address->toArray(),
+            'phone' => $this->phone->value(),
+            'email' => $this->email->value(),
+            'zones' => $this->zones->toArray()
+        ];
+    }
+
     public static function fromArray(array $data): self
     {
         return new self(

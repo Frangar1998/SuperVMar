@@ -8,6 +8,11 @@ supermarket_get:
   controller: SuperVMar\App\Controller\Supermarket\SupermarketGetController
   methods: GET
 
+supermarkets_get:
+  path: /supermarkets
+  controller: SuperVMar\App\Controller\Supermarket\SupermarketsGetController
+  methods: GET
+
 zones_get:
   path: /zones/{idSupermarket}
   controller: SuperVMar\App\Controller\Supermarket\ZonesGetController

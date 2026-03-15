@@ -9,8 +9,8 @@ use SuperVMar\Supermarket\Domain\Entity\Address;
 use SuperVMar\Supermarket\Domain\Entity\Zones;
 use SuperVMar\Supermarket\Domain\Service\SupermarketSearcher;
 use SuperVMar\Supermarket\Domain\SupermarketRepository;
-use SuperVMar\ProductAllocation\Domain\ValueObject\Email;
-use SuperVMar\ProductAllocation\Domain\ValueObject\Phone;
+use SuperVMar\Supermarket\Domain\ValueObject\Email;
+use SuperVMar\Supermarket\Domain\ValueObject\Phone;
 
 final readonly class SupermarketUpdater
 {

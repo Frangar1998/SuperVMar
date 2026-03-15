@@ -110,7 +110,9 @@ final readonly class DbalZoneDao
                             'cornerBottomLeft' => $zone->cornerBottomLeft(),
                         ])
                     ->executeStatement();
+            }
 
+            foreach ($zones as $zone) {
                 $this->spaceDao->update($zone->spaces(), $zone->id());
             }
         } catch (Throwable $e) {

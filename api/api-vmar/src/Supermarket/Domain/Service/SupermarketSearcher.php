@@ -25,6 +25,7 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Supermarket\Domain\Supermarket;
+use SuperVMar\Supermarket\Domain\Supermarkets;
 use SuperVMar\Supermarket\Domain\SupermarketRepository;
 
 final readonly class SupermarketSearcher
@@ -51,6 +52,19 @@ final readonly class SupermarketSearcher
                         )
                     ]
                 ),
+                select: $this->getSelect(),
+                joins: $this->getJoins(),
+            )
+        );
+    }
+
+    /**
+     * @throws ItemNotFoundException
+     */
+    public function searchAll(): Supermarkets
+    {
+        return $this->repository->searchAllByCriteria(
+            new Criteria(
                 select: $this->getSelect(),
                 joins: $this->getJoins(),
             )

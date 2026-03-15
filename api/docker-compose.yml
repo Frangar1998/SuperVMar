@@ -21,8 +21,13 @@ services:
       context: ./
     environment:
       PHP_IDE_CONFIG: serverName=localhost
+      XDEBUG_MODE: "off"
+      APP_DEBUG: 0
     volumes:
-      - ./api-vmar:/var/www/html/api-vmar
+      - ./api-vmar:/var/www/html/api-vmar:delegated
+      - symfony_cache:/var/www/html/api-vmar/var/cache
+      - symfony_log:/var/www/html/api-vmar/var/log
+      - symfony_vendor:/var/www/html/api-vmar/vendor
     depends_on:
       - database
       - rabbitmq
@@ -35,7 +40,7 @@ services:
     ports:
       - '8080:80'
     volumes:
-      - ./api-vmar:/var/www/html/api-vmar
+      - ./api-vmar:/var/www/html/api-vmar:delegated
       - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
       - ./nginx/nginx.conf:/etc/nginx/nginx.conf
     depends_on:
@@ -61,6 +66,9 @@ services:
 
 volumes:
   superubemar_queue_system_local:
+  symfony_cache:
+  symfony_log:
+  symfony_vendor:
 
 networks:
   supervmar:

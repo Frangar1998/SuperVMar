@@ -66,7 +66,7 @@ final readonly class Zone
             Coord::fromArray($data['cornerTopRight']),
             Coord::fromArray($data['cornerBottomLeft']),
             Coord::fromArray($data['cornerBottomRight']),
-            Spaces::fromArray($data['spaces'])
+            Spaces::fromArray($data['spaces'] ?? [])
         );
         if (!$zone->validateCoords()) {
             throw new InvalidZoneCoordinatesException($zone->cornerTopLeft, $zone->cornerTopRight, $zone->cornerBottomLeft, $zone->cornerBottomRight);
