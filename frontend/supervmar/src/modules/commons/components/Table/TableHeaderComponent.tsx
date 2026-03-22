@@ -14,10 +14,11 @@ interface TableHeaderProps<T> {
         label: string;
         numeric: boolean;
     }[];
+    showActionsColumn?: boolean;
 }
 
 export const TableHeaderComponent = <T, >(props: TableHeaderProps<T>) => {
-    const {order, orderBy, onRequestSort, headers} = props;
+    const {order, orderBy, onRequestSort, headers, showActionsColumn} = props;
     const createSortHandler =
         (property: keyof T) => (event: MouseEvent<unknown>) => {
             onRequestSort(event, property);
@@ -47,6 +48,11 @@ export const TableHeaderComponent = <T, >(props: TableHeaderProps<T>) => {
 
                     </TableCell>
                 ))}
+                {showActionsColumn && (
+                    <TableCell align="center" padding="normal">
+                        Acciones
+                    </TableCell>
+                )}
             </TableRow>
         </TableHead>
     );

@@ -30,7 +30,7 @@ const NAVIGATION: Navigation = [
             },
             {
                 segment: 'asignaciones',
-                title: 'Asignaciones',
+                title: 'Asignación de productos',
             },
             {
                 segment: 'categorias',

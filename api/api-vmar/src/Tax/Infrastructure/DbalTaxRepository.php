@@ -118,7 +118,7 @@ final readonly class DbalTaxRepository implements TaxRepository
         }
 
         if (!$taxes) {
-            throw new ItemNotFoundException(Tax::class, $criteria->filters()?->toArray());
+            throw new ItemNotFoundException(Tax::class, $criteria->filters()?->toArray() ?? []);
         }
 
         return Taxes::fromArray($taxes);

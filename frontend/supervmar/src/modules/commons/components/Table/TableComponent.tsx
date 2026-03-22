@@ -7,6 +7,9 @@ import TableContainer from '@mui/material/TableContainer';
 import TablePagination from '@mui/material/TablePagination';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import IconButton from '@mui/material/IconButton';
+import Tooltip from '@mui/material/Tooltip';
+import { Edit } from '@mui/icons-material';
 import type { Order } from "./OrderType.ts";
 import { TableHeaderComponent } from "./TableHeaderComponent.tsx";
 import type { TableData } from "./TableData.ts";
@@ -66,10 +69,6 @@ export const TableComponent = <T,>(props: TableComponentProps<T>) => {
         setOrderBy(property);
     };
 
-    const handleClick = (_event: MouseEvent<unknown>, row: TableData<T>) => {
-        onRowClick?.(row);
-    };
-
     const handleChangePage = (_event: unknown, newPage: number) => {
         setPage(newPage);
     };
@@ -125,18 +124,30 @@ export const TableComponent = <T,>(props: TableComponentProps<T>) => {
                             orderBy={orderBy}
                             onRequestSort={handleRequestSort}
                             headers={headers}
+                            showActionsColumn={!!onRowClick}
                         />
                         <TableBody>
                             {visibleRows.map((row) => {
                                 return (
                                     <TableRow
                                         hover
-                                        onClick={(event) => handleClick(event, row)}
                                         tabIndex={-1}
                                         key={getRowId(row)}
-                                        sx={{cursor: 'pointer'}}
                                     >
                                         {renderRow(row)}
+                                        {onRowClick && (
+                                            <TableCell align="center" sx={{ width: 60 }}>
+                                                <Tooltip title="Editar">
+                                                    <IconButton
+                                                        size="small"
+                                                        color="primary"
+                                                        onClick={() => onRowClick(row)}
+                                                    >
+                                                        <Edit fontSize="small" />
+                                                    </IconButton>
+                                                </Tooltip>
+                                            </TableCell>
+                                        )}
                                     </TableRow>
                                 );
                             })}
@@ -146,7 +157,7 @@ export const TableComponent = <T,>(props: TableComponentProps<T>) => {
                                         height: 53 * emptyRows,
                                     }}
                                 >
-                                    <TableCell colSpan={headers.length}/>
+                                    <TableCell colSpan={headers.length + (onRowClick ? 1 : 0)}/>
                                 </TableRow>
                             )}
                         </TableBody>

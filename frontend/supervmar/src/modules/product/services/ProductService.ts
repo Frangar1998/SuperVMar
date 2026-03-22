@@ -11,6 +11,13 @@ export const ProductService = {
         }, session);
     },
 
+    getProductsFull: async (session: CustomSession | null): Promise<Product[]> => {
+        return await HttpService.apiv1({
+            endpoint: '/products',
+            method: 'GET'
+        }, session);
+    },
+
     createProduct: async (product: Omit<Product, 'id'>, image: File | null, session: CustomSession | null): Promise<Product> => {
         const id = v7();
         const formData = new FormData();

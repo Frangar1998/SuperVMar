@@ -14,10 +14,6 @@ final readonly class ProductsAllocationsResponse implements Response
 
     public function toArray(): array
     {
-        $response = [];
-        foreach ($this->productsAllocations as $productAllocation) {
-            $response[$productAllocation['space']['id']] = $productAllocation;
-        }
-        return $response;
+        return $this->productsAllocations;
     }
 }

@@ -182,7 +182,7 @@ final readonly class DbalProductRepository implements ProductRepository
         }
 
         if (!$products) {
-            throw new ItemNotFoundException(Product::class, $criteria->filters()?->toArray());
+            throw new ItemNotFoundException(Product::class, $criteria->filters()?->toArray() ?? []);
         }
 
         foreach ($products as $key => $product) {

@@ -122,7 +122,7 @@ final readonly class DbalSupplierRepository implements SupplierRepository
         }
 
         if (!$suppliers) {
-            throw new ItemNotFoundException(Supplier::class, $criteria->filters()?->toArray());
+            throw new ItemNotFoundException(Supplier::class, $criteria->filters()?->toArray() ?? []);
         }
 
         return Suppliers::fromArray($suppliers);

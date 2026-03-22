@@ -114,7 +114,7 @@ final readonly class DbalJobRepository implements JobRepository
         }
 
         if (!$jobs) {
-            throw new ItemNotFoundException(Job::class, $criteria->filters()?->toArray());
+            throw new ItemNotFoundException(Job::class, $criteria->filters()?->toArray() ?? []);
         }
 
         return Jobs::fromArray($jobs);

@@ -114,7 +114,7 @@ final readonly class DbalCategoryRepository implements CategoryRepository
         }
 
         if (!$categories) {
-            throw new ItemNotFoundException(Category::class, $criteria->filters()?->toArray());
+            throw new ItemNotFoundException(Category::class, $criteria->filters()?->toArray() ?? []);
         }
 
         return Categories::fromArray($categories);

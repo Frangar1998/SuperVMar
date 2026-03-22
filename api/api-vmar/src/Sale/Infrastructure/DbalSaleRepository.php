@@ -137,7 +137,7 @@ final readonly class DbalSaleRepository implements SaleRepository
         }
 
         if (!$sales) {
-            throw new ItemNotFoundException(Sale::class, $criteria->filters()?->toArray());
+            throw new ItemNotFoundException(Sale::class, $criteria->filters()?->toArray() ?? []);
         }
 
         foreach ($sales as $key => $sale) {

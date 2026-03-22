@@ -20,8 +20,8 @@ final readonly class ProductAllocationPutController extends ApiController
         $data = $this->dataFromRequest($request);
         $this->dispatch(
             new SaveProductAllocationCommand(
-                $data['product'],
                 $idSpace,
+                $data['product'],
                 $data['quantity']
             )
         );

@@ -51,7 +51,7 @@ final readonly class DbalProductAllocationRepository implements ProductAllocatio
                 ->executeStatement();
 
         } catch (UniqueConstraintViolationException) {
-            throw new DuplicateItemException(ProductAllocation::class, $productAllocation->id());
+            throw new DuplicateItemException(ProductAllocation::class, $productAllocation->space()->id());
         } catch (Throwable $e) {
             throw new InternalErrorException($e->getMessage(), $e);
         }
@@ -133,7 +133,7 @@ final readonly class DbalProductAllocationRepository implements ProductAllocatio
         }
 
         if (!$productsAllocations) {
-            throw new ItemNotFoundException(ProductAllocation::class, $criteria->filters()?->toArray());
+            throw new ItemNotFoundException(ProductAllocation::class, $criteria->filters()?->toArray() ?? []);
         }
 
         return ProductsAllocations::fromArray($productsAllocations);
