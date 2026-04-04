@@ -1,4 +1,4 @@
-import { type CustomSession, SessionContext } from "./modules/login/contexts/SessionContext.ts";
+import { type CustomSession, getUserRole, SessionContext } from "./modules/login/contexts/SessionContext.ts";
 import { useCallback, useMemo, useState } from "react";
 import type { Navigation } from "@toolpad/core";
 import { ReactRouterAppProvider } from "@toolpad/core/react-router";
@@ -9,75 +9,69 @@ import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import { useNavigate, Outlet } from "react-router";
 import { createTheme } from "@mui/material";
 
-const NAVIGATION: Navigation = [
+const FULL_NAVIGATION: Navigation = [
+    { title: 'Dashboard', icon: <DashboardIcon/> },
+    { kind: 'divider' },
+    { segment: 'supermercado', title: 'Supermercado', icon: <CategoryIcon /> },
+    { kind: 'divider' },
     {
-        title: 'Home',
-        icon: <DashboardIcon/>
-    },
-    {kind: 'divider'},
-    {
-        segment: 'supermercado',
-        title: 'Supermercado',
-        icon: <CategoryIcon />,
-    },
-    {kind: 'divider'},
-    {
-        segment: 'productos',
-        title: 'Productos',
-        icon: <CategoryIcon />,
+        segment: 'productos', title: 'Productos', icon: <CategoryIcon />,
         children: [
-            {
-                segment: 'catalogo',
-                title: 'Catalogo',
-            },
-            {
-                segment: 'asignaciones',
-                title: 'Asignación de productos',
-            },
-            {
-                segment: 'categorias',
-                title: 'Categorias',
-            },
-            {
-                segment: 'proveedores',
-                title: 'Proveedores',
-            },
-            {
-                segment: 'iva',
-                title: 'IVA',
-            },
+            { segment: 'catalogo', title: 'Catalogo' },
+            { segment: 'asignaciones', title: 'Asignación de productos' },
+            { segment: 'categorias', title: 'Categorias' },
+            { segment: 'proveedores', title: 'Proveedores' },
+            { segment: 'iva', title: 'IVA' },
+            { segment: 'reposiciones', title: 'Reposiciones' },
         ]
     },
-    {kind: 'divider'},
+    { kind: 'divider' },
     {
-        segment: 'ventas',
-        title: 'Ventas',
-        icon: <PointOfSaleIcon />,
+        segment: 'ventas', title: 'Ventas', icon: <PointOfSaleIcon />,
         children: [
-            {
-                segment: 'listado',
-                title: 'Listado',
-            },
-            {
-                segment: 'caja',
-                title: 'Vista Caja',
-            },
+            { segment: 'listado', title: 'Listado' },
+            { segment: 'caja', title: 'Vista Caja' },
         ]
     },
-    {kind: 'divider'},
+    { kind: 'divider' },
     {
-        segment: 'usuarios',
-        title: 'Usuarios',
-        icon: <PeopleIcon />,
+        segment: 'usuarios', title: 'Usuarios', icon: <PeopleIcon />,
         children: [
-            {
-                segment: 'trabajos',
-                title: 'Trabajos',
-            },
-            {
-                segment: 'lista',
-                title: 'Listado de usuarios',
-            },
+            { segment: 'trabajos', title: 'Trabajos' },
+            { segment: 'lista', title: 'Listado de usuarios' },
+        ]
+    },
+];
+
+const ENCARGADO_NAVIGATION: Navigation = [
+    { title: 'Dashboard', icon: <DashboardIcon/> },
+    { kind: 'divider' },
+    { segment: 'supermercado', title: 'Supermercado', icon: <CategoryIcon /> },
+    { kind: 'divider' },
+    {
+        segment: 'productos', title: 'Productos', icon: <CategoryIcon />,
+        children: [
+            { segment: 'catalogo', title: 'Catalogo' },
+            { segment: 'asignaciones', title: 'Asignación de productos' },
+            { segment: 'categorias', title: 'Categorias' },
+            { segment: 'proveedores', title: 'Proveedores' },
+            { segment: 'iva', title: 'IVA' },
+            { segment: 'reposiciones', title: 'Reposiciones' },
+        ]
+    },
+    { kind: 'divider' },
+    {
+        segment: 'ventas', title: 'Ventas', icon: <PointOfSaleIcon />,
+        children: [
+            { segment: 'listado', title: 'Listado' },
+        ]
+    },
+    { kind: 'divider' },
+    {
+        segment: 'usuarios', title: 'Usuarios', icon: <PeopleIcon />,
+        children: [
+            { segment: 'trabajos', title: 'Trabajos' },
+            { segment: 'lista', title: 'Listado de usuarios' },
         ]
     },
 ];
@@ -106,10 +100,6 @@ export const App = () => {
 
     const navigate = useNavigate();
 
-    const login = useCallback(() => {
-        navigate('/login');
-    }, [navigate]);
-
     const logout = useCallback(() => {
         setSession(null);
         localStorage.removeItem('session');
@@ -125,18 +115,36 @@ export const App = () => {
             } else {
                 localStorage.removeItem('session');
             }
-        }
-    }), [session]);
+        },
+        logout,
+    }), [session, logout]);
 
+    const role = useMemo(() => getUserRole(session), [session]);
+
+    const navigation = useMemo(() => {
+        if (role === 'encargado') return ENCARGADO_NAVIGATION;
+        return FULL_NAVIGATION;
+    }, [role]);
+
+    const toolpadSession = useMemo(() => {
+        if (!session) return null;
+        return {
+            ...session,
+            user: {
+                name: session.username ?? 'Usuario',
+            },
+        };
+    }, [session]);
 
     return (
         <SessionContext.Provider value={sessionContextValue}>
             <ReactRouterAppProvider
-                navigation={NAVIGATION}
+                navigation={navigation}
                 branding={BRANDING}
                 theme={THEME}
-                session={session}
-                authentication={{signIn: login, signOut: logout}}
+                session={toolpadSession}
+                authentication={{ signIn: () => {}, signOut: logout }}
+                localeText={{ accountSignOutLabel: 'Cerrar sesión' }}
             >
                 <Outlet/>
             </ReactRouterAppProvider>

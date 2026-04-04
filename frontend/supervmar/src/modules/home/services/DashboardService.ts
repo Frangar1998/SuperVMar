@@ -7,28 +7,28 @@ function formatDate(date: Date): string {
     return date.toISOString().split('T')[0];
 }
 
-function getDateParam(dateFilter: DateFilter, customDate?: string): string | undefined {
+function getDateParams(dateFilter: DateFilter, customDateFrom?: string, customDateTo?: string): { date?: string; dateTo?: string } {
     const now = new Date();
     switch (dateFilter) {
         case 'today':
-            return formatDate(now);
+            return { date: formatDate(now) };
         case 'week': {
             const d = new Date(now);
             d.setDate(d.getDate() - 7);
-            return formatDate(d);
+            return { date: formatDate(d) };
         }
         case 'month': {
             const d = new Date(now);
             d.setDate(d.getDate() - 30);
-            return formatDate(d);
+            return { date: formatDate(d) };
         }
         case 'year': {
             const d = new Date(now);
             d.setDate(d.getDate() - 365);
-            return formatDate(d);
+            return { date: formatDate(d) };
         }
         case 'custom':
-            return customDate;
+            return { date: customDateFrom, dateTo: customDateTo };
     }
 }
 
@@ -103,10 +103,10 @@ export function computeZoneRestockInfo(allocations: ProductAllocation[]): ZoneRe
 }
 
 export const DashboardService = {
-    fetchSalesData: async (session: CustomSession | null, dateFilter: DateFilter, customDate?: string): Promise<any[]> => {
-        const date = getDateParam(dateFilter, customDate);
+    fetchSalesData: async (session: CustomSession | null, dateFilter: DateFilter, customDateFrom?: string, customDateTo?: string): Promise<any[]> => {
+        const { date, dateTo } = getDateParams(dateFilter, customDateFrom, customDateTo);
         try {
-            const response = await SaleService.getSales(session, date);
+            const response = await SaleService.getSales(session, date, dateTo);
             return response.sales;
         } catch {
             return [];

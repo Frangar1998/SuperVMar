@@ -138,6 +138,21 @@ final readonly class DbalUserRepository implements UserRepository
         return Users::fromArray($users);
     }
 
+    public function searchJobNameByUserId(Id $userId): ?string
+    {
+        $result = $this->connection->createQueryBuilder()
+            ->select('j.name')
+            ->from(TableNames::TABLE_WORKER_ALLOCATION->value, 'wa')
+            ->innerJoin('wa', TableNames::TABLE_JOB->value, 'j', 'j.id = wa.idJob')
+            ->where('wa.idUser = :userId')
+            ->setParameter('userId', $userId->value())
+            ->setMaxResults(1)
+            ->executeQuery()
+            ->fetchOne();
+
+        return $result !== false ? $result : null;
+    }
+
     private function buildQueryByCriteria(Criteria $criteria): QueryBuilder
     {
         return $this->dbalCriteriaConverter->convert(

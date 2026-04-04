@@ -29,6 +29,7 @@ import { UserCreatePage } from "./modules/user/pages/User/UserCreatePage.tsx";
 import { CashRegisterPage } from "./modules/sale/pages/CashRegisterPage.tsx";
 import { SalesPage } from "./modules/sale/pages/SalesPage.tsx";
 import { SalePage } from "./modules/sale/pages/SalePage.tsx";
+import { RestockPage } from "./modules/product/pages/Restock/RestockPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -108,6 +109,10 @@ const router = createBrowserRouter([
                             {
                                 path: 'iva/:id',
                                 Component: TaxPage,
+                            },
+                            {
+                                path: 'reposiciones',
+                                Component: RestockPage,
                             },
                         ],
                     },

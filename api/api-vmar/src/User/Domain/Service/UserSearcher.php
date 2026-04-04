@@ -155,6 +155,11 @@ final readonly class UserSearcher
         return new Select($fields);
     }
 
+    public function searchJobNameByUserId(Id $idUser): ?string
+    {
+        return $this->repository->searchJobNameByUserId($idUser);
+    }
+
     protected function getJoins(): Joins
     {
         return new Joins(

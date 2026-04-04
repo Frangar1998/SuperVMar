@@ -19,11 +19,14 @@ final readonly class SearchUserLoginQueryHandler implements QueryHandler
 
         $user = $this->searcher->searchByUsername($username);
 
+        $jobName = $this->searcher->searchJobNameByUserId($user->id());
+
         return new UserLoginResponse(
             $user->id()->value(),
             $user->username()->value(),
             $user->password()->value(),
             $user->isAdmin()->value(),
+            $jobName,
         );
     }
 }

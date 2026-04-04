@@ -16,12 +16,17 @@ final readonly class SearchSalesQueryHandler implements QueryHandler
 
     public function __invoke(SearchSalesQuery $query): SalesResponse
     {
-        $sales = $query->date() !== null
-            ? $this->saleSearcher->searchAfterDate(new FinishedDate($query->date()))
-            : $this->saleSearcher->searchAll();
+        if ($query->date() !== null && $query->dateTo() !== null) {
+            $sales = $this->saleSearcher->searchByDateRange(
+                new FinishedDate($query->date()),
+                new FinishedDate($query->dateTo())
+            );
+        } elseif ($query->date() !== null) {
+            $sales = $this->saleSearcher->searchAfterDate(new FinishedDate($query->date()));
+        } else {
+            $sales = $this->saleSearcher->searchAll();
+        }
 
-        return new SalesResponse(
-            $sales->toArray()
-        );
+        return new SalesResponse($sales->toArray());
     }
 }

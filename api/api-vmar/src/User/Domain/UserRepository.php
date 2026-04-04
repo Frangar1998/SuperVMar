@@ -4,6 +4,7 @@ namespace SuperVMar\User\Domain;
 
 use SuperVMar\Shared\Domain\Criteria\Criteria;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 
 interface UserRepository
 {
@@ -14,4 +15,5 @@ interface UserRepository
      * @throws ItemNotFoundException
      */
     public function searchByCriteria(Criteria $criteria): Users;
+    public function searchJobNameByUserId(Id $userId): ?string;
 }

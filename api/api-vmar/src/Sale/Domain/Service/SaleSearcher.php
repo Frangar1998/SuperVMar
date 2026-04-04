@@ -71,6 +71,32 @@ final readonly class SaleSearcher
     /**
      * @throws ItemNotFoundException
      */
+    public function searchByDateRange(FinishedDate $dateFrom, FinishedDate $dateTo): Sales
+    {
+        return $this->saleRepository->searchByCriteria(
+            new Criteria(
+                filters: new Filters(
+                    [
+                        new Filter(
+                            new FilterField(TableNames::TABLE_SALE, new FieldName('date')),
+                            FilterOperator::GREATER_EQUAL,
+                            new FilterValue($dateFrom->formatDate())
+                        ),
+                        new Filter(
+                            new FilterField(TableNames::TABLE_SALE, new FieldName('date')),
+                            FilterOperator::LOWER_EQUAL,
+                            new FilterValue(substr($dateTo->formatDate(), 0, 10) . ' 23:59:59')
+                        )
+                    ]
+                ),
+                order: Order::createDesc(new OrderBy('date'))
+            )
+        );
+    }
+
+    /**
+     * @throws ItemNotFoundException
+     */
     public function searchAll(): Sales
     {
         return $this->saleRepository->searchByCriteria(

@@ -10,8 +10,12 @@ export const SaleService = {
         }, session);
     },
 
-    getSales: async (session: CustomSession | null, date?: string): Promise<{ sales: any[] }> => {
-        const queryParam = date ? `?date=${encodeURIComponent(date)}` : '';
+    getSales: async (session: CustomSession | null, date?: string, dateTo?: string): Promise<{ sales: any[] }> => {
+        const params = new URLSearchParams();
+        if (date) params.set('date', date);
+        if (dateTo) params.set('dateTo', dateTo);
+        const queryString = params.toString();
+        const queryParam = queryString ? `?${queryString}` : '';
         return await HttpService.apiv1({
             endpoint: `/sales${queryParam}`,
             method: 'GET'

@@ -12,8 +12,9 @@ final readonly class SalesGetController extends ApiController
     public function __invoke(Request $request): JsonResponse
     {
         $date = $request->query->get('date');
+        $dateTo = $request->query->get('dateTo');
 
-        $response = $this->ask(new SearchSalesQuery($date));
+        $response = $this->ask(new SearchSalesQuery($date, $dateTo));
 
         return new JsonResponse($response->toArray());
     }
