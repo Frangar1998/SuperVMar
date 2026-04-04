@@ -121,7 +121,7 @@ final class Sale extends AggregateRoot
                 )
             );
         } else {
-            $line->subtractQuantity($addedQuantity);
+            $line->subtractQuantity(new Quantity(abs($addedQuantity->value())));
         }
 
         if ($line->quantity()->value() == 0) {
@@ -141,9 +141,10 @@ final class Sale extends AggregateRoot
             $this->totalAmount = $this->totalAmount->add($this->calculateTotalAmount($product, $quantity));
             $this->taxesAmount = $this->taxesAmount->add($this->calculateTaxesAmount($product, $quantity));
         } else {
-            $this->amount = $this->amount->subtract($this->calculateAmount($product, $quantity));
-            $this->totalAmount = $this->totalAmount->subtract($this->calculateTotalAmount($product, $quantity));
-            $this->taxesAmount = $this->taxesAmount->subtract($this->calculateTaxesAmount($product, $quantity));
+            $absQuantity = new Quantity(abs($quantity->value()));
+            $this->amount = $this->amount->subtract($this->calculateAmount($product, $absQuantity));
+            $this->totalAmount = $this->totalAmount->subtract($this->calculateTotalAmount($product, $absQuantity));
+            $this->taxesAmount = $this->taxesAmount->subtract($this->calculateTaxesAmount($product, $absQuantity));
         }
     }
 
@@ -210,7 +211,7 @@ final class Sale extends AggregateRoot
             new TotalAmount($data['totalAmount']),
             Lines::fromArray($data['lines']),
             PayMethod::from($data['payMethod']),
-            isset($data['finishedDate']) ? new FinishedDate($data['finishedDate']) : null
+            isset($data['date']) ? new FinishedDate($data['date']) : null
         );
     }
 

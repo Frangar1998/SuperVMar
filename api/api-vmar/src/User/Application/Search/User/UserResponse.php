@@ -9,6 +9,7 @@ final readonly class UserResponse implements Response
     public function __construct(
         private string $id,
         private string $username,
+        private int $isAdmin,
         private array $userData,
         private array $allocations
     )
@@ -20,6 +21,7 @@ final readonly class UserResponse implements Response
         return [
             'id' => $this->id,
             'username' => $this->username,
+            'isAdmin' => $this->isAdmin,
             'userData' => $this->userData,
             'allocations' => $this->allocations
         ];

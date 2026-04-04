@@ -37,7 +37,7 @@ final readonly class ProductUpdater
         Tax          $tax,
         Category     $category,
         Active       $active,
-        Image       $image
+        ?Image       $image = null
     ): void
     {
         $product = $this->productSearcher->search($id);

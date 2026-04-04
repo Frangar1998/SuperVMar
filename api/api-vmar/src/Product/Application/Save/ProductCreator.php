@@ -34,7 +34,7 @@ final readonly class ProductCreator
         Category     $category,
         Supplier     $supplier,
         Active       $active,
-        Image       $image
+        ?Image       $image = null
     ): void
     {
         $this->productRepository->insert(

@@ -50,9 +50,9 @@ final readonly class DbalAddressDao
                         'city' => $address->city(),
                         'number' => $address->number(),
                         'province' => $address->province(),
-                        'floor' => $address->floor(),
-                        'door' => $address->door(),
-                        'other' => $address->other(),
+                        'floor' => $address->floor()?->value(),
+                        'door' => $address->door()?->value(),
+                        'other' => $address->other()?->value(),
                     ])
                 ->executeStatement();
 
@@ -88,9 +88,9 @@ final readonly class DbalAddressDao
                         'city' => $address->city(),
                         'number' => $address->number(),
                         'province' => $address->province(),
-                        'floor' => $address->floor(),
-                        'door' => $address->door(),
-                        'other' => $address->other(),
+                        'floor' => $address->floor()?->value(),
+                        'door' => $address->door()?->value(),
+                        'other' => $address->other()?->value(),
                     ])
                 ->executeStatement();
 

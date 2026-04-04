@@ -26,7 +26,7 @@ export const ErrorSnackbarComponent = ({
                 onClose={onClose}
                 severity={severity}
                 variant="filled"
-                sx={{ width: '100%' }}
+                sx={{ width: '100%', whiteSpace: 'pre-line' }}
             >
                 {message}
             </Alert>

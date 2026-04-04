@@ -21,9 +21,9 @@ final readonly class Address
         private City       $city,
         private Number     $number,
         private Province   $province,
-        private Floor      $floor, 
-        private Door       $door,
-        private Other      $other,
+        private ?Floor     $floor = null, 
+        private ?Door      $door = null,
+        private ?Other     $other = null,
     ){}
 
     public function id(): Id
@@ -56,17 +56,17 @@ final readonly class Address
         return $this->province;
     }
     
-    public function floor(): Floor
+    public function floor(): ?Floor
     {
         return $this->floor;
     }
     
-    public function door(): Door
+    public function door(): ?Door
     {
         return $this->door;
     }
     
-    public function other(): Other
+    public function other(): ?Other
     {
         return $this->other;
     }
@@ -80,9 +80,9 @@ final readonly class Address
             new City($data['city']),
             new Number($data['number']),
             new Province($data['province']),
-            new Floor($data['floor']),
-            new Door($data['door']),
-            new Other($data['other'])
+            !empty($data['floor']) ? new Floor($data['floor']) : null,
+            !empty($data['door']) ? new Door($data['door']) : null,
+            !empty($data['other']) ? new Other($data['other']) : null
         );
     }
 
@@ -95,9 +95,9 @@ final readonly class Address
             'city' => $this->city->value(),
             'number' => $this->number->value(),
             'province' => $this->province->value(),
-            'floor' => $this->floor->value(),
-            'door' => $this->door->value(),
-            'other' => $this->other->value()
+            'floor' => $this->floor?->value(),
+            'door' => $this->door?->value(),
+            'other' => $this->other?->value()
         ];
     }
 
@@ -108,8 +108,8 @@ final readonly class Address
             && $this->city->equals($other->city())
             && $this->number->equals($other->number())
             && $this->province->equals($other->province())
-            && $this->floor->equals($other->floor())
-            && $this->door->equals($other->door())
-            && $this->other->equals($other->other());
+            && $this->floor?->value() === $other->floor()?->value()
+            && $this->door?->value() === $other->door()?->value()
+            && $this->other?->value() === $other->other()?->value();
     }
 }

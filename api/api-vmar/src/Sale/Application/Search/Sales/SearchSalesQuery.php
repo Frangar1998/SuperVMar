@@ -7,12 +7,12 @@ use SuperVMar\Shared\Domain\Bus\Query\Query;
 final readonly class SearchSalesQuery implements Query
 {
     public function __construct(
-        private string $date
+        private ?string $date = null
     )
     {
     }
 
-    public function date(): string
+    public function date(): ?string
     {
         return $this->date;
     }

@@ -48,12 +48,15 @@ interface TableComponentProps<T> {
     renderRow: (row: TableData<T>) => ReactNode;
     getRowId: (row: TableData<T>) => string;
     onRowClick?: (row: TableData<T>) => void;
+    actionIcon?: ReactNode;
+    actionTooltip?: string;
+    initialSortOrder?: Order;
 }
 
 export const TableComponent = <T,>(props: TableComponentProps<T>) => {
-    const {tableData, initialSortKey, headers, renderRow, getRowId, onRowClick} = props;
+    const {tableData, initialSortKey, headers, renderRow, getRowId, onRowClick, actionIcon, actionTooltip, initialSortOrder} = props;
 
-    const [order, setOrder] = useState<Order>('asc');
+    const [order, setOrder] = useState<Order>(initialSortOrder ?? 'asc');
     const [orderBy, setOrderBy] = useState<keyof T>(initialSortKey);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(5);
@@ -137,13 +140,13 @@ export const TableComponent = <T,>(props: TableComponentProps<T>) => {
                                         {renderRow(row)}
                                         {onRowClick && (
                                             <TableCell align="center" sx={{ width: 60 }}>
-                                                <Tooltip title="Editar">
+                                                <Tooltip title={actionTooltip ?? "Editar"}>
                                                     <IconButton
                                                         size="small"
                                                         color="primary"
                                                         onClick={() => onRowClick(row)}
                                                     >
-                                                        <Edit fontSize="small" />
+                                                        {actionIcon ?? <Edit fontSize="small" />}
                                                     </IconButton>
                                                 </Tooltip>
                                             </TableCell>

@@ -22,6 +22,7 @@ final readonly class SearchUserQueryHandler implements QueryHandler
         return new UserResponse(
             $user->id()->value(),
             $user->username()->value(),
+            $user->isAdmin()->value(),
             $user->userData()->toArray(),
             $user->allocations()->toArray()
         );

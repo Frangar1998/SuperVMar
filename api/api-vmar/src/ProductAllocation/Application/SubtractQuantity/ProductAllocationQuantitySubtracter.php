@@ -27,7 +27,7 @@ final readonly class ProductAllocationQuantitySubtracter
         Quantity $quantity,
     ): void
     {
-        $productAllocation = $this->productAllocationSearcher->searchByProduct($idProduct);
+        $productAllocation = $this->productAllocationSearcher->searchFirstAvailableByProduct($idProduct);
         $productAllocation->subtractQuantity($quantity);
         $this->productAllocationRepository->update($productAllocation);
     }

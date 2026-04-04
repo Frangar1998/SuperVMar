@@ -4,6 +4,8 @@ import type { Navigation } from "@toolpad/core";
 import { ReactRouterAppProvider } from "@toolpad/core/react-router";
 import DashboardIcon from '@mui/icons-material/Dashboard';
 import CategoryIcon from '@mui/icons-material/Category';
+import PeopleIcon from '@mui/icons-material/People';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import { useNavigate, Outlet } from "react-router";
 import { createTheme } from "@mui/material";
 
@@ -50,13 +52,33 @@ const NAVIGATION: Navigation = [
     {
         segment: 'ventas',
         title: 'Ventas',
-        icon: <CategoryIcon />,
+        icon: <PointOfSaleIcon />,
+        children: [
+            {
+                segment: 'listado',
+                title: 'Listado',
+            },
+            {
+                segment: 'caja',
+                title: 'Vista Caja',
+            },
+        ]
     },
     {kind: 'divider'},
     {
         segment: 'usuarios',
         title: 'Usuarios',
-        icon: <CategoryIcon />,
+        icon: <PeopleIcon />,
+        children: [
+            {
+                segment: 'trabajos',
+                title: 'Trabajos',
+            },
+            {
+                segment: 'lista',
+                title: 'Listado de usuarios',
+            },
+        ]
     },
 ];
 

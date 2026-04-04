@@ -13,7 +13,7 @@ final readonly class Product
         private Id     $id,
         private Name   $name,
         private Stock  $stock,
-        private Image $image = new Image(''),
+        private ?Image $image = null,
     )
     {
     }
@@ -33,7 +33,7 @@ final readonly class Product
         return $this->stock;
     }
 
-    public function image(): Image
+    public function image(): ?Image
     {
         return $this->image;
     }
@@ -44,7 +44,7 @@ final readonly class Product
             new Id($data['id']),
             new Name($data['name']),
             new Stock($data['stock']),
-            new Image($data['image'])
+            !empty($data['image']) ? new Image($data['image']) : null
         );
     }
 

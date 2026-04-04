@@ -177,6 +177,12 @@ export const SupermarketMapComponent = ({ zones, onZonesChange }: SupermarketMap
     const spacesPanelRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+        if (managingSpacesZoneId && selectedZoneId && managingSpacesZoneId !== selectedZoneId) {
+            setManagingSpacesZoneId(selectedZoneId);
+        }
+    }, [selectedZoneId]);
+
+    useEffect(() => {
         if (managingSpacesZoneId) {
             const timeout = setTimeout(() => {
                 spacesPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });

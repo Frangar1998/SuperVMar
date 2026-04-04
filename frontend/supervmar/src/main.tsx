@@ -8,8 +8,6 @@ import { DashboardComponent } from "./modules/commons/components/DashboardCompon
 import { HomePage } from "./modules/home/pages/HomePage.tsx";
 import { SupermarketPage } from "./modules/supermarket/pages/SupermarketPage.tsx";
 import { ProductsPage } from "./modules/product/pages/Product/ProductsPage.tsx";
-import { SalesPage } from "./modules/sale/pages/SalesPage.tsx";
-import { UsersPage } from "./modules/user/pages/UsersPage.tsx";
 import { CategoriesPage } from "./modules/product/pages/Category/CategoriesPage.tsx";
 import { SuppliersPage } from "./modules/product/pages/Supplier/SuppliersPage.tsx";
 import { TaxesPage } from "./modules/product/pages/Tax/TaxesPage.tsx";
@@ -22,6 +20,15 @@ import { TaxPage } from "./modules/product/pages/Tax/TaxPage.tsx";
 import { TaxCreatePage } from "./modules/product/pages/Tax/TaxCreatePage.tsx";
 import { SupplierPage } from "./modules/product/pages/Supplier/SupplierPage.tsx";
 import { SupplierCreatePage } from "./modules/product/pages/Supplier/SupplierCreatePage.tsx";
+import { JobsPage } from "./modules/user/pages/Job/JobsPage.tsx";
+import { JobPage } from "./modules/user/pages/Job/JobPage.tsx";
+import { JobCreatePage } from "./modules/user/pages/Job/JobCreatePage.tsx";
+import { UsersListPage } from "./modules/user/pages/User/UsersListPage.tsx";
+import { UserPage } from "./modules/user/pages/User/UserPage.tsx";
+import { UserCreatePage } from "./modules/user/pages/User/UserCreatePage.tsx";
+import { CashRegisterPage } from "./modules/sale/pages/CashRegisterPage.tsx";
+import { SalesPage } from "./modules/sale/pages/SalesPage.tsx";
+import { SalePage } from "./modules/sale/pages/SalePage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -106,11 +113,57 @@ const router = createBrowserRouter([
                     },
                     {
                         path: '/ventas',
-                        Component: SalesPage,
+                        children: [
+                            {
+                                index: true,
+                                Component: () => <Navigate to="listado" replace />
+                            },
+                            {
+                                path: 'listado',
+                                Component: SalesPage,
+                            },
+                            {
+                                path: ':id',
+                                Component: SalePage,
+                            },
+                            {
+                                path: 'caja',
+                                Component: CashRegisterPage
+                            }
+                        ]
                     },
                     {
                         path: '/usuarios',
-                        Component: UsersPage,
+                        children: [
+                            {
+                                index: true,
+                                Component: () => <Navigate to="trabajos" replace />
+                            },
+                            {
+                                path: 'trabajos',
+                                Component: JobsPage,
+                            },
+                            {
+                                path: 'trabajos/nuevo',
+                                Component: JobCreatePage,
+                            },
+                            {
+                                path: 'trabajos/:id',
+                                Component: JobPage,
+                            },
+                            {
+                                path: 'lista',
+                                Component: UsersListPage,
+                            },
+                            {
+                                path: 'lista/nuevo',
+                                Component: UserCreatePage,
+                            },
+                            {
+                                path: 'lista/:id',
+                                Component: UserPage,
+                            },
+                        ],
                     },
                 ],
             },

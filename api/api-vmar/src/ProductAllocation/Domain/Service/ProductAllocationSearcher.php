@@ -83,6 +83,33 @@ final readonly class ProductAllocationSearcher
     /**
      * @throws ItemNotFoundException
      */
+    public function searchFirstAvailableByProduct(Id $idProduct): ProductAllocation
+    {
+        return $this->productAllocationRepository->searchByCriteria(
+            new Criteria(
+                filters: new Filters(
+                    [
+                        new Filter(
+                            new FilterField(TableNames::TABLE_PRODUCT_ALLOCATION, new FieldName('idProduct')),
+                            FilterOperator::EQUAL,
+                            new FilterValue($idProduct)
+                        ),
+                        new Filter(
+                            new FilterField(TableNames::TABLE_PRODUCT_ALLOCATION, new FieldName('quantity')),
+                            FilterOperator::GREATER,
+                            new FilterValue(0)
+                        )
+                    ]
+                ),
+                select: $this->getSelect(),
+                joins: $this->getJoins(),
+            )
+        )->first();
+    }
+
+    /**
+     * @throws ItemNotFoundException
+     */
     public function searchAll(): ProductsAllocations
     {
         return $this->productAllocationRepository->searchByCriteria(

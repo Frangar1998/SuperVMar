@@ -16,9 +16,9 @@ final readonly class SearchSalesQueryHandler implements QueryHandler
 
     public function __invoke(SearchSalesQuery $query): SalesResponse
     {
-        $date = new FinishedDate($query->date());
-
-        $sales = $this->saleSearcher->searchAfterDate($date);
+        $sales = $query->date() !== null
+            ? $this->saleSearcher->searchAfterDate(new FinishedDate($query->date()))
+            : $this->saleSearcher->searchAll();
 
         return new SalesResponse(
             $sales->toArray()

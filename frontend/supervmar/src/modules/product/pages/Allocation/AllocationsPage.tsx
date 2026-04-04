@@ -50,7 +50,14 @@ export const AllocationsPage = () => {
                 })) ?? []);
             }
 
-            setProducts(prods);
+            const catMap = new Map(cats.map(c => [c.name, c]));
+            const enrichedProducts = prods.map((p: any) => ({
+                ...p,
+                category: typeof p.category === 'string'
+                    ? (catMap.get(p.category) ?? { id: '', name: p.category })
+                    : p.category,
+            }));
+            setProducts(enrichedProducts);
             setCategories(cats);
 
             const allocMap = new Map<string, ProductAllocation>();

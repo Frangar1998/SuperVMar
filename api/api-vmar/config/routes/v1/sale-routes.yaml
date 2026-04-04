@@ -17,3 +17,8 @@ sale_finish_patch:
   path: /sale_finish/{id}
   controller: SuperVMar\App\Controller\Sale\SaleFinishPutController
   methods: PATCH
+
+sale_delete:
+  path: /sale/{id}
+  controller: SuperVMar\App\Controller\Sale\SaleDeleteController
+  methods: DELETE

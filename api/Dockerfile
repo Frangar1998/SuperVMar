@@ -41,4 +41,4 @@ RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 EXPOSE 80
 
 ENTRYPOINT ["docker-entrypoint.sh"]
-CMD ["php-fpm"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisord.conf"]
