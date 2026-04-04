@@ -1,0 +1,15 @@
+push_subscription_put:
+  path: /push-subscription/{idUser}
+  controller: SuperVMar\App\Controller\Notification\PushSubscriptionPutController
+  methods: PUT
+
+push_subscription_delete:
+  path: /push-subscription/{idUser}
+  controller: SuperVMar\App\Controller\Notification\PushSubscriptionDeleteController
+  methods: DELETE
+
+vapid_key_get:
+  path: /push-vapid-key
+  controller: SuperVMar\App\Controller\Notification\VapidKeyGetController
+  defaults: { auth: false }
+  methods: GET

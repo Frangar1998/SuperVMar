@@ -20,4 +20,5 @@ enum TableNames: string
     case TABLE_PRODUCT_ALLOCATION = 'product_allocation';
     case TABLE_SALE = 'sale';
     case TABLE_SALE_LINE = 'sale_line';
+    case TABLE_PUSH_SUBSCRIPTION = 'push_subscription';
 }

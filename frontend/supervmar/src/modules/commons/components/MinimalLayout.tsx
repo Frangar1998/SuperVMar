@@ -5,10 +5,16 @@ import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Outlet } from "react-router";
+import { useEffect } from "react";
 import { useSession } from "../../login/contexts/SessionContext.ts";
+import { PushNotificationService } from "../../notification/services/PushNotificationService.ts";
 
 export const MinimalLayout = () => {
     const { session, logout } = useSession();
+
+    useEffect(() => {
+        PushNotificationService.init(session);
+    }, [session]);
 
     return (
         <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>

@@ -80,3 +80,14 @@ services:
             $consumerList: !tagged supervmar.domain_event_subscriber
         tags:
             - { name: rabbit.command }
+
+    SuperVMar\Notification\Infrastructure\WebPush\PhpWebPushSender:
+        arguments:
+            $vapidSubject: '%env(VAPID_SUBJECT)%'
+            $vapidPublicKey: '%env(VAPID_PUBLIC_KEY)%'
+            $vapidPrivateKey: '%env(VAPID_PRIVATE_KEY)%'
+
+    SuperVMar\App\Controller\Notification\VapidKeyGetController:
+        tags: [ 'controller.service_arguments' ]
+        arguments:
+            $vapidPublicKey: '%env(VAPID_PUBLIC_KEY)%'

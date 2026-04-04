@@ -24,3 +24,6 @@ product_allocation:
 
 sale:
     resource: sale-routes.yaml
+
+notification:
+    resource: notification-routes.yaml
