@@ -3,7 +3,9 @@
 namespace SuperVMar\App\Controller\Login;
 
 use JsonException;
+use Lexik\Bundle\JWTAuthenticationBundle\Services\JWTTokenManagerInterface;
 use SuperVMar\Authentication\Application\AuthenticationCommand;
+use SuperVMar\Authentication\Infrastructure\Symfony\SecurityUser;
 use SuperVMar\Shared\Domain\Bus\Command\CommandBus;
 use SuperVMar\Shared\Domain\Bus\Query\QueryBus;
 use SuperVMar\Shared\Domain\Exception\MandatoryParamsException;
@@ -20,6 +22,7 @@ final readonly class LoginPostController extends ApiController
         QueryBus $queryBus,
         CommandBus $commandBus,
         ApiExceptionHttpStatusCodeMapping $exceptionHandler,
+        private JWTTokenManagerInterface $jwtManager,
     )
     {
         parent::__construct($queryBus, $commandBus, $exceptionHandler);
@@ -46,7 +49,28 @@ final readonly class LoginPostController extends ApiController
             )
         );
 
-        return new JsonResponse(data: $user->toArray(),status: Response::HTTP_ACCEPTED);
+        $userData = $user->toArray();
+
+        $securityUser = new SecurityUser(
+            $userData['id'],
+            $userData['username'],
+            '',
+            $userData['isAdmin'],
+            $userData['job'] ?? null,
+        );
+
+        $token = $this->jwtManager->create($securityUser);
+
+        return new JsonResponse(
+            data: [
+                'token' => $token,
+                'id' => $userData['id'],
+                'username' => $userData['username'],
+                'isAdmin' => $userData['isAdmin'],
+                'job' => $userData['job'] ?? null,
+            ],
+            status: Response::HTTP_ACCEPTED
+        );
     }
 
     protected function mandatoryParams(): array

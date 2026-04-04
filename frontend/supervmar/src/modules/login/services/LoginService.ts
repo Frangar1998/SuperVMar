@@ -1,5 +1,4 @@
 import { HttpService } from "../../commons/services/HttpService.ts";
-import type { CustomSession } from "../contexts/SessionContext.ts";
 
 const ENDPOINT = '/login';
 
@@ -8,7 +7,7 @@ interface LoginProps {
     password: string;
 }
 
-export const login = async (loginProps: LoginProps, session: CustomSession | null) => {
+export const login = async (loginProps: LoginProps) => {
     return await HttpService.api({
         endpoint: ENDPOINT,
         method: 'POST',
@@ -16,5 +15,5 @@ export const login = async (loginProps: LoginProps, session: CustomSession | nul
             username: loginProps.username,
             password: loginProps.password
         }
-    }, session);
+    }, null);
 }

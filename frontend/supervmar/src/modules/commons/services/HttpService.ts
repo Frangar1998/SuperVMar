@@ -23,8 +23,9 @@ const request = async (apiUrl: string, apiProps: ApiProps, session: CustomSessio
     const {endpoint, method, body} = apiProps;
 
     const AUTH_HEADERS = new Headers();
-    AUTH_HEADERS.append('auth-user', session?.username ?? '');
-    AUTH_HEADERS.append('auth-password', session?.password ?? '');
+    if (session?.token) {
+        AUTH_HEADERS.append('Authorization', `Bearer ${session.token}`);
+    }
 
     const url = apiUrl + endpoint;
     const requestOptions: RequestInit = {

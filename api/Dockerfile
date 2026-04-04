@@ -1,8 +1,8 @@
 FROM php:8.4-fpm
 
 RUN apt update \
-    && apt install -y zlib1g-dev g++ git libicu-dev zip libzip-dev unzip supervisor cron \
-    && docker-php-ext-install zip intl opcache pdo pdo_mysql sockets \
+    && apt install -y zlib1g-dev g++ git libicu-dev zip libzip-dev unzip supervisor cron libgmp-dev \
+    && docker-php-ext-install zip intl opcache pdo pdo_mysql sockets gmp \
     && pecl install apcu xdebug-3.4.1 \
     && docker-php-ext-enable apcu \
     && docker-php-ext-enable xdebug \

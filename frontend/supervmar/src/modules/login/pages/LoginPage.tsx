@@ -6,7 +6,7 @@ import { LoginButtonComponent } from "../components/LoginButtonComponent.tsx";
 import { login } from "../services/LoginService.ts";
 
 export const LoginPage = () => {
-    const { session, setSession} = useSession();
+    const { setSession } = useSession();
     const navigate = useNavigate();
 
 
@@ -38,7 +38,7 @@ export const LoginPage = () => {
                 }}
                 signIn={async (_provider, formData: any, callbackUrl) => {
                     try {
-                        const response = await login({username: formData.get('user'), password: formData.get('password')}, session );
+                        const response = await login({username: formData.get('user'), password: formData.get('password')});
                         if (response) {
                             setSession(response);
                             localStorage.setItem('session', JSON.stringify(response));

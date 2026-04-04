@@ -4,7 +4,7 @@ import type { Session } from "@toolpad/core";
 export interface CustomSession extends Session {
     id?: string;
     username?: string;
-    password?: string;
+    token?: string;
     isAdmin?: number;
     job?: string | null;
 }
