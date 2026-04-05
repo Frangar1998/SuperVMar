@@ -16,11 +16,13 @@ use SuperVMar\Shared\Domain\Exception\QueryNotRegisteredException;
 use SuperVMar\Supermarket\Domain\Exception\InvalidZoneCoordinatesException;
 use SuperVMar\User\Domain\Exception\InvalidPasswordException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 final class ApiExceptionHttpStatusCodeMapping
 {
     private const int DEFAULT_STATUS_CODE = Response::HTTP_INTERNAL_SERVER_ERROR;
     private array $exceptions = [
+        AccessDeniedHttpException::class => Response::HTTP_FORBIDDEN,
         CommandNotRegisteredException::class => Response::HTTP_NOT_FOUND,
         DomainEventNotRegisteredException::class => Response::HTTP_NOT_FOUND,
         DuplicateItemException::class => Response::HTTP_CONFLICT,

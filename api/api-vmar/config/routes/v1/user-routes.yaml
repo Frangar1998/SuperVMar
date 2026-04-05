@@ -1,7 +1,6 @@
 user_put:
   path: /user/{id}
   controller: SuperVMar\App\Controller\User\UserPutController
-  defaults: { auth: false }
   methods: PUT
 
 user_get:

@@ -11,5 +11,4 @@ push_subscription_delete:
 vapid_key_get:
   path: /push-vapid-key
   controller: SuperVMar\App\Controller\Notification\VapidKeyGetController
-  defaults: { auth: false }
   methods: GET

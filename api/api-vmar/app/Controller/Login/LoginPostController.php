@@ -12,6 +12,7 @@ use SuperVMar\Shared\Domain\Exception\MandatoryParamsException;
 use SuperVMar\Shared\Infrastructure\Symfony\ApiController;
 use SuperVMar\Shared\Infrastructure\Symfony\ApiExceptionHttpStatusCodeMapping;
 use SuperVMar\User\Application\Search\UserLogin\SearchUserLoginQuery;
+use SuperVMar\User\Application\Search\UserLogin\UserLoginResponse;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -43,6 +44,7 @@ final readonly class LoginPostController extends ApiController
             )
         );
 
+        /** @var UserLoginResponse $user */
         $user = $this->ask(
             new SearchUserLoginQuery(
                 $data['username']
@@ -68,6 +70,7 @@ final readonly class LoginPostController extends ApiController
                 'username' => $userData['username'],
                 'isAdmin' => $userData['isAdmin'],
                 'job' => $userData['job'] ?? null,
+                'roles' => $securityUser->getRoles(),
             ],
             status: Response::HTTP_ACCEPTED
         );

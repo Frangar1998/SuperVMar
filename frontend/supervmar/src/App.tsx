@@ -2,20 +2,21 @@ import { type CustomSession, getUserRole, SessionContext } from "./modules/login
 import { useCallback, useMemo, useState } from "react";
 import type { Navigation } from "@toolpad/core";
 import { ReactRouterAppProvider } from "@toolpad/core/react-router";
-import DashboardIcon from '@mui/icons-material/Dashboard';
-import CategoryIcon from '@mui/icons-material/Category';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import StorefrontIcon from '@mui/icons-material/Storefront';
+import InventoryIcon from '@mui/icons-material/Inventory';
 import PeopleIcon from '@mui/icons-material/People';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import { useNavigate, Outlet } from "react-router";
 import { createTheme } from "@mui/material";
 
 const FULL_NAVIGATION: Navigation = [
-    { title: 'Dashboard', icon: <DashboardIcon/> },
+    { title: 'Dashboard', icon: <BarChartIcon/> },
     { kind: 'divider' },
-    { segment: 'supermercado', title: 'Supermercado', icon: <CategoryIcon /> },
+    { segment: 'supermercado', title: 'Supermercado', icon: <StorefrontIcon /> },
     { kind: 'divider' },
     {
-        segment: 'productos', title: 'Productos', icon: <CategoryIcon />,
+        segment: 'productos', title: 'Productos', icon: <InventoryIcon />,
         children: [
             { segment: 'catalogo', title: 'Catalogo' },
             { segment: 'asignaciones', title: 'Asignación de productos' },
@@ -44,12 +45,12 @@ const FULL_NAVIGATION: Navigation = [
 ];
 
 const ENCARGADO_NAVIGATION: Navigation = [
-    { title: 'Dashboard', icon: <DashboardIcon/> },
+    { title: 'Dashboard', icon: <BarChartIcon/> },
     { kind: 'divider' },
-    { segment: 'supermercado', title: 'Supermercado', icon: <CategoryIcon /> },
+    { segment: 'supermercado', title: 'Supermercado', icon: <StorefrontIcon /> },
     { kind: 'divider' },
     {
-        segment: 'productos', title: 'Productos', icon: <CategoryIcon />,
+        segment: 'productos', title: 'Productos', icon: <InventoryIcon />,
         children: [
             { segment: 'catalogo', title: 'Catalogo' },
             { segment: 'asignaciones', title: 'Asignación de productos' },

@@ -13,8 +13,33 @@ final class SecurityUser implements UserInterface, PasswordAuthenticatedUserInte
         private readonly string $hashedPassword,
         private readonly int $isAdmin,
         private readonly ?string $job,
-        private readonly array $roles = ['ROLE_USER'],
-    ) {}
+        private array $roles = [],
+    ) {
+        $this->roles = $this->computeRoles();
+    }
+
+    private function computeRoles(): array
+    {
+        $roles = ['ROLE_USER'];
+
+        if ($this->isAdmin === 1) {
+            $roles[] = 'ROLE_ADMIN';
+            return array_unique($roles);
+        }
+
+        $job = strtolower($this->job ?? '');
+        if (str_contains($job, 'encargado')) {
+            $roles[] = 'ROLE_ENCARGADO';
+        }
+        if (str_contains($job, 'cajero')) {
+            $roles[] = 'ROLE_CAJERO';
+        }
+        if (str_contains($job, 'reponedor')) {
+            $roles[] = 'ROLE_REPONEDOR';
+        }
+
+        return array_unique($roles);
+    }
 
     public function id(): string
     {
