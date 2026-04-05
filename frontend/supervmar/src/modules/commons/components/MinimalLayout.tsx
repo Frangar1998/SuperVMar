@@ -23,7 +23,7 @@ export const MinimalLayout = () => {
                     <img
                         src="/images/supervmar-logo.png"
                         alt="SuperVMar"
-                        style={{ height: 28 }}
+                        style={{ height: 28, width: "auto" }}
                     />
                     <Typography variant="subtitle1" sx={{ fontWeight: "bold", flexGrow: 1 }}>
                         SuperVMar

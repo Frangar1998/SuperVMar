@@ -63,6 +63,9 @@ security:
         - { path: ^/api/v1/tax, roles: ROLE_ENCARGADO }
         - { path: ^/api/v1/supplier, roles: ROLE_ENCARGADO }
 
+        # Supermarket read - reponedor+ (needed for restock page)
+        - { path: ^/api/v1/supermarkets$, methods: [GET], roles: ROLE_REPONEDOR }
+
         # Supermarket - encargado+
         - { path: ^/api/v1/supermarket, roles: ROLE_ENCARGADO }
         - { path: ^/api/v1/zone, roles: ROLE_ENCARGADO }
