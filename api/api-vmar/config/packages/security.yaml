@@ -51,6 +51,9 @@ security:
         # Allocation management - encargado+
         - { path: ^/api/v1/product_allocation, roles: ROLE_ENCARGADO }
 
+        # Receive stock - reponedor+
+        - { path: ^/api/v1/product/.+/receive-stock$, methods: [PUT], roles: ROLE_REPONEDOR }
+
         # Products CRUD - encargado+
         - { path: ^/api/v1/product, roles: ROLE_ENCARGADO }
         - { path: ^/api/v1/products, roles: ROLE_ENCARGADO }

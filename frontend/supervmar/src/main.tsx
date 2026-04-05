@@ -30,6 +30,7 @@ import { CashRegisterPage } from "./modules/sale/pages/CashRegisterPage.tsx";
 import { SalesPage } from "./modules/sale/pages/SalesPage.tsx";
 import { SalePage } from "./modules/sale/pages/SalePage.tsx";
 import { RestockPage } from "./modules/product/pages/Restock/RestockPage.tsx";
+import { StockReceptionPage } from "./modules/product/pages/Product/StockReceptionPage.tsx";
 
 const router = createBrowserRouter([
     {
@@ -113,6 +114,10 @@ const router = createBrowserRouter([
                             {
                                 path: 'reposiciones',
                                 Component: RestockPage,
+                            },
+                            {
+                                path: 'recepcion',
+                                Component: StockReceptionPage,
                             },
                         ],
                     },

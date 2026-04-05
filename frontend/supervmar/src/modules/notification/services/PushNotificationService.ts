@@ -110,7 +110,7 @@ export const PushNotificationService = {
                 session
             );
         } catch {
-            // best-effort cleanup
+            
         }
     },
 };

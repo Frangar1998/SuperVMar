@@ -69,6 +69,12 @@ export const ProductService = {
         }, session);
     },
 
-
+    receiveStock: async (idProduct: string, quantity: number, session: CustomSession | null): Promise<void> => {
+        await HttpService.apiv1({
+            endpoint: `/product/${idProduct}/receive-stock`,
+            method: 'PUT',
+            body: { quantity }
+        }, session);
+    },
 
 }

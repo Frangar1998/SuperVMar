@@ -25,6 +25,7 @@ const FULL_NAVIGATION: Navigation = [
             { segment: 'proveedores', title: 'Proveedores' },
             { segment: 'iva', title: 'IVA' },
             { segment: 'reposiciones', title: 'Reposiciones' },
+            { segment: 'recepcion', title: 'Recepción de mercancía' },
         ]
     },
     { kind: 'divider' },
@@ -59,6 +60,7 @@ const ENCARGADO_NAVIGATION: Navigation = [
             { segment: 'proveedores', title: 'Proveedores' },
             { segment: 'iva', title: 'IVA' },
             { segment: 'reposiciones', title: 'Reposiciones' },
+            { segment: 'recepcion', title: 'Recepción de mercancía' },
         ]
     },
     { kind: 'divider' },

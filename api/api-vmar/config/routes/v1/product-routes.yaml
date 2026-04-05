@@ -1,3 +1,8 @@
+product_receive_stock:
+  path: /product/{idProduct}/receive-stock
+  controller: SuperVMar\App\Controller\Product\ProductReceiveStockPutController
+  methods: PUT
+
 product_post:
   path: /product/{id}
   controller: SuperVMar\App\Controller\Product\ProductPostController
