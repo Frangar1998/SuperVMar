@@ -1,7 +1,7 @@
 security:
     password_hashers:
         SuperVMar\Authentication\Infrastructure\Symfony\SecurityUser:
-            id: SuperVMar\Authentication\Infrastructure\Symfony\Md5PasswordHasher
+            id: SuperVMar\Authentication\Infrastructure\Symfony\BcryptPasswordHasher
 
     providers:
         app_user_provider:

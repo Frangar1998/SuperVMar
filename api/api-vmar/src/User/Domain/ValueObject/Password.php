@@ -34,7 +34,7 @@ final readonly class Password
             return $password;
         }
 
-        return password_hash(md5($password), PASSWORD_DEFAULT);
+        return password_hash($password, PASSWORD_DEFAULT);
     }
 
     protected function isEncoded(string $password): bool
@@ -44,7 +44,7 @@ final readonly class Password
 
     public function equals(self $other): bool
     {
-        return password_verify(md5($other->value()), $this->encodedPassword);
+        return password_verify($other->value(), $this->encodedPassword);
     }
 
     protected function validate(string $password, string $passwordRepeat): void

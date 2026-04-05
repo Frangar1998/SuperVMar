@@ -33,7 +33,7 @@ final readonly class UserPutController extends ApiController
         $data = $this->dataFromRequest($request);
 
         $currentUser = $this->security->getUser();
-        if (!$currentUser) {
+        if (!$currentUser || !in_array('ROLE_ADMIN', $currentUser->getRoles(), true)) {
             $data['isAdmin'] = 0;
         }
         $this->dispatch(
