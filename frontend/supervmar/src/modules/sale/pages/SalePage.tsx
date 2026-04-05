@@ -18,6 +18,8 @@ import {
     Typography,
     Paper,
 } from "@mui/material";
+import { ErrorSnackbarComponent } from "../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../commons/services/HttpService.ts";
 
 const payMethodLabel = (method: string): string => {
     switch (method) {
@@ -39,6 +41,7 @@ export const SalePage = () => {
     const { id } = useParams<{ id: string }>();
     const [sale, setSale] = useState<Sale | null>(null);
     const [loading, setLoading] = useState(true);
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
     const { session } = useSession();
 
     useEffect(() => {
@@ -50,6 +53,8 @@ export const SalePage = () => {
                 setSale(data);
             } catch (error) {
                 console.log(error);
+                const message = error instanceof ApiError ? error.message : 'Error inesperado';
+                setSnackbarError(message);
             } finally {
                 setLoading(false);
             }
@@ -127,6 +132,11 @@ export const SalePage = () => {
                     </TableBody>
                 </Table>
             </TableContainer>
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
+            />
         </Box>
     );
 };

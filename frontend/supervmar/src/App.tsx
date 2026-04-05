@@ -1,5 +1,5 @@
 import { type CustomSession, getUserRole, SessionContext } from "./modules/login/contexts/SessionContext.ts";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import type { Navigation } from "@toolpad/core";
 import { ReactRouterAppProvider } from "@toolpad/core/react-router";
 import BarChartIcon from '@mui/icons-material/BarChart';
@@ -9,6 +9,7 @@ import PeopleIcon from '@mui/icons-material/People';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import { useNavigate, Outlet } from "react-router";
 import { createTheme } from "@mui/material";
+import { setOnUnauthorized } from "./modules/commons/services/HttpService.ts";
 
 const FULL_NAVIGATION: Navigation = [
     { title: 'Dashboard', icon: <BarChartIcon/> },
@@ -106,6 +107,10 @@ export const App = () => {
         localStorage.removeItem('session');
         navigate('/login');
     }, [navigate]);
+
+    useEffect(() => {
+        setOnUnauthorized(logout);
+    }, [logout]);
 
     const sessionContextValue = useMemo(() => ({
         session,

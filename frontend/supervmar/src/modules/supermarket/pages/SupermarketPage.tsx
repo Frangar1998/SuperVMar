@@ -8,6 +8,8 @@ import Box from "@mui/material/Box";
 import { ButtonComponent } from "../../commons/components/Buttons/ButtonComponent.tsx";
 import { LoadingComponent } from "../../commons/components/LoadingComponent.tsx";
 import { SupermarketMapComponent } from "../components/Map/SupermarketMapComponent.tsx";
+import { ErrorSnackbarComponent } from "../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../commons/services/HttpService.ts";
 
 const initialFormData: SupermarketFormData = {
     name: "",
@@ -32,6 +34,7 @@ export const SupermarketPage = () => {
     const [errors, setErrors] = useState<Partial<Record<string, string>>>({});
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const fetchSupermarket = async () => {
         try {
@@ -72,6 +75,8 @@ export const SupermarketPage = () => {
             }
         } catch (error) {
             console.error('Error fetching supermarket:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setIsLoading(false);
         }
@@ -156,6 +161,8 @@ export const SupermarketPage = () => {
             await fetchSupermarket();
         } catch (error) {
             console.error('Error saving supermarket:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setIsSubmitting(false);
         }
@@ -310,6 +317,11 @@ export const SupermarketPage = () => {
             </Paper>
 
             <Box sx={{ height: 80 }} />
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
+            />
         </Box>
     );
 };

@@ -12,6 +12,7 @@ import { ConfirmDialogComponent } from "../../../commons/components/ConfirmDialo
 import { useDeleteConfirmation } from "../../../commons/hooks/useDeleteConfirmation.ts";
 import { LoadingComponent } from "../../../commons/components/LoadingComponent.tsx";
 import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 const initialFormData: SupplierFormData = {
     name: "",
@@ -28,6 +29,7 @@ export const SupplierPage = () => {
     const [errors, setErrors] = useState<Partial<Record<keyof SupplierFormData, string>>>({});
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const fetchSupplier = async () => {
         try {
@@ -47,6 +49,8 @@ export const SupplierPage = () => {
             }
         } catch (error) {
             console.error('Error fetching supplier:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
             navigate('/productos/proveedores');
         } finally {
             setIsLoading(false);
@@ -102,6 +106,8 @@ export const SupplierPage = () => {
             await fetchSupplier();
         } catch (error) {
             console.error('Error updating supplier:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setIsSubmitting(false);
         }
@@ -208,9 +214,12 @@ export const SupplierPage = () => {
                 isLoading={deleteConfirmation.isDeleting}
             />
             <ErrorSnackbarComponent
-                open={!!deleteConfirmation.error}
-                message={deleteConfirmation.error}
-                onClose={deleteConfirmation.clearError}
+                open={!!snackbarError || !!deleteConfirmation.error}
+                message={snackbarError || deleteConfirmation.error}
+                onClose={() => {
+                    setSnackbarError(null);
+                    deleteConfirmation.clearError();
+                }}
             />
         </Box>
     );

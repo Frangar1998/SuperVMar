@@ -7,6 +7,8 @@ import Paper from "@mui/material/Paper";
 import { Grid, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { ButtonComponent } from "../../../commons/components/Buttons/ButtonComponent.tsx";
+import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 const initialFormData: SupplierFormData = {
     name: "",
@@ -21,6 +23,7 @@ export const SupplierCreatePage = () => {
     const [formData, setFormData] = useState<SupplierFormData>(initialFormData);
     const [errors, setErrors] = useState<Partial<Record<keyof SupplierFormData, string>>>({});
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const handleInputChange = (field: keyof SupplierFormData) => (
         event: ChangeEvent<HTMLInputElement>
@@ -67,6 +70,8 @@ export const SupplierCreatePage = () => {
             navigate('/productos/proveedores');
         } catch (error) {
             console.error('Error creating supplier:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setIsSubmitting(false);
         }
@@ -153,6 +158,11 @@ export const SupplierCreatePage = () => {
                     </Grid>
                 </Box>
             </Paper>
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
+            />
         </Box>
     );
 };

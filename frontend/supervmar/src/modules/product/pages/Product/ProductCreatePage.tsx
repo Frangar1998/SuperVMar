@@ -20,6 +20,8 @@ import type { Category, ProductFormData, Supplier, Tax } from "../../types/Produ
 import { CategoryService } from "../../services/CategoryService.ts";
 import { TaxService } from "../../services/TaxService.ts";
 import { SupplierService } from "../../services/SupplierService.ts";
+import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 const initialFormData: ProductFormData = {
     name: "",
@@ -46,12 +48,15 @@ export const ProductCreatePage = () => {
     const [suppliers, setSuppliers] = useState<Supplier[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const fileInputRef = useRef<HTMLInputElement>(null);
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const fetchCategories = async () => {
         try {
             const fetchedCategories = await CategoryService.getCategories(session);
             setCategories(fetchedCategories);
         } catch (error) {
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         }
     };
 
@@ -60,6 +65,8 @@ export const ProductCreatePage = () => {
             const fetchedTaxes = await TaxService.getTaxes(session);
             setTaxes(fetchedTaxes);
         } catch (error) {
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         }
     };
 
@@ -68,6 +75,8 @@ export const ProductCreatePage = () => {
             const fetchedSuppliers = await SupplierService.getSuppliers(session);
             setSuppliers(fetchedSuppliers);
         } catch (error) {
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         }
     };
 
@@ -238,11 +247,14 @@ export const ProductCreatePage = () => {
             navigate('/productos/catalogo');
 
         } catch (error) {
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
             setIsUploading(false);
         }
     };
 
     return (
+        <>
         <Paper sx={{p: 3, maxWidth: 800, margin: 'auto', mt: 4}}>
             <Typography variant="h5" gutterBottom>
                 Añadir nuevo producto
@@ -445,6 +457,12 @@ export const ProductCreatePage = () => {
                 </Grid>
             </Box>
         </Paper>
+        <ErrorSnackbarComponent
+            open={!!snackbarError}
+            message={snackbarError}
+            onClose={() => setSnackbarError(null)}
+        />
+        </>
     );
 
 

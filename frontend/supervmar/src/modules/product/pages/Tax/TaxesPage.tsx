@@ -9,12 +9,15 @@ import type { TaxTable } from "../../types/ProductTypes.ts";
 import { TAXES_TABLE_HEADERS } from "../../components/Tax/TaxesTableHeaders.ts";
 import { TaxesTableRow } from "../../components/Tax/TaxesTableRow.tsx";
 import { AddTaxButtonComponent } from "../../components/Tax/AddTaxButtonComponent.tsx";
+import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 export const TaxesPage = () => {
     const navigate = useNavigate();
     const [taxes, setTaxes] = useState<TaxTable[]>([]);
     const [loading, setLoading] = useState(true);
     const { session } = useSession();
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const fetchTaxes = async () => {
         try {
@@ -23,6 +26,8 @@ export const TaxesPage = () => {
             setTaxes(data);
         } catch (error) {
             console.log(error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setLoading(false);
         }
@@ -60,6 +65,11 @@ export const TaxesPage = () => {
                 renderRow={TaxesTableRow}
                 getRowId={(row) => row.data.id}
                 onRowClick={handleRowClick}
+            />
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
             />
         </>
     );

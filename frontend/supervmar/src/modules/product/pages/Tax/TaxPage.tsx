@@ -11,6 +11,7 @@ import { ConfirmDialogComponent } from "../../../commons/components/ConfirmDialo
 import { useDeleteConfirmation } from "../../../commons/hooks/useDeleteConfirmation.ts";
 import { LoadingComponent } from "../../../commons/components/LoadingComponent.tsx";
 import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 interface TaxFormErrors {
     name?: string;
@@ -26,6 +27,7 @@ export const TaxPage = () => {
     const [errors, setErrors] = useState<TaxFormErrors>({});
     const [isLoading, setIsLoading] = useState(true);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const fetchTax = async () => {
         try {
@@ -41,6 +43,8 @@ export const TaxPage = () => {
             }
         } catch (error) {
             console.error('Error fetching tax:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
             navigate('/productos/iva');
         } finally {
             setIsLoading(false);
@@ -93,6 +97,8 @@ export const TaxPage = () => {
             await fetchTax();
         } catch (error) {
             console.error('Error updating tax:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setIsSubmitting(false);
         }
@@ -180,9 +186,12 @@ export const TaxPage = () => {
                 isLoading={deleteConfirmation.isDeleting}
             />
             <ErrorSnackbarComponent
-                open={!!deleteConfirmation.error}
-                message={deleteConfirmation.error}
-                onClose={deleteConfirmation.clearError}
+                open={!!snackbarError || !!deleteConfirmation.error}
+                message={snackbarError || deleteConfirmation.error}
+                onClose={() => {
+                    setSnackbarError(null);
+                    deleteConfirmation.clearError();
+                }}
             />
         </Box>
     );

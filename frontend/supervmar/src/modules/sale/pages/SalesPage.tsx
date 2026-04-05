@@ -10,6 +10,8 @@ import { SALES_TABLE_HEADERS } from "../components/SalesTableHeaders.ts";
 import { SalesTableRow } from "../components/SalesTableRow.tsx";
 import { Box, FormControl, InputLabel, MenuItem, Select } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
+import { ErrorSnackbarComponent } from "../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../commons/services/HttpService.ts";
 
 export const SalesPage = () => {
     const navigate = useNavigate();
@@ -17,6 +19,7 @@ export const SalesPage = () => {
     const [loading, setLoading] = useState(true);
     const [payMethodFilter, setPayMethodFilter] = useState<string>('all');
     const { session } = useSession();
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const fetchSales = async () => {
         try {
@@ -33,6 +36,8 @@ export const SalesPage = () => {
             })));
         } catch (error) {
             console.log(error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setLoading(false);
         }
@@ -85,6 +90,11 @@ export const SalesPage = () => {
                 onRowClick={handleRowClick}
                 actionIcon={<Visibility fontSize="small" />}
                 actionTooltip="Ver"
+            />
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
             />
         </Box>
     );

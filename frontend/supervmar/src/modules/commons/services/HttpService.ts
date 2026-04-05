@@ -19,6 +19,12 @@ export class ApiError extends Error {
     }
 }
 
+let onUnauthorized: (() => void) | null = null;
+
+export const setOnUnauthorized = (callback: () => void) => {
+    onUnauthorized = callback;
+};
+
 const request = async (apiUrl: string, apiProps: ApiProps, session: CustomSession | null) => {
     const {endpoint, method, body} = apiProps;
 
@@ -57,6 +63,11 @@ const request = async (apiUrl: string, apiProps: ApiProps, session: CustomSessio
         requestOptions
     );
     if (!response.ok) {
+        if (response.status === 401 && session?.token && onUnauthorized) {
+            onUnauthorized();
+            throw new ApiError('Sesión expirada', 'session_expired', 401);
+        }
+
         const contentType = response.headers.get("content-type");
         if (contentType && contentType.includes("application/json")) {
             const errorBody = await response.json();

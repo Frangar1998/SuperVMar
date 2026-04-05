@@ -10,6 +10,7 @@ import { AllocationService } from "../../services/AllocationService.ts";
 import type { ProductAllocation } from "../../services/AllocationService.ts";
 import type { ZoneFormData } from "../../../supermarket/types/SupermarketTypes.ts";
 import type { Product, Category } from "../../types/ProductTypes.ts";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 import { AllocationMapComponent } from "../../components/Allocation/AllocationMapComponent.tsx";
 
 export const AllocationsPage = () => {
@@ -19,6 +20,7 @@ export const AllocationsPage = () => {
     const [categories, setCategories] = useState<Category[]>([]);
     const [allocations, setAllocations] = useState<Map<string, ProductAllocation>>(new Map());
     const [loading, setLoading] = useState(true);
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
     const [snackbar, setSnackbar] = useState<{ open: boolean; message: string; severity: "success" | "error" }>({
         open: false, message: '', severity: 'success'
     });
@@ -67,6 +69,8 @@ export const AllocationsPage = () => {
             setAllocations(allocMap);
         } catch (error) {
             console.error('Error fetching allocation data:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setLoading(false);
         }
@@ -82,6 +86,8 @@ export const AllocationsPage = () => {
             setAllocations(allocMap);
         } catch (error) {
             console.error('Error refreshing allocations:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         }
     };
 
@@ -121,6 +127,11 @@ export const AllocationsPage = () => {
                 message={snackbar.message}
                 severity={snackbar.severity}
                 onClose={() => setSnackbar(prev => ({ ...prev, open: false }))}
+            />
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
             />
         </Box>
     );

@@ -18,6 +18,8 @@ import { RestockSummaryBanner } from "../../components/Restock/RestockSummaryBan
 import { RestockFilterToggle } from "../../components/Restock/RestockFilterToggle.tsx";
 import { RestockZoneMap } from "../../components/Restock/RestockZoneMap.tsx";
 import { RestockZoneAccordionList } from "../../components/Restock/RestockZoneAccordionList.tsx";
+import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 export const RestockPage = () => {
     const { session } = useSession();
@@ -27,6 +29,7 @@ export const RestockPage = () => {
     const [filter, setFilter] = useState<FilterMode>("all");
     const [expandedZoneId, setExpandedZoneId] = useState<string | null>(null);
     const [mapDialogOpen, setMapDialogOpen] = useState(false);
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -56,6 +59,8 @@ export const RestockPage = () => {
                 }
             } catch (error) {
                 console.error("Error al cargar datos de reposición:", error);
+                const message = error instanceof ApiError ? error.message : 'Error inesperado';
+                setSnackbarError(message);
             } finally {
                 setLoading(false);
             }
@@ -153,6 +158,11 @@ export const RestockPage = () => {
                     />
                 </Box>
             </Box>
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
+            />
         </Box>
     );
 };

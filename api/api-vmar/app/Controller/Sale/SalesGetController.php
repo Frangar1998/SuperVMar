@@ -16,6 +16,7 @@ final readonly class SalesGetController extends ApiController
 
         $response = $this->ask(new SearchSalesQuery($date, $dateTo));
 
+        /** @var SalesResponse $response */
         return new JsonResponse($response->toArray());
     }
 

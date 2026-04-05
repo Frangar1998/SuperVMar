@@ -9,12 +9,15 @@ import type { CategoryTable } from "../../types/ProductTypes.ts";
 import { CATEGORIES_TABLE_HEADERS } from "../../components/Category/CategoriesTableHeaders.ts";
 import { CategoriesTableRow } from "../../components/Category/CategoriesTableRow.tsx";
 import { AddCategoryButtonComponent } from "../../components/Category/AddCategoryButtonComponent.tsx";
+import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 export const CategoriesPage = () => {
     const navigate = useNavigate();
     const [categories, setCategories] = useState<CategoryTable[]>([]);
     const [loading, setLoading] = useState(true);
     const { session } = useSession();
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const fetchCategories = async () => {
         try {
@@ -23,6 +26,8 @@ export const CategoriesPage = () => {
             setCategories(data);
         } catch (error) {
             console.log(error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setLoading(false);
         }
@@ -59,6 +64,11 @@ export const CategoriesPage = () => {
                 renderRow={CategoriesTableRow}
                 getRowId={(row) => row.data.id}
                 onRowClick={handleRowClick}
+            />
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
             />
         </>
     );

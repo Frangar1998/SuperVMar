@@ -6,6 +6,8 @@ import Paper from "@mui/material/Paper";
 import { Grid, TextField, Typography } from "@mui/material";
 import Box from "@mui/material/Box";
 import { ButtonComponent } from "../../../commons/components/Buttons/ButtonComponent.tsx";
+import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 export const JobCreatePage = () => {
     const navigate = useNavigate();
@@ -13,6 +15,7 @@ export const JobCreatePage = () => {
     const [name, setName] = useState('');
     const [error, setError] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
         setName(event.target.value);
@@ -40,6 +43,8 @@ export const JobCreatePage = () => {
             navigate('/usuarios/trabajos');
         } catch (error) {
             console.error('Error creating job:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setIsSubmitting(false);
         }
@@ -89,6 +94,11 @@ export const JobCreatePage = () => {
                     </Grid>
                 </Box>
             </Paper>
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
+            />
         </Box>
     );
 };

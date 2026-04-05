@@ -30,6 +30,7 @@ import { DeleteButtonComponent } from "../../../commons/components/Buttons/Delet
 import { ConfirmDialogComponent } from "../../../commons/components/ConfirmDialogComponent.tsx";
 import { useDeleteConfirmation } from "../../../commons/hooks/useDeleteConfirmation.ts";
 import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 
 interface TabPanelProps {
@@ -87,6 +88,7 @@ export const ProductPage = () => {
     const fileInputRef = useRef<HTMLInputElement>(null);
     const [tabValue, setTabValue] = useState(0);
     const [priceHistory, setPriceHistory] = useState<PriceHistory[]>([]);
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
 
     const handleTabChange = (_event: SyntheticEvent, newValue: number) => {
@@ -154,6 +156,8 @@ export const ProductPage = () => {
             setPriceHistory(product.price_history ?? [])
         } catch (error) {
             console.error('Error fetching product:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
             navigate('/productos/catalogo');
         }
     };
@@ -164,6 +168,8 @@ export const ProductPage = () => {
             setCategories(fetchedCategories);
         } catch (error) {
             console.error('Error fetching categories:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         }
     };
 
@@ -173,6 +179,8 @@ export const ProductPage = () => {
             setTaxes(fetchedTaxes);
         } catch (error) {
             console.error('Error fetching taxes:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         }
     };
 
@@ -182,6 +190,8 @@ export const ProductPage = () => {
             setSuppliers(fetchedSuppliers);
         } catch (error) {
             console.error('Error fetching suppliers:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         }
     };
 
@@ -330,6 +340,8 @@ export const ProductPage = () => {
 
         } catch (error) {
             console.error('Error updating product:', error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
             setIsUploading(false);
         } finally {
             setIsUploading(false);
@@ -635,9 +647,12 @@ export const ProductPage = () => {
                 isLoading={deleteConfirmation.isDeleting}
             />
             <ErrorSnackbarComponent
-                open={!!deleteConfirmation.error}
-                message={deleteConfirmation.error}
-                onClose={deleteConfirmation.clearError}
+                open={!!snackbarError || !!deleteConfirmation.error}
+                message={snackbarError || deleteConfirmation.error}
+                onClose={() => {
+                    setSnackbarError(null);
+                    deleteConfirmation.clearError();
+                }}
             />
         </Box>
     );

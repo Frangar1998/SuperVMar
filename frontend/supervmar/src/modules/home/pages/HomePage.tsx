@@ -18,6 +18,8 @@ import { computeKPIs, computeDailySales, computePayMethodData, computeZoneRestoc
 import type { DateFilter } from "../types/DashboardTypes.ts";
 import type { ZoneFormData } from "../../supermarket/types/SupermarketTypes.ts";
 import { SupermarketService } from "../../supermarket/services/SupermarketService.ts";
+import { ErrorSnackbarComponent } from "../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../commons/services/HttpService.ts";
 
 const formatCurrency = (value: number): string =>
     new Intl.NumberFormat("es-ES", { style: "currency", currency: "EUR" }).format(value);
@@ -31,6 +33,7 @@ export const HomePage = () => {
     const [dateFilter, setDateFilter] = useState<DateFilter>("month");
     const [customDateFrom, setCustomDateFrom] = useState<string>("");
     const [customDateTo, setCustomDateTo] = useState<string>("");
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     useEffect(() => {
         const fetchStatic = async () => {
@@ -45,6 +48,8 @@ export const HomePage = () => {
                 }
             } catch (error) {
                 console.error(error);
+                const message = error instanceof ApiError ? error.message : 'Error inesperado';
+                setSnackbarError(message);
             }
         };
         fetchStatic();
@@ -156,6 +161,11 @@ export const HomePage = () => {
             <RestockMapComponent zones={zones} zoneRestockInfo={zoneRestockInfo} />
 
             <ZoneIssuesTable zones={zoneRestockInfo} />
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
+            />
         </Box>
     );
 };

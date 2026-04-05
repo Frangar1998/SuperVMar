@@ -9,12 +9,15 @@ import type { JobTable } from "../../types/UserTypes.ts";
 import { JOBS_TABLE_HEADERS } from "../../components/Job/JobsTableHeaders.ts";
 import { JobsTableRow } from "../../components/Job/JobsTableRow.tsx";
 import { AddJobButtonComponent } from "../../components/Job/AddJobButtonComponent.tsx";
+import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 export const JobsPage = () => {
     const navigate = useNavigate();
     const [jobs, setJobs] = useState<JobTable[]>([]);
     const [loading, setLoading] = useState(true);
     const { session } = useSession();
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const fetchJobs = async () => {
         try {
@@ -23,6 +26,8 @@ export const JobsPage = () => {
             setJobs(data);
         } catch (error) {
             console.log(error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setLoading(false);
         }
@@ -59,6 +64,11 @@ export const JobsPage = () => {
                 renderRow={JobsTableRow}
                 getRowId={(row) => row.data.id}
                 onRowClick={handleRowClick}
+            />
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
             />
         </>
     );

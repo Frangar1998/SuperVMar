@@ -9,12 +9,15 @@ import type { ProductTable } from "../../types/ProductTypes.ts";
 import { PRODUCTS_TABLE_HEADERS } from "../../components/Product/ProductsTableHeaders.ts";
 import { ProductsTableRow } from "../../components/Product/ProductsTableRow.tsx";
 import { AddProductButtonComponent } from "../../components/Product/AddProductButtonComponent.tsx";
+import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 export const ProductsPage = () => {
     const navigate = useNavigate();
     const [products, setProducts] = useState<ProductTable[]>([]);
     const [loading, setLoading] = useState(true);
     const { session } = useSession();
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const fetchProducts = async () => {
         try {
@@ -23,6 +26,8 @@ export const ProductsPage = () => {
             setProducts(data);
         } catch (error) {
             console.log(error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setLoading(false);
         }
@@ -68,6 +73,11 @@ export const ProductsPage = () => {
                 renderRow={ProductsTableRow}
                 getRowId={(row) => row.data.id}
                 onRowClick={handleRowClick}
+            />
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
             />
         </>
     );

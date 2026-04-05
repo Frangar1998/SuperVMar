@@ -9,12 +9,15 @@ import type { SupplierTable } from "../../types/ProductTypes.ts";
 import { SUPPLIERS_TABLE_HEADERS } from "../../components/Supplier/SuppliersTableHeaders.ts";
 import { SuppliersTableRow } from "../../components/Supplier/SuppliersTableRow.tsx";
 import { AddSupplierButtonComponent } from "../../components/Supplier/AddSupplierButtonComponent.tsx";
+import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
+import { ApiError } from "../../../commons/services/HttpService.ts";
 
 export const SuppliersPage = () => {
     const navigate = useNavigate();
     const [suppliers, setSuppliers] = useState<SupplierTable[]>([]);
     const [loading, setLoading] = useState(true);
     const { session } = useSession();
+    const [snackbarError, setSnackbarError] = useState<string | null>(null);
 
     const fetchSuppliers = async () => {
         try {
@@ -23,6 +26,8 @@ export const SuppliersPage = () => {
             setSuppliers(data);
         } catch (error) {
             console.log(error);
+            const message = error instanceof ApiError ? error.message : 'Error inesperado';
+            setSnackbarError(message);
         } finally {
             setLoading(false);
         }
@@ -62,6 +67,11 @@ export const SuppliersPage = () => {
                 renderRow={SuppliersTableRow}
                 getRowId={(row) => row.data.id}
                 onRowClick={handleRowClick}
+            />
+            <ErrorSnackbarComponent
+                open={!!snackbarError}
+                message={snackbarError}
+                onClose={() => setSnackbarError(null)}
             />
         </>
     );
