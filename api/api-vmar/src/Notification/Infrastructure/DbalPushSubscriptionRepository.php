@@ -124,6 +124,21 @@ final readonly class DbalPushSubscriptionRepository implements PushSubscriptionR
         return PushSubscriptions::fromArray($result);
     }
 
+    public function searchAll(): PushSubscriptions
+    {
+        try {
+            $result = $this->connection->createQueryBuilder()
+                ->select('*')
+                ->from(self::TABLE)
+                ->executeQuery()
+                ->fetchAllAssociative();
+        } catch (Throwable $e) {
+            throw new InternalErrorException($e->getMessage(), $e);
+        }
+
+        return PushSubscriptions::fromArray($result);
+    }
+
     /**
      * @throws InternalErrorException
      * @throws ItemNotFoundException

@@ -2,10 +2,18 @@ import { getUserRole, useSession } from "../../login/contexts/SessionContext.ts"
 import { Navigate, useLocation, Outlet } from "react-router";
 import { DashboardLayout, PageContainer } from "@toolpad/core";
 import { MinimalLayout } from "./MinimalLayout.tsx";
+import { useEffect } from "react";
+import { PushNotificationService } from "../../notification/services/PushNotificationService.ts";
 
 export const DashboardComponent = () => {
     const { session } = useSession();
     const location = useLocation();
+
+    useEffect(() => {
+        if (session) {
+            PushNotificationService.init(session);
+        }
+    }, [session]);
 
     if (!session) {
         const redirect = `/login?callbackUrl=${encodeURIComponent(location.pathname)}`;

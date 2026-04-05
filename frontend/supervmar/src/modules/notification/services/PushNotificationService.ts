@@ -24,7 +24,8 @@ const getVapidPublicKey = async (): Promise<string> => {
 const registerServiceWorker = async (): Promise<ServiceWorkerRegistration | null> => {
     if (!("serviceWorker" in navigator)) return null;
     try {
-        return await navigator.serviceWorker.register("/sw.js");
+        await navigator.serviceWorker.register("/sw.js");
+        return await navigator.serviceWorker.ready;
     } catch {
         return null;
     }
@@ -67,23 +68,34 @@ const sendSubscriptionToServer = async (
     );
 };
 
+let initPromise: Promise<void> | null = null;
+
 export const PushNotificationService = {
-    init: async (session: CustomSession | null): Promise<void> => {
-        if (!session?.id || !("Notification" in window)) return;
+    init: (session: CustomSession | null): Promise<void> => {
+        if (!initPromise) {
+            initPromise = (async () => {
+                try {
+                    if (!session?.id || !("Notification" in window)) return;
 
-        const permission = await Notification.requestPermission();
-        if (permission !== "granted") return;
+                    const permission = await Notification.requestPermission();
+                    if (permission !== "granted") return;
 
-        const vapidKey = await getVapidPublicKey();
-        if (!vapidKey) return;
+                    const vapidKey = await getVapidPublicKey();
+                    if (!vapidKey) return;
 
-        const registration = await registerServiceWorker();
-        if (!registration) return;
+                    const registration = await registerServiceWorker();
+                    if (!registration) return;
 
-        const subscription = await subscribeToPush(registration, vapidKey);
-        if (!subscription) return;
+                    const subscription = await subscribeToPush(registration, vapidKey);
+                    if (!subscription) return;
 
-        await sendSubscriptionToServer(subscription, session.id, session);
+                    await sendSubscriptionToServer(subscription, session.id, session);
+                } catch {
+                    initPromise = null;
+                }
+            })();
+        }
+        return initPromise;
     },
 
     unsubscribe: async (session: CustomSession | null): Promise<void> => {

@@ -17,6 +17,8 @@ interface PushSubscriptionRepository
     /** @param Id[] $userIds */
     public function searchByUserIds(array $userIds): PushSubscriptions;
 
+    public function searchAll(): PushSubscriptions;
+
     /**
      * @throws ItemNotFoundException
      */

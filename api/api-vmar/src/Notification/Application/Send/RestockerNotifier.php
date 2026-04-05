@@ -3,14 +3,11 @@
 namespace SuperVMar\Notification\Application\Send;
 
 use SuperVMar\Notification\Domain\PushSubscriptionRepository;
-use SuperVMar\Notification\Domain\RestockerFinder;
 use SuperVMar\Notification\Domain\WebPushSender;
-use SuperVMar\Shared\Domain\ValueObject\Id;
 
 final readonly class RestockerNotifier
 {
     public function __construct(
-        private RestockerFinder $restockerFinder,
         private PushSubscriptionRepository $pushSubscriptionRepository,
         private WebPushSender $webPushSender,
     )
@@ -24,13 +21,7 @@ final readonly class RestockerNotifier
         int    $quantity,
     ): void
     {
-        $userIds = $this->restockerFinder->findRestockerUserIdsByZone(new Id($idZone));
-
-        if (empty($userIds)) {
-            return;
-        }
-
-        $subscriptions = $this->pushSubscriptionRepository->searchByUserIds($userIds);
+        $subscriptions = $this->pushSubscriptionRepository->searchAll();
 
         if ($subscriptions->count() === 0) {
             return;
