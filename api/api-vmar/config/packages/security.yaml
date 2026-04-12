@@ -49,7 +49,7 @@ security:
         - { path: ^/api/v1/products_allocations, methods: [GET], roles: ROLE_REPONEDOR }
 
         # Allocation management - encargado+
-        - { path: ^/api/v1/product_allocation, roles: ROLE_ENCARGADO }
+        - { path: ^/api/v1/product_allocation, roles: [ROLE_ENCARGADO, ROLE_REPONEDOR] }
 
         # Receive stock - reponedor+
         - { path: ^/api/v1/product/.+/receive-stock$, methods: [PUT], roles: ROLE_REPONEDOR }
