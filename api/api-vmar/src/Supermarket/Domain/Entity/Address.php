@@ -2,9 +2,9 @@
 
 namespace SuperVMar\Supermarket\Domain\Entity;
 
+use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\ValueObject\City;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
-use SuperVMar\Supermarket\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\ValueObject\Number;
 use SuperVMar\Supermarket\Domain\ValueObject\PostalCode;
 use SuperVMar\Supermarket\Domain\ValueObject\Province;
@@ -76,10 +76,10 @@ final readonly class Address
 
     public function compare(self $other): bool
     {
-        return $this->name->value() === $other->name()->value()
-            && $this->postalCode->value() === $other->postalCode()->value()
-            && $this->city->value() === $other->city()->value()
-            && $this->number->value() === $other->number()->value()
-            && $this->province->value() === $other->province()->value();
+        return $this->name->equals($other->name())
+            && $this->postalCode->equals($other->postalCode())
+            && $this->city->equals($other->city())
+            && $this->number->equals($other->number())
+            && $this->province->equals($other->province());
     }
 }

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://phpunit.readthedocs.io/en/latest/configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="tests/bootstrap.php"
+         colors="true"
+         stopOnFailure="false"
+         cacheDirectory=".phpunit.cache"
+         displayDetailsOnPhpunitNotices="true">
+
+    <testsuites>
+        <testsuite name="Unit">
+            <directory>tests/Unit</directory>
+        </testsuite>
+        <testsuite name="Integration">
+            <directory>tests/Integration</directory>
+        </testsuite>
+        <testsuite name="Functional">
+            <directory>tests/Functional</directory>
+        </testsuite>
+    </testsuites>
+
+    <php>
+        <ini name="display_errors" value="1"/>
+        <ini name="error_reporting" value="-1"/>
+        <server name="APP_ENV" value="test" force="true"/>
+        <server name="KERNEL_CLASS" value="SuperVMar\App\Kernel"/>
+        <server name="SHELL_VERBOSITY" value="-1"/>
+        <env name="APP_DEBUG" value="0"/>
+        <env name="DATABASE_URL" value="mysql://root:secret@superubemar_database:3306/superubemar?serverVersion=8.0.32&amp;charset=utf8mb4"/>
+        <env name="JWT_SECRET_KEY" value="%kernel.project_dir%/config/jwt/private.pem"/>
+        <env name="JWT_PUBLIC_KEY" value="%kernel.project_dir%/config/jwt/public.pem"/>
+        <env name="JWT_PASSPHRASE" value="f727c8e328231ec32bb0d78c4eaffef3b9dd7c8ff078e6d59000b9b3f946f0a5"/>
+        <env name="RABBITMQ_HOST" value="superubemar_rabbitmq"/>
+        <env name="RABBITMQ_PORT" value="5672"/>
+        <env name="RABBITMQ_USER" value="user"/>
+        <env name="RABBITMQ_PASSWORD" value="pass"/>
+        <env name="RABBITMQ_EXCHANGE" value="superubemar_test_events"/>
+        <env name="RABBITMQ_VHOST" value="/superubemar"/>
+        <env name="VAPID_SUBJECT" value="mailto:test@test.com"/>
+        <env name="VAPID_PUBLIC_KEY" value="BByjDpEjoqvrrgVGXXyod_BAfSRwSKwI7K3aVGdHp7LUcChvOG-1jk5aA5W6PqbjbP61Rz6jboRu130x4lA54Fc"/>
+        <env name="VAPID_PRIVATE_KEY" value="EMOlScdoKBTpaBDN6PLpyAtWZ6dx9v20q67UwXtqEU4"/>
+    </php>
+
+    <source ignoreSuppressionOfDeprecations="true"
+            ignoreIndirectDeprecations="true"
+            restrictNotices="true"
+            restrictWarnings="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <deprecationTrigger>
+            <method>Doctrine\Deprecations\Deprecation::trigger</method>
+            <method>Doctrine\Deprecations\Deprecation::delegateTriggerToBackend</method>
+            <function>trigger_deprecation</function>
+        </deprecationTrigger>
+    </source>
+
+    <extensions/>
+</phpunit>
+

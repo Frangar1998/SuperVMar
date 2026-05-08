@@ -1,0 +1,24 @@
+user_put:
+  path: /user/{id}
+  controller: SuperVMar\App\Controller\User\UserPutController
+  methods: PUT
+
+user_get:
+  path: /user/{id}
+  controller: SuperVMar\App\Controller\User\UserGetController
+  methods: GET
+
+user_delete:
+  path: /user/{id}
+  controller: SuperVMar\App\Controller\User\UserDeleteController
+  methods: DELETE
+
+users_get:
+  path: /users
+  controller: SuperVMar\App\Controller\User\UsersGetController
+  methods: GET
+
+user_password_put:
+  path: /user/{id}/change-password
+  controller: SuperVMar\App\Controller\User\UserPasswordPutController
+  methods: PUT

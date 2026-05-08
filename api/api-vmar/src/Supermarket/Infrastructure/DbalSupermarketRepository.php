@@ -10,10 +10,11 @@ use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
 use SuperVMar\Shared\Domain\Exception\InternalErrorException;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Infrastructure\Doctrine\DbalCriteriaConverter;
-use SuperVMar\Supermarket\Domain\Repository\SupermarketRepository;
 use SuperVMar\Supermarket\Domain\Supermarket;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
+use SuperVMar\Supermarket\Domain\Supermarkets;
+use SuperVMar\Supermarket\Domain\SupermarketRepository;
 use SuperVMar\Supermarket\Infrastructure\Dao\DbalAddressDao;
 use SuperVMar\Supermarket\Infrastructure\Dao\DbalZoneDao;
 use Throwable;
@@ -47,6 +48,7 @@ final readonly class DbalSupermarketRepository implements SupermarketRepository
                         'id' => ':id',
                         'name' => ':name',
                         'phone' => ':phone',
+                        'email' => ':email',
                         'idAddress' => ':idAddress',
                     ])
                 ->setParameters(
@@ -54,6 +56,7 @@ final readonly class DbalSupermarketRepository implements SupermarketRepository
                         'id' => $supermarket->id(),
                         'name' => $supermarket->name(),
                         'phone' => $supermarket->phone(),
+                        'email' => $supermarket->email(),
                         'idAddress' => $supermarket->address()->id(),
                     ])
                 ->executeStatement();
@@ -76,12 +79,14 @@ final readonly class DbalSupermarketRepository implements SupermarketRepository
                 ->update(self::TABLE_SUPERMARKET)
                 ->set('name', ':name')
                 ->set('phone', ':phone')
+                ->set('email', ':email')
                 ->where('id = :id')
                 ->setParameters(
                     [
                         'id' => $supermarket->id(),
                         'name' => $supermarket->name(),
                         'phone' => $supermarket->phone(),
+                        'email' => $supermarket->email(),
                     ])
                 ->executeStatement();
 
@@ -127,12 +132,36 @@ final readonly class DbalSupermarketRepository implements SupermarketRepository
         }
 
         if (!$supermarket) {
-            throw new ItemNotFoundException(Supermarket::class, $criteria->filters()->items());
+            throw new ItemNotFoundException(Supermarket::class, $criteria->filters()->toArray());
         }
 
         $supermarket['zones'] = $this->zoneDao->search(new Id($supermarket['id']));
 
         return Supermarket::fromArray($supermarket);
+    }
+
+    /**
+     * @throws ItemNotFoundException
+     * @throws InternalErrorException
+     */
+    public function searchAllByCriteria(Criteria $criteria): Supermarkets
+    {
+        try {
+            $query = $this->buildQueryByCriteria($criteria);
+            $supermarkets = $query->executeQuery()->fetchAllAssociative();
+        } catch (Throwable $e) {
+            throw new InternalErrorException($e->getMessage(), $e);
+        }
+
+        if (!$supermarkets) {
+            throw new ItemNotFoundException(Supermarket::class, $criteria->filters()?->toArray() ?? []);
+        }
+
+        foreach ($supermarkets as $key => $supermarket) {
+            $supermarkets[$key]['zones'] = $this->zoneDao->search(new Id($supermarket['id']));
+        }
+
+        return Supermarkets::fromArray($supermarkets);
     }
 
     private function buildQueryByCriteria(Criteria $criteria): QueryBuilder

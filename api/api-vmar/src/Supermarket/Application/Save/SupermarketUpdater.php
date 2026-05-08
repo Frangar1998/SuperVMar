@@ -3,15 +3,16 @@
 namespace SuperVMar\Supermarket\Application\Save;
 
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
-use SuperVMar\Supermarket\Application\Search\SupermarketSearcher;
+use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\Entity\Address;
 use SuperVMar\Supermarket\Domain\Entity\Zones;
-use SuperVMar\Supermarket\Domain\Repository\SupermarketRepository;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
-use SuperVMar\Supermarket\Domain\ValueObject\Name;
+use SuperVMar\Supermarket\Domain\Service\SupermarketSearcher;
+use SuperVMar\Supermarket\Domain\SupermarketRepository;
+use SuperVMar\Supermarket\Domain\ValueObject\Email;
 use SuperVMar\Supermarket\Domain\ValueObject\Phone;
 
-final readonly class SupermarketUpdater
+readonly class SupermarketUpdater
 {
     public function __construct(
         private SupermarketSearcher $supermarketSearcher,
@@ -28,12 +29,14 @@ final readonly class SupermarketUpdater
         Name    $name,
         Address $address,
         Phone   $phone,
+        Email   $email,
         Zones   $zones
     ): void
     {
         $supermarket = $this->supermarketSearcher->search($id);
-        $supermarket->changeToName($name);
-        $supermarket->changeToPhone($phone);
+        $supermarket->changeName($name);
+        $supermarket->changePhone($phone);
+        $supermarket->changeEmail($email);
         $supermarket->movedToAddress($address);
         $supermarket->compareAndChangeZones($zones);
         $this->supermarketRepository->update($supermarket);

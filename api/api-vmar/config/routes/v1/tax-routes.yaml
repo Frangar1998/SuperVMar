@@ -1,0 +1,14 @@
+tax_put:
+  path: /tax/{id}
+  controller: SuperVMar\App\Controller\Tax\TaxPutController
+  methods: PUT
+
+tax_delete:
+  path: /tax/{id}
+  controller: SuperVMar\App\Controller\Tax\TaxDeleteController
+  methods: DELETE
+
+taxes_get:
+  path: /taxes
+  controller: SuperVMar\App\Controller\Tax\TaxesGetController
+  methods: GET

@@ -24,6 +24,7 @@ final readonly class SupermarketPutController extends ApiController
                 $data['name'],
                 $data['address'],
                 $data['phone'],
+                $data['email'],
                 $data['zones']
             )
         );
@@ -33,6 +34,6 @@ final readonly class SupermarketPutController extends ApiController
 
     protected function mandatoryParams(): array
     {
-        return ['name', 'address', 'phone', 'zones'];
+        return ['name', 'address', 'phone', 'email', 'zones'];
     }
 }

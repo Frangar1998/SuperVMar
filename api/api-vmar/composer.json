@@ -20,6 +20,8 @@
         "doctrine/doctrine-bundle": "^2.13.2",
         "doctrine/doctrine-migrations-bundle": "^3.4.1",
         "doctrine/orm": "^3.3.2",
+        "lexik/jwt-authentication-bundle": "^3.2",
+        "minishlink/web-push": "^10.0",
         "monolog/monolog": "^3.8.1",
         "php-amqplib/php-amqplib": "^3.7",
         "ramsey/uuid": "^4.7.6",
@@ -28,7 +30,9 @@
         "symfony/flex": "^2.4.7",
         "symfony/framework-bundle": "7.2.*",
         "symfony/messenger": "^7.2.4",
+        "symfony/mime": "7.2.*",
         "symfony/runtime": "7.2.*",
+        "symfony/security-bundle": "7.2.*",
         "symfony/yaml": "7.2.*"
     },
     "config": {
@@ -82,5 +86,12 @@
             "allow-contrib": false,
             "require": "7.2.*"
         }
+    },
+    "require-dev": {
+        "doctrine/doctrine-fixtures-bundle": "*",
+        "fakerphp/faker": "*",
+        "phpunit/phpunit": "*",
+        "symfony/browser-kit": "7.2.*",
+        "symfony/css-selector": "7.2.*"
     }
 }

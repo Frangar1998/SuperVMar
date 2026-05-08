@@ -38,9 +38,17 @@ abstract readonly class ApiController
      * @throws MandatoryParamsException
      * @throws JsonException
      */
-    protected function dataFromRequest(Request $request): array
+    protected function dataFromRequest(Request $request, bool $isMultipart = false): array
     {
-        $data = Utils::jsonDecode($request->getContent());
+        if ($isMultipart) {
+            $data = [];
+            if ($request->request->has('data')) {
+                $data['data'] = Utils::jsonDecode($request->request->get('data'));
+            }
+        } else {
+            $data = Utils::jsonDecode($request->getContent());
+        }
+
         $missingParams = array_filter(
             $this->mandatoryParams(),
             static fn ($param) => !isset($data[$param])

@@ -26,4 +26,13 @@ final readonly class Filter
     {
         return $this->value;
     }
+
+    public function toArray(): array
+    {
+        return [
+            'field' => $this->field->__toString(),
+            'operator' => $this->operator->value,
+            'value' => $this->value->value()
+        ];
+    }
 }

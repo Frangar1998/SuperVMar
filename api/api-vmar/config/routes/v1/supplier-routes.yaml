@@ -1,0 +1,14 @@
+supplier_put:
+  path: /supplier/{id}
+  controller: SuperVMar\App\Controller\Supplier\SupplierPutController
+  methods: PUT
+
+supplier_delete:
+  path: /supplier/{id}
+  controller: SuperVMar\App\Controller\Supplier\SupplierDeleteController
+  methods: DELETE
+
+suppliers_get:
+  path: /suppliers
+  controller: SuperVMar\App\Controller\Supplier\SuppliersGetController
+  methods: GET

@@ -8,4 +8,17 @@ enum TableNames: string
     case TABLE_ADDRESS = 'address';
     case TABLE_ZONE = 'zone';
     case TABLE_SPACE = 'space';
+    case TABLE_USER = 'user';
+    case TABLE_USER_DATA = 'user_data';
+    case TABLE_JOB = 'job';
+    case TABLE_WORKER_ALLOCATION = 'worker_allocation';
+    case TABLE_CATEGORY = 'category';
+    case TABLE_TAX = 'tax';
+    case TABLE_SUPPLIER = 'supplier';
+    case TABLE_PRODUCT = 'product';
+    case TABLE_PRICE_HISTORY = 'price_history';
+    case TABLE_PRODUCT_ALLOCATION = 'product_allocation';
+    case TABLE_SALE = 'sale';
+    case TABLE_SALE_LINE = 'sale_line';
+    case TABLE_PUSH_SUBSCRIPTION = 'push_subscription';
 }

@@ -2,10 +2,10 @@
 
 namespace SuperVMar\Supermarket\Domain\Entity;
 
+use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\Exception\InvalidZoneCoordinatesException;
 use SuperVMar\Supermarket\Domain\ValueObject\Coord;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
-use SuperVMar\Supermarket\Domain\ValueObject\Name;
 
 final readonly class Zone
 {
@@ -66,7 +66,7 @@ final readonly class Zone
             Coord::fromArray($data['cornerTopRight']),
             Coord::fromArray($data['cornerBottomLeft']),
             Coord::fromArray($data['cornerBottomRight']),
-            Spaces::fromArray($data['spaces'])
+            Spaces::fromArray($data['spaces'] ?? [])
         );
         if (!$zone->validateCoords()) {
             throw new InvalidZoneCoordinatesException($zone->cornerTopLeft, $zone->cornerTopRight, $zone->cornerBottomLeft, $zone->cornerBottomRight);

@@ -13,7 +13,7 @@ abstract class DomainEvent
         private ?string $occurredOn = null)
     {
         $this->eventId = $eventId ?? Uuid::random()->value();
-        $this->occurredOn = $occurredOn ?? (new DateTime())->format('Y-m-d H:i:s');
+        $this->occurredOn = $occurredOn ?? new DateTime()->format('Y-m-d H:i:s');
     }
 
     final public function aggregateId(): string
@@ -33,12 +33,12 @@ abstract class DomainEvent
 
     abstract public static function eventName(): string;
 
-    abstract public function toPrimitives(): array;
+    abstract public function toArray(): array;
 
     abstract public static function fromPrimitives(
         string $aggregateId,
+        array $body,
         string $eventId,
-        string $occurredOn,
-        array $body
+        string $occurredOn
     ): self;
 }

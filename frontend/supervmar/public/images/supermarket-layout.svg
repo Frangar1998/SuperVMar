@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 500" width="600" height="500">
+  <defs>
+    <style>
+      .wall { stroke: #1a1a1a; stroke-width: 3.5; fill: none; stroke-linecap: round; stroke-linejoin: round; }
+    </style>
+  </defs>
+
+  <!-- Fondo -->
+  <rect width="600" height="500" fill="#ffffff"/>
+
+  <!-- PAREDES EXTERIORES -->
+  <line x1="30" y1="30" x2="570" y2="30" class="wall"/>
+  <line x1="30" y1="30" x2="30" y2="470" class="wall"/>
+  <line x1="570" y1="30" x2="570" y2="470" class="wall"/>
+  <line x1="30" y1="470" x2="230" y2="470" class="wall"/>
+  <line x1="370" y1="470" x2="570" y2="470" class="wall"/>
+
+  <!-- ENTRADA / SALIDA (abajo) -->
+  <line x1="230" y1="470" x2="370" y2="470" style="stroke:#1a1a1a; stroke-width:2; stroke-dasharray:8,5; fill:none;"/>
+
+</svg>
+

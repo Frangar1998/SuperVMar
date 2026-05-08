@@ -2,6 +2,8 @@
 
 namespace SuperVMar\Supermarket\Domain\ValueObject;
 
+use SuperVMar\Shared\Domain\Utils;
+
 final readonly class Coord
 {
     public function __construct(
@@ -47,7 +49,7 @@ final readonly class Coord
 
     public static function fromJson(string $jsonCoord): self
     {
-        $coord = json_decode($jsonCoord, true);
+        $coord = Utils::jsonDecode($jsonCoord, true);
         return new self(
             new Point($coord['x']),
             new Point($coord['y']),

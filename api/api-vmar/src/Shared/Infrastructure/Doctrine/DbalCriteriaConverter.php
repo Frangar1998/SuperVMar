@@ -35,26 +35,30 @@ final class DbalCriteriaConverter
         $filters = $this->criteria->filters();
         $paramIndex = 0;
         $params = [];
-        /** @var Filter $filter */
-        foreach ($filters->items() as $filter) {
-            $field = $filter->field();
-            $value = $filter->value()->value();
-            $operator = $filter->operator()->value;
-            $params[$paramIndex] = $value;
+        if ($this->criteria->hasFilters()) {
+            /** @var Filter $filter */
+            foreach ($filters->items() as $filter) {
+                $field = $filter->field();
+                $value = $filter->value()->value();
+                $operator = $filter->operator()->value;
+                $params[$paramIndex] = $value;
 
-            if ($paramIndex === 0) {
-                $queryBuilder = $queryBuilder->where(
-                    sprintf('%s %s ?', $field, $operator)
-                );
-            } else {
-                $queryBuilder = $queryBuilder->andWhere(
-                    sprintf('%s %s ?', $field, $operator)
-                );
+                if ($paramIndex === 0) {
+                    $queryBuilder = $queryBuilder->where(
+                        sprintf('%s %s ?', $field, $operator)
+                    );
+                } else {
+                    $queryBuilder = $queryBuilder->andWhere(
+                        sprintf('%s %s ?', $field, $operator)
+                    );
+                }
+                ++$paramIndex;
             }
-            ++$paramIndex;
+
+            $queryBuilder = $queryBuilder->setParameters($params);
         }
 
-        $queryBuilder = $queryBuilder->setParameters($params);
+
 
         if ($this->criteria->hasJoins()) {
             $joins = $this->criteria->joins();

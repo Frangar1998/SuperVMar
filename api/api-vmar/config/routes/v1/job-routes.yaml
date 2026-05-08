@@ -1,0 +1,14 @@
+job_put:
+  path: /job/{id}
+  controller: SuperVMar\App\Controller\Job\JobPutController
+  methods: PUT
+
+job_delete:
+  path: /job/{id}
+  controller: SuperVMar\App\Controller\Job\JobDeleteController
+  methods: DELETE
+
+jobs_get:
+  path: /jobs
+  controller: SuperVMar\App\Controller\Job\JobsGetController
+  methods: GET

@@ -1,0 +1,14 @@
+product_allocation_put:
+  path: /product_allocation/{idSpace}
+  controller: SuperVMar\App\Controller\ProductAllocation\ProductAllocationPutController
+  methods: PUT
+
+product_allocation_delete:
+  path: /product_allocation/{idSpace}
+  controller: SuperVMar\App\Controller\ProductAllocation\ProductAllocationDeleteController
+  methods: DELETE
+
+products_allocations_get:
+  path: /products_allocations
+  controller: SuperVMar\App\Controller\ProductAllocation\ProductsAllocationsGetController
+  methods: GET

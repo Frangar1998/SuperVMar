@@ -3,8 +3,10 @@
 namespace SuperVMar\Shared\Infrastructure\Symfony;
 
 use InvalidArgumentException;
+use SuperVMar\Shared\Domain\Exception\CannotDeleteException;
 use SuperVMar\Shared\Domain\Exception\CommandNotRegisteredException;
 use SuperVMar\Shared\Domain\Exception\DomainEventNotRegisteredException;
+use SuperVMar\Product\Domain\Exception\ProductEanAlreadyExistsException;
 use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
 use SuperVMar\Shared\Domain\Exception\InternalErrorException;
 use SuperVMar\Shared\Domain\Exception\InvalidUuidValueException;
@@ -13,15 +15,19 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\Exception\MandatoryParamsException;
 use SuperVMar\Shared\Domain\Exception\QueryNotRegisteredException;
 use SuperVMar\Supermarket\Domain\Exception\InvalidZoneCoordinatesException;
+use SuperVMar\User\Domain\Exception\InvalidPasswordException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 
 final class ApiExceptionHttpStatusCodeMapping
 {
     private const int DEFAULT_STATUS_CODE = Response::HTTP_INTERNAL_SERVER_ERROR;
     private array $exceptions = [
+        AccessDeniedHttpException::class => Response::HTTP_FORBIDDEN,
         CommandNotRegisteredException::class => Response::HTTP_NOT_FOUND,
         DomainEventNotRegisteredException::class => Response::HTTP_NOT_FOUND,
         DuplicateItemException::class => Response::HTTP_CONFLICT,
+        ProductEanAlreadyExistsException::class => Response::HTTP_CONFLICT,
         InternalErrorException::class => Response::HTTP_INTERNAL_SERVER_ERROR,
         InvalidUuidValueException::class => Response::HTTP_BAD_REQUEST,
         InvalidValueException::class => Response::HTTP_BAD_REQUEST,
@@ -29,6 +35,8 @@ final class ApiExceptionHttpStatusCodeMapping
         MandatoryParamsException::class => Response::HTTP_BAD_REQUEST,
         QueryNotRegisteredException::class => Response::HTTP_NOT_FOUND,
         InvalidZoneCoordinatesException::class => Response::HTTP_BAD_REQUEST,
+        InvalidPasswordException::class => Response::HTTP_BAD_REQUEST,
+        CannotDeleteException::class => Response::HTTP_BAD_REQUEST,
     ];
 
     public function statusCodeFor(string $exceptionClass): int

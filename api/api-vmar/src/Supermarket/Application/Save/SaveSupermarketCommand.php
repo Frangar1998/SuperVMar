@@ -11,6 +11,7 @@ final readonly class SaveSupermarketCommand implements Command
         private string $name,
         private array $address,
         private string $phone,
+        private string $email,
         private array $zones
     )
     {
@@ -34,6 +35,11 @@ final readonly class SaveSupermarketCommand implements Command
     public function phone(): string
     {
         return $this->phone;
+    }
+
+    public function email(): string
+    {
+        return $this->email;
     }
 
     public function zones(): array

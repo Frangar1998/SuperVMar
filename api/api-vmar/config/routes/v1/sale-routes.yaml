@@ -1,0 +1,24 @@
+sale_line_put:
+  path: /sale_line/{id}
+  controller: SuperVMar\App\Controller\Sale\SaleLinePutController
+  methods: PUT
+
+sale_get:
+  path: /sale/{id}
+  controller: SuperVMar\App\Controller\Sale\SaleGetController
+  methods: GET
+
+sales_get:
+  path: /sales
+  controller: SuperVMar\App\Controller\Sale\SalesGetController
+  methods: GET
+
+sale_finish_patch:
+  path: /sale_finish/{id}
+  controller: SuperVMar\App\Controller\Sale\SaleFinishPutController
+  methods: PATCH
+
+sale_delete:
+  path: /sale/{id}
+  controller: SuperVMar\App\Controller\Sale\SaleDeleteController
+  methods: DELETE

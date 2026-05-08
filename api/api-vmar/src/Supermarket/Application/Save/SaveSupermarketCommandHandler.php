@@ -4,10 +4,11 @@ namespace SuperVMar\Supermarket\Application\Save;
 
 use SuperVMar\Shared\Domain\Bus\Command\CommandHandler;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
+use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\Entity\Address;
 use SuperVMar\Supermarket\Domain\Entity\Zones;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
-use SuperVMar\Supermarket\Domain\ValueObject\Name;
+use SuperVMar\Supermarket\Domain\ValueObject\Email;
 use SuperVMar\Supermarket\Domain\ValueObject\Phone;
 
 final readonly class SaveSupermarketCommandHandler implements CommandHandler
@@ -25,6 +26,7 @@ final readonly class SaveSupermarketCommandHandler implements CommandHandler
         $name = new Name($command->name());
         $address = Address::fromArray($command->address());
         $phone = new Phone($command->phone());
+        $email = new Email($command->email());
         $zones = Zones::fromArray($command->zones());
 
         try {
@@ -33,6 +35,7 @@ final readonly class SaveSupermarketCommandHandler implements CommandHandler
                 $name,
                 $address,
                 $phone,
+                $email,
                 $zones
             );
         } catch (ItemNotFoundException) {
@@ -41,6 +44,7 @@ final readonly class SaveSupermarketCommandHandler implements CommandHandler
                 $name,
                 $address,
                 $phone,
+                $email,
                 $zones
             );
         }

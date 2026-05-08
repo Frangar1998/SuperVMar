@@ -3,11 +3,11 @@
 namespace SuperVMar\Supermarket\Domain;
 
 use SuperVMar\Shared\Domain\AggregateRoot;
+use SuperVMar\Shared\Domain\ValueObject\Id;
+use SuperVMar\Shared\Domain\ValueObject\Name;
 use SuperVMar\Supermarket\Domain\Entity\Address;
-use SuperVMar\Supermarket\Domain\Entity\Zone;
 use SuperVMar\Supermarket\Domain\Entity\Zones;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
-use SuperVMar\Supermarket\Domain\ValueObject\Name;
+use SuperVMar\Supermarket\Domain\ValueObject\Email;
 use SuperVMar\Supermarket\Domain\ValueObject\Phone;
 
 final class Supermarket extends AggregateRoot
@@ -17,6 +17,7 @@ final class Supermarket extends AggregateRoot
         private Name        $name,
         private Address     $address,
         private Phone       $phone,
+        private Email       $email,
         private Zones       $zones
     ){}
 
@@ -40,6 +41,11 @@ final class Supermarket extends AggregateRoot
         return $this->phone;
     }
 
+    public function email(): Email
+    {
+        return $this->email;
+    }
+
     public function zones(): Zones
     {
         return $this->zones;
@@ -50,6 +56,7 @@ final class Supermarket extends AggregateRoot
         Name    $nameSupermarket,
         Address $address,
         Phone   $phone,
+        Email   $email,
         Zones   $zones
     ): self
     {
@@ -58,21 +65,29 @@ final class Supermarket extends AggregateRoot
             $nameSupermarket,
             $address,
             $phone,
+            $email,
             $zones
         );
     }
 
-    public function changeToName(Name $name): void
+    public function changeName(Name $name): void
     {
         if (!$this->name->equals($name)) {
             $this->name = $name;
         }
     }
 
-    public function changeToPhone(Phone $phone): void
+    public function changePhone(Phone $phone): void
     {
         if (!$this->phone->equals($phone)) {
             $this->phone = $phone;
+        }
+    }
+
+    public function changeEmail(Email $email): void
+    {
+        if (!$this->email->equals($email)) {
+            $this->email = $email;
         }
     }
 
@@ -101,6 +116,18 @@ final class Supermarket extends AggregateRoot
         }
     }
 
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id->value(),
+            'name' => $this->name->value(),
+            'address' => $this->address->toArray(),
+            'phone' => $this->phone->value(),
+            'email' => $this->email->value(),
+            'zones' => $this->zones->toArray()
+        ];
+    }
+
     public static function fromArray(array $data): self
     {
         return new self(
@@ -115,18 +142,8 @@ final class Supermarket extends AggregateRoot
                 'province' => $data['province'],
             ]),
             new Phone($data['phone']),
+            new Email($data['email']),
             Zones::fromArray($data['zones'])
         );
-    }
-
-    public function toArray(): array
-    {
-        return [
-            'id' => $this->id->value(),
-            'name' => $this->name->value(),
-            'address' => $this->address->toArray(),
-            'phone' => $this->phone->value(),
-            'zones' => $this->zones->toArray()
-        ];
     }
 }

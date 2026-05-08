@@ -5,6 +5,7 @@ namespace SuperVMar\Supermarket\Infrastructure\Dao;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
+use JsonException;
 use SuperVMar\Shared\Domain\Criteria\Criteria;
 use SuperVMar\Shared\Domain\Criteria\FieldName;
 use SuperVMar\Shared\Domain\Criteria\Filter;
@@ -16,10 +17,10 @@ use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
 use SuperVMar\Shared\Domain\Exception\InternalErrorException;
 use SuperVMar\Shared\Domain\TableNames;
 use SuperVMar\Shared\Domain\Utils;
+use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Infrastructure\Doctrine\DbalCriteriaConverter;
 use SuperVMar\Supermarket\Domain\Entity\Space;
 use SuperVMar\Supermarket\Domain\Entity\Spaces;
-use SuperVMar\Supermarket\Domain\ValueObject\Id;
 use Throwable;
 
 final readonly class DbalSpaceDao
@@ -141,7 +142,7 @@ final readonly class DbalSpaceDao
     }
 
     /**
-     * @throws InternalErrorException
+     * @throws InternalErrorException|JsonException
      */
     public function search(Id $idZone): array
     {

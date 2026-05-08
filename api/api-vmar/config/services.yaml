@@ -32,6 +32,10 @@ services:
         SuperVMar\Shared\Domain\Bus\Query\QueryHandler:
             tags: [ 'supervmar.query_handler' ]
 
+    SuperVMar\Shared\Infrastructure\Symfony\ImageUploader:
+        arguments:
+            $targetDirectory: '%kernel.project_dir%/public/images/'
+
     ## Command and Query
     SuperVMar\Shared\Infrastructure\Bus\Command\InMemorySymfonyCommandBus:
         arguments: [ !tagged supervmar.command_handler ]
@@ -51,7 +55,7 @@ services:
         arguments: [ !tagged supervmar.domain_event_subscriber ]
 
     ## RabbitMQ ##
-    SuperVMar\Shared\Infrastructure\Bus\Event\RabbitMq\RabbitMqConnection:
+    SuperVMar\Shared\Infrastructure\Bus\Event\RabbitMQ\RabbitMQConnection:
         arguments:
             $exchangeName: '%env(RABBITMQ_EXCHANGE)%'
             $maxMessages: '%env(default:defaultMaxMessages:RABBITMQ_MAX_MESSAGES)%'
@@ -64,6 +68,47 @@ services:
             $user: '%env(RABBITMQ_USER)%'
             $password: '%env(RABBITMQ_PASSWORD)%'
             $vhost: '%env(RABBITMQ_VHOST)%'
-            $ssl_options:
-                - verify_peer: false
+
     PhpAmqpLib\Connection\AbstractConnection: '@PhpAmqpLib\Connection\AMQPSSLConnection'
+
+    SuperVMar\App\Command\RabbitMQConsumeCommand:
+        arguments:
+            $consumerList: !tagged supervmar.domain_event_subscriber
+        tags:
+            - { name: rabbit.command }
+
+    SuperVMar\Notification\Infrastructure\WebPush\PhpWebPushSender:
+        arguments:
+            $vapidSubject: '%env(VAPID_SUBJECT)%'
+            $vapidPublicKey: '%env(VAPID_PUBLIC_KEY)%'
+            $vapidPrivateKey: '%env(VAPID_PRIVATE_KEY)%'
+
+    SuperVMar\App\Controller\Notification\VapidKeyGetController:
+        tags: [ 'controller.service_arguments' ]
+        arguments:
+            $vapidPublicKey: '%env(VAPID_PUBLIC_KEY)%'
+
+    SuperVMar\Sale\Infrastructure\EscPosBillGenerator:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+            $printerHost: '%env(default::PRINTER_HOST)%'
+            $printerPort: '%env(default::PRINTER_PORT)%'
+
+    SuperVMar\Sale\Domain\Service\BillGenerator: '@SuperVMar\Sale\Infrastructure\EscPosBillGenerator'
+
+    SuperVMar\App\Command\SaleBillPreviewCommand:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+        tags:
+            - { name: 'console.command' }
+
+when@test:
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+
+        SuperVMar\App\Tests\Fixtures\:
+            resource: '../tests/Fixtures/'
+            tags:
+                - doctrine.fixture.orm
