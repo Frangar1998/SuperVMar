@@ -7,7 +7,7 @@ use SuperVMar\Job\Domain\JobRepository;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Domain\ValueObject\Name;
 
-final readonly class JobCreator
+readonly class JobCreator
 {
     public function __construct(
         private JobRepository $jobRepository,

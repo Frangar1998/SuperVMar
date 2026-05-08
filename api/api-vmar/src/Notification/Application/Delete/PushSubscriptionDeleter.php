@@ -5,7 +5,7 @@ namespace SuperVMar\Notification\Application\Delete;
 use SuperVMar\Notification\Domain\PushSubscriptionRepository;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class PushSubscriptionDeleter
+readonly class PushSubscriptionDeleter
 {
     public function __construct(
         private PushSubscriptionRepository $repository,

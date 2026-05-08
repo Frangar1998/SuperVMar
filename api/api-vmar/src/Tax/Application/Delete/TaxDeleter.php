@@ -8,7 +8,7 @@ use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Tax\Domain\Service\TaxSearcher;
 use SuperVMar\Tax\Domain\TaxRepository;
 
-final readonly class TaxDeleter
+readonly class TaxDeleter
 {
     public function __construct(
         private TaxSearcher $taxSearcher,

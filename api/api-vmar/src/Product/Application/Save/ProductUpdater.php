@@ -17,7 +17,7 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Domain\ValueObject\Name;
 
-final readonly class ProductUpdater
+readonly class ProductUpdater
 {
     public function __construct(
         private ProductSearcher   $productSearcher,

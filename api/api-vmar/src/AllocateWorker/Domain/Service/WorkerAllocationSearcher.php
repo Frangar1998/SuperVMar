@@ -16,7 +16,7 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class WorkerAllocationSearcher
+readonly class WorkerAllocationSearcher
 {
     public function __construct(
         private WorkerAllocationRepository $workerAllocationRepository,

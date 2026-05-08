@@ -9,7 +9,7 @@ use SuperVMar\ProductAllocation\Domain\ProductAllocationRepository;
 use SuperVMar\ProductAllocation\Domain\ValueObject\Quantity;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class ProductAllocationCreator
+readonly class ProductAllocationCreator
 {
     public function __construct(
         private ProductAllocationRepository $productAllocationRepository,

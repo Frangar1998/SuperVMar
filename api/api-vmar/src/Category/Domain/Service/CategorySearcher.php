@@ -16,7 +16,7 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class CategorySearcher
+readonly class CategorySearcher
 {
     public function __construct(
         private CategoryRepository $categoryRepository,

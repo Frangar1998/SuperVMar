@@ -8,7 +8,7 @@ use SuperVMar\Shared\Domain\Exception\CannotDeleteException;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class CategoryDeleter
+readonly class CategoryDeleter
 {
     public function __construct(
         private CategorySearcher $categorySearcher,

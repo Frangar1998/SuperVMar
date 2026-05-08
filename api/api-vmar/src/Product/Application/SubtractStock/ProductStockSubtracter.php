@@ -8,7 +8,7 @@ use SuperVMar\Product\Domain\ValueObject\Stock;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class ProductStockSubtracter
+readonly class ProductStockSubtracter
 {
     public function __construct(
         private ProductSearcher   $productSearcher,

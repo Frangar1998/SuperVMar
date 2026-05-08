@@ -10,7 +10,7 @@ use SuperVMar\Shared\Domain\Bus\Event\QueueEventBus;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class SaleUpdater
+readonly class SaleUpdater
 {
     public function __construct(
         private SaleSearcher   $saleSearcher,

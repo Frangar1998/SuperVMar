@@ -16,7 +16,7 @@ use SuperVMar\Tax\Domain\Tax;
 use SuperVMar\Tax\Domain\Taxes;
 use SuperVMar\Tax\Domain\TaxRepository;
 
-final readonly class TaxSearcher
+readonly class TaxSearcher
 {
     public function __construct(
         private TaxRepository $taxRepository,

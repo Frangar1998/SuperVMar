@@ -5,7 +5,7 @@ namespace SuperVMar\Notification\Application\Send;
 use SuperVMar\Notification\Domain\PushSubscriptionRepository;
 use SuperVMar\Notification\Domain\WebPushSender;
 
-final readonly class RestockerNotifier
+readonly class RestockerNotifier
 {
     public function __construct(
         private PushSubscriptionRepository $pushSubscriptionRepository,

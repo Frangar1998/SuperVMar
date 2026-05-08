@@ -16,7 +16,7 @@ use SuperVMar\Product\Domain\ValueObject\Stock;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Domain\ValueObject\Name;
 
-final readonly class ProductCreator
+readonly class ProductCreator
 {
     public function __construct(
         private ProductRepository $productRepository,

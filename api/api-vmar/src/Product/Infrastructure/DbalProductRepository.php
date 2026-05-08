@@ -5,6 +5,7 @@ namespace SuperVMar\Product\Infrastructure;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Exception\UniqueConstraintViolationException;
 use Doctrine\DBAL\Query\QueryBuilder;
+use SuperVMar\Product\Domain\Exception\ProductEanAlreadyExistsException;
 use SuperVMar\Product\Domain\Product;
 use SuperVMar\Product\Domain\ProductRepository;
 use SuperVMar\Product\Domain\Products;
@@ -12,7 +13,6 @@ use SuperVMar\Product\Domain\ValueObject\Stock;
 use SuperVMar\Product\Infrastructure\Dao\DbalPriceHistoryDao;
 use SuperVMar\Product\Infrastructure\Dao\DbalProductAllocationDao;
 use SuperVMar\Shared\Domain\Criteria\Criteria;
-use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
 use SuperVMar\Shared\Domain\Exception\InternalErrorException;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
@@ -34,7 +34,7 @@ final readonly class DbalProductRepository implements ProductRepository
     }
 
     /**
-     * @throws DuplicateItemException
+     * @throws ProductEanAlreadyExistsException
      * @throws InternalErrorException
      */
     public function insert(Product $product): void
@@ -73,7 +73,7 @@ final readonly class DbalProductRepository implements ProductRepository
             $this->dbalPriceHistoryDao->insert($product->priceHistory(), $product->id());
 
         } catch (UniqueConstraintViolationException) {
-            throw new DuplicateItemException(Product::class, $product->id());
+            throw new ProductEanAlreadyExistsException($product->ean());
         } catch (Throwable $e) {
             throw new InternalErrorException($e->getMessage(), $e);
         }

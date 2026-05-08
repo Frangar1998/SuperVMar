@@ -16,7 +16,7 @@ use SuperVMar\Supplier\Domain\Supplier;
 use SuperVMar\Supplier\Domain\SupplierRepository;
 use SuperVMar\Supplier\Domain\Suppliers;
 
-final readonly class SupplierSearcher
+readonly class SupplierSearcher
 {
     public function __construct(
         private SupplierRepository $supplierRepository,

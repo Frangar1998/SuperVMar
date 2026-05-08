@@ -9,7 +9,7 @@ use SuperVMar\Tax\Domain\Service\TaxSearcher;
 use SuperVMar\Tax\Domain\TaxRepository;
 use SuperVMar\Tax\Domain\ValueObject\Percent;
 
-final readonly class TaxUpdater
+readonly class TaxUpdater
 {
     public function __construct(
         private TaxSearcher $taxSearcher,

@@ -19,7 +19,7 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class SaleSearcher
+readonly class SaleSearcher
 {
     public function __construct(
         private SaleRepository $saleRepository

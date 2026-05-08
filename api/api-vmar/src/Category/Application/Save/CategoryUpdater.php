@@ -8,7 +8,7 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Domain\ValueObject\Name;
 
-final readonly class CategoryUpdater
+readonly class CategoryUpdater
 {
     public function __construct(
         private CategorySearcher $categorySearcher,

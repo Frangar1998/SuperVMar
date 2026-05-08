@@ -1,0 +1,2 @@
+# The test database is handled by when@test in config/packages/doctrine.yaml
+# which appends the '_test' suffix automatically.

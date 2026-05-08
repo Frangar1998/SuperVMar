@@ -32,8 +32,12 @@ final readonly class WorkerAllocator
             }
 
             foreach ($newAllocations as $newAllocation) {
-                if ($workerAllocations->find($newAllocation) !== null) {
-                    $this->updateAllocation($newAllocation);
+                $existingKey = $workerAllocations->find($newAllocation);
+                if ($existingKey !== null) {
+                    $existing = $workerAllocations->getItem($existingKey);
+                    if (!$existing->idJob()->equals($newAllocation->idJob())) {
+                        $this->updateAllocation($newAllocation);
+                    }
                 } else {
                     $this->allocate($newAllocation);
                 }

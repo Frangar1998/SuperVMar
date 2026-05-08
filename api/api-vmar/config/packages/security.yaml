@@ -24,53 +24,39 @@ security:
             jwt: ~
 
     access_control:
-        # Public routes (no auth needed)
         - { path: ^/api/v1/push-vapid-key$, roles: PUBLIC_ACCESS }
 
-        # Change password - requires authentication (BEFORE the public user PUT rule)
         - { path: ^/api/v1/user/.+/change-password$, methods: [PUT], roles: IS_AUTHENTICATED_FULLY }
 
-        # User registration - public
         - { path: ^/api/v1/user/[^/]+$, methods: [PUT], roles: PUBLIC_ACCESS }
 
-        # Notification subscriptions - any authenticated user
         - { path: ^/api/v1/push-subscription, roles: ROLE_USER }
 
-        # Sales - cashier role (cajero + encargado + admin via hierarchy)
         - { path: ^/api/v1/sale_line, roles: ROLE_CAJERO }
         - { path: ^/api/v1/sale_finish, roles: ROLE_CAJERO }
         - { path: ^/api/v1/sale, roles: ROLE_CAJERO }
         - { path: ^/api/v1/sales, roles: ROLE_CAJERO }
 
-        # Product search (needed by cashier for EAN scan)
         - { path: ^/api/v1/product$, methods: [GET], roles: ROLE_CAJERO }
 
-        # Allocations view - restockers (reponedor + encargado + admin)
         - { path: ^/api/v1/products_allocations, methods: [GET], roles: ROLE_REPONEDOR }
 
-        # Allocation management - encargado+
         - { path: ^/api/v1/product_allocation, roles: [ROLE_ENCARGADO, ROLE_REPONEDOR] }
 
-        # Receive stock - reponedor+
         - { path: ^/api/v1/product/.+/receive-stock$, methods: [PUT], roles: ROLE_REPONEDOR }
 
-        # Products CRUD - encargado+
         - { path: ^/api/v1/product, roles: ROLE_ENCARGADO }
         - { path: ^/api/v1/products, roles: ROLE_ENCARGADO }
 
-        # Categories, Taxes, Suppliers - encargado+
         - { path: ^/api/v1/categor, roles: ROLE_ENCARGADO }
         - { path: ^/api/v1/tax, roles: ROLE_ENCARGADO }
         - { path: ^/api/v1/supplier, roles: ROLE_ENCARGADO }
 
-        # Supermarket read - reponedor+ (needed for restock page)
         - { path: ^/api/v1/supermarkets$, methods: [GET], roles: ROLE_REPONEDOR }
 
-        # Supermarket - encargado+
         - { path: ^/api/v1/supermarket, roles: ROLE_ENCARGADO }
         - { path: ^/api/v1/zone, roles: ROLE_ENCARGADO }
 
-        # Users and Jobs management - admin only
         - { path: ^/api/v1/user, methods: [GET, DELETE], roles: ROLE_ADMIN }
         - { path: ^/api/v1/users, roles: ROLE_ADMIN }
         - { path: ^/api/v1/job, roles: ROLE_ADMIN }

@@ -11,7 +11,6 @@ use SuperVMar\Product\Domain\ValueObject\Active;
 use SuperVMar\Product\Domain\ValueObject\Ean;
 use SuperVMar\Product\Domain\ValueObject\EndDate;
 use SuperVMar\Product\Domain\ValueObject\Image;
-use SuperVMar\Product\Domain\ValueObject\Percent;
 use SuperVMar\Product\Domain\ValueObject\Price;
 use SuperVMar\Product\Domain\ValueObject\StartDate;
 use SuperVMar\Product\Domain\ValueObject\Status;
@@ -154,7 +153,8 @@ final class Product extends AggregateRoot
 
     public function subtractStock(Stock $subtractedStock): void
     {
-        $this->stock = $this->stock->subtract($subtractedStock);
+        $newStock = $this->stock->subtract($subtractedStock);
+        $this->stock = $newStock;
     }
 
     public function changeTax(Tax $tax): void

@@ -9,7 +9,7 @@ use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\User\Domain\Service\UserSearcher;
 use SuperVMar\User\Domain\UserRepository;
 
-final readonly class UserDeleter
+readonly class UserDeleter
 {
     public function __construct(
         private UserSearcher $userSearcher,

@@ -8,7 +8,7 @@ use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Supplier\Domain\Service\SupplierSearcher;
 use SuperVMar\Supplier\Domain\SupplierRepository;
 
-final readonly class SupplierDeleter
+readonly class SupplierDeleter
 {
     public function __construct(
         private SupplierSearcher $supplierSearcher,

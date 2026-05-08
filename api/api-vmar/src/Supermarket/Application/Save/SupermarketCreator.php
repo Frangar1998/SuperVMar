@@ -11,7 +11,7 @@ use SuperVMar\Supermarket\Domain\SupermarketRepository;
 use SuperVMar\Supermarket\Domain\ValueObject\Email;
 use SuperVMar\Supermarket\Domain\ValueObject\Phone;
 
-final readonly class SupermarketCreator
+readonly class SupermarketCreator
 {
     public function __construct(
         private SupermarketRepository $supermarketRepository,

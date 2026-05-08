@@ -6,6 +6,7 @@ use InvalidArgumentException;
 use SuperVMar\Shared\Domain\Exception\CannotDeleteException;
 use SuperVMar\Shared\Domain\Exception\CommandNotRegisteredException;
 use SuperVMar\Shared\Domain\Exception\DomainEventNotRegisteredException;
+use SuperVMar\Product\Domain\Exception\ProductEanAlreadyExistsException;
 use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
 use SuperVMar\Shared\Domain\Exception\InternalErrorException;
 use SuperVMar\Shared\Domain\Exception\InvalidUuidValueException;
@@ -26,6 +27,7 @@ final class ApiExceptionHttpStatusCodeMapping
         CommandNotRegisteredException::class => Response::HTTP_NOT_FOUND,
         DomainEventNotRegisteredException::class => Response::HTTP_NOT_FOUND,
         DuplicateItemException::class => Response::HTTP_CONFLICT,
+        ProductEanAlreadyExistsException::class => Response::HTTP_CONFLICT,
         InternalErrorException::class => Response::HTTP_INTERNAL_SERVER_ERROR,
         InvalidUuidValueException::class => Response::HTTP_BAD_REQUEST,
         InvalidValueException::class => Response::HTTP_BAD_REQUEST,

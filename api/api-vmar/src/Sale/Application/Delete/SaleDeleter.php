@@ -5,7 +5,7 @@ namespace SuperVMar\Sale\Application\Delete;
 use SuperVMar\Sale\Domain\SaleRepository;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class SaleDeleter
+readonly class SaleDeleter
 {
     public function __construct(
         private SaleRepository $saleRepository,

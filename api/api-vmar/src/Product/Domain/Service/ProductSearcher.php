@@ -28,7 +28,7 @@ use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\TableNames;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class ProductSearcher
+readonly class ProductSearcher
 {
     public function __construct(
         private ProductRepository $productRepository

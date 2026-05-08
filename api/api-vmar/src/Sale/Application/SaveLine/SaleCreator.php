@@ -9,7 +9,7 @@ use SuperVMar\Sale\Domain\ValueObject\Quantity;
 use SuperVMar\Shared\Domain\Bus\Event\QueueEventBus;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class SaleCreator
+readonly class SaleCreator
 {
     public function __construct(
         private SaleRepository $saleRepository,

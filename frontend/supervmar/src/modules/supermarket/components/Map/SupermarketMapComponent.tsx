@@ -15,12 +15,12 @@ import Paper from "@mui/material/Paper";
 import { SpacesPanelComponent } from "../SpacesPanelComponent.tsx";
 import type { SpaceFormData } from "../../types/SupermarketTypes.ts";
 
-const { width, height, cellSize, padding } = MAP_CONFIG;
-
 interface SupermarketMapProps {
     zones: ZoneFormData[];
     onZonesChange: (zones: ZoneFormData[]) => void;
 }
+
+const { width, height, cellSize, padding } = MAP_CONFIG;
 
 const pixelToGridX = (px: number): number => Math.round((px - padding) / cellSize);
 const pixelToGridY = (py: number): number => Math.round((height - padding - py) / cellSize);

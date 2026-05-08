@@ -7,7 +7,7 @@ use SuperVMar\Category\Domain\CategoryRepository;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 use SuperVMar\Shared\Domain\ValueObject\Name;
 
-final readonly class CategoryCreator
+readonly class CategoryCreator
 {
     public function __construct(
         private CategoryRepository $categoryRepository,

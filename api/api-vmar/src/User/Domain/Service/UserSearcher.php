@@ -29,7 +29,7 @@ use SuperVMar\User\Domain\UserRepository;
 use SuperVMar\User\Domain\Users;
 use SuperVMar\User\Domain\ValueObject\Username;
 
-final readonly class UserSearcher
+readonly class UserSearcher
 {
     public function __construct(
         private UserRepository $repository

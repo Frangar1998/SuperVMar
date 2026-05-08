@@ -58,10 +58,12 @@ const request = async (apiUrl: string, apiProps: ApiProps, session: CustomSessio
             throw new Error(`Invalid HTTP method: ${method}`);
 
     }
+
     const response = await fetch(
         url,
         requestOptions
     );
+    
     if (!response.ok) {
         if (response.status === 401 && session?.token && onUnauthorized) {
             onUnauthorized();

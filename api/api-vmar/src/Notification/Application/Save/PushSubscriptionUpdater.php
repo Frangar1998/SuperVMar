@@ -10,7 +10,7 @@ use SuperVMar\Notification\Domain\ValueObject\P256dhKey;
 use SuperVMar\Shared\Domain\Exception\ItemNotFoundException;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class PushSubscriptionUpdater
+readonly class PushSubscriptionUpdater
 {
     public function __construct(
         private PushSubscriptionSearcher $pushSubscriptionSearcher,

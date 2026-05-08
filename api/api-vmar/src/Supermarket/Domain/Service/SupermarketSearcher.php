@@ -28,7 +28,7 @@ use SuperVMar\Supermarket\Domain\Supermarket;
 use SuperVMar\Supermarket\Domain\Supermarkets;
 use SuperVMar\Supermarket\Domain\SupermarketRepository;
 
-final readonly class SupermarketSearcher
+readonly class SupermarketSearcher
 {
     public function __construct(
         private SupermarketRepository $repository

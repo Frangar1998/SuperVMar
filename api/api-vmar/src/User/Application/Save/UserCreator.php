@@ -12,7 +12,7 @@ use SuperVMar\User\Domain\ValueObject\IsAdmin;
 use SuperVMar\User\Domain\ValueObject\Password;
 use SuperVMar\User\Domain\ValueObject\Username;
 
-final readonly class UserCreator
+readonly class UserCreator
 {
     public function __construct(
         private UserRepository $userRepository,

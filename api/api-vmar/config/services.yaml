@@ -87,3 +87,14 @@ services:
         tags: [ 'controller.service_arguments' ]
         arguments:
             $vapidPublicKey: '%env(VAPID_PUBLIC_KEY)%'
+
+when@test:
+    services:
+        _defaults:
+            autowire: true
+            autoconfigure: true
+
+        SuperVMar\App\Tests\Fixtures\:
+            resource: '../tests/Fixtures/'
+            tags:
+                - doctrine.fixture.orm

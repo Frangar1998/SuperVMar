@@ -8,7 +8,7 @@ use SuperVMar\Tax\Domain\Tax;
 use SuperVMar\Tax\Domain\TaxRepository;
 use SuperVMar\Tax\Domain\ValueObject\Percent;
 
-final readonly class TaxCreator
+readonly class TaxCreator
 {
     public function __construct(
         private TaxRepository $taxRepository,

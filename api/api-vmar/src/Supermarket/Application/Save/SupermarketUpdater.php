@@ -12,7 +12,7 @@ use SuperVMar\Supermarket\Domain\SupermarketRepository;
 use SuperVMar\Supermarket\Domain\ValueObject\Email;
 use SuperVMar\Supermarket\Domain\ValueObject\Phone;
 
-final readonly class SupermarketUpdater
+readonly class SupermarketUpdater
 {
     public function __construct(
         private SupermarketSearcher $supermarketSearcher,

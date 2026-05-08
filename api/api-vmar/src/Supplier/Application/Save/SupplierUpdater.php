@@ -11,7 +11,7 @@ use SuperVMar\Supplier\Domain\ValueObject\Contact;
 use SuperVMar\Supplier\Domain\ValueObject\Email;
 use SuperVMar\Supplier\Domain\ValueObject\Phone;
 
-final readonly class SupplierUpdater
+readonly class SupplierUpdater
 {
     public function __construct(
         private SupplierSearcher $supplierSearcher,

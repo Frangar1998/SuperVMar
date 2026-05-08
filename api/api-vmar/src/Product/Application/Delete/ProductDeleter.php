@@ -6,7 +6,7 @@ use SuperVMar\Product\Domain\ProductRepository;
 use SuperVMar\Product\Domain\Service\ProductSearcher;
 use SuperVMar\Shared\Domain\ValueObject\Id;
 
-final readonly class ProductDeleter
+readonly class ProductDeleter
 {
     public function __construct(
         private ProductSearcher   $productSearcher,

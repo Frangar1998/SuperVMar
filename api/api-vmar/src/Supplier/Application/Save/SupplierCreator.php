@@ -10,7 +10,7 @@ use SuperVMar\Supplier\Domain\ValueObject\Contact;
 use SuperVMar\Supplier\Domain\ValueObject\Email;
 use SuperVMar\Supplier\Domain\ValueObject\Phone;
 
-final readonly class SupplierCreator
+readonly class SupplierCreator
 {
     public function __construct(
         private SupplierRepository $supplierRepository,

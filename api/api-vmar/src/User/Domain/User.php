@@ -172,7 +172,7 @@ final class User extends AggregateRoot
             ]),
             new IsAdmin($data['isAdmin']),
             isset($data['password']) ? new Password($data['password'], $data['password']) : null,
-            isset($data['allocations']) ? Allocations::fromArray($data['allocations']) : null,
+            array_key_exists('allocations', $data) ? Allocations::fromArray($data['allocations']) : null,
         );
     }
 
@@ -183,7 +183,7 @@ final class User extends AggregateRoot
             'username' => $this->username->value(),
             'userData' => $this->userData->toArray(),
             'isAdmin' => $this->isAdmin->value(),
-            'allocations' => $this->allocations->toArray(),
+            'allocations' => $this->allocations?->toArray() ?? [],
         ];
     }
     
