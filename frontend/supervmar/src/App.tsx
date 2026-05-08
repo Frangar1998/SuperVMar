@@ -19,9 +19,9 @@ const FULL_NAVIGATION: Navigation = [
     {
         segment: 'productos', title: 'Productos', icon: <InventoryIcon />,
         children: [
-            { segment: 'catalogo', title: 'Catalogo' },
+            { segment: 'catalogo', title: 'Catálogo' },
             { segment: 'asignaciones', title: 'Asignación de productos' },
-            { segment: 'categorias', title: 'Categorias' },
+            { segment: 'categorias', title: 'Categorías' },
             { segment: 'proveedores', title: 'Proveedores' },
             { segment: 'iva', title: 'IVA' },
             { segment: 'reposiciones', title: 'Reposiciones' },
@@ -54,9 +54,9 @@ const ENCARGADO_NAVIGATION: Navigation = [
     {
         segment: 'productos', title: 'Productos', icon: <InventoryIcon />,
         children: [
-            { segment: 'catalogo', title: 'Catalogo' },
+            { segment: 'catalogo', title: 'Catálogo' },
             { segment: 'asignaciones', title: 'Asignación de productos' },
-            { segment: 'categorias', title: 'Categorias' },
+            { segment: 'categorias', title: 'Categorías' },
             { segment: 'proveedores', title: 'Proveedores' },
             { segment: 'iva', title: 'IVA' },
             { segment: 'reposiciones', title: 'Reposiciones' },
@@ -67,7 +67,7 @@ const ENCARGADO_NAVIGATION: Navigation = [
     {
         segment: 'ventas', title: 'Ventas', icon: <PointOfSaleIcon />,
         children: [
-            { segment: 'listado', title: 'Listado' },
+            { segment: 'listado', title: 'Listado de ventas' },
         ]
     },
     { kind: 'divider' },
