@@ -9,6 +9,8 @@
 *.log
 /public/images/products/*
 !public/images/products/.gitkeep
+/public/documents/bills/*
+!public/documents/bills/.gitkeep
 ###< symfony/framework-bundle ###
 
 ###> lexik/jwt-authentication-bundle ###

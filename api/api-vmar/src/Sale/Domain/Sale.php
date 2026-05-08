@@ -11,6 +11,7 @@ use SuperVMar\Sale\Domain\Event\SaleFinishedDomainEvent;
 use SuperVMar\Sale\Domain\ValueObject\Amount;
 use SuperVMar\Sale\Domain\ValueObject\FinishedDate;
 use SuperVMar\Sale\Domain\ValueObject\PayMethod;
+use SuperVMar\Sale\Domain\ValueObject\SaleBill;
 use SuperVMar\Sale\Domain\ValueObject\Quantity;
 use SuperVMar\Sale\Domain\ValueObject\TaxesAmount;
 use SuperVMar\Sale\Domain\ValueObject\TotalAmount;
@@ -27,7 +28,8 @@ final class Sale extends AggregateRoot
         private TotalAmount $totalAmount,
         private readonly Lines $lines,
         private PayMethod $payMethod = PayMethod::NONE,
-        private ?FinishedDate $finishedDate = null
+        private ?FinishedDate $finishedDate = null,
+        private ?SaleBill $bill = null
     )
     {
     }
@@ -65,6 +67,16 @@ final class Sale extends AggregateRoot
     public function finishedDate(): ?FinishedDate
     {
         return $this->finishedDate;
+    }
+
+    public function bill(): ?SaleBill
+    {
+        return $this->bill;
+    }
+
+    public function setBill(SaleBill $bill): void
+    {
+        $this->bill = $bill;
     }
 
     public function addOrUpdateLine(
@@ -211,7 +223,8 @@ final class Sale extends AggregateRoot
             new TotalAmount($data['totalAmount']),
             Lines::fromArray($data['lines']),
             PayMethod::from($data['payMethod']),
-            isset($data['date']) ? new FinishedDate($data['date']) : null
+            isset($data['date']) ? new FinishedDate($data['date']) : null,
+            isset($data['bill']) ? new SaleBill($data['bill']) : null
         );
     }
 
@@ -225,6 +238,7 @@ final class Sale extends AggregateRoot
             'lines' => $this->lines->toArray(),
             'payMethod' => $this->payMethod->value,
             'finishedDate' => $this->finishedDate?->formatDate(),
+            'bill' => $this->bill?->value(),
         ];
     }
     

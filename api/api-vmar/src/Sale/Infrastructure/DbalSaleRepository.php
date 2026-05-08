@@ -9,6 +9,7 @@ use SuperVMar\Sale\Domain\Entity\Line;
 use SuperVMar\Sale\Domain\Sale;
 use SuperVMar\Sale\Domain\SaleRepository;
 use SuperVMar\Sale\Domain\Sales;
+use SuperVMar\Sale\Domain\ValueObject\SaleBill;
 use SuperVMar\Sale\Infrastructure\Dao\DbalLineDao;
 use SuperVMar\Shared\Domain\Criteria\Criteria;
 use SuperVMar\Shared\Domain\Exception\DuplicateItemException;
@@ -96,6 +97,26 @@ final readonly class DbalSaleRepository implements SaleRepository
 
             $this->dbalLineDao->update($sale->lines(), $sale->id());
 
+        } catch (Throwable $e) {
+            throw new InternalErrorException($e->getMessage(), $e);
+        }
+    }
+
+    /**
+     * @throws InternalErrorException
+     */
+    public function updateBill(Id $id, SaleBill $bill): void
+    {
+        try {
+            $this->connection->createQueryBuilder()
+                ->update(self::TABLE_SALE)
+                ->set('bill', ':bill')
+                ->where('id = :id')
+                ->setParameters([
+                    'id' => $id,
+                    'bill' => $bill->value(),
+                ])
+                ->executeStatement();
         } catch (Throwable $e) {
             throw new InternalErrorException($e->getMessage(), $e);
         }

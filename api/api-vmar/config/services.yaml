@@ -88,6 +88,20 @@ services:
         arguments:
             $vapidPublicKey: '%env(VAPID_PUBLIC_KEY)%'
 
+    SuperVMar\Sale\Infrastructure\EscPosBillGenerator:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+            $printerHost: '%env(default::PRINTER_HOST)%'
+            $printerPort: '%env(default::PRINTER_PORT)%'
+
+    SuperVMar\Sale\Domain\Service\BillGenerator: '@SuperVMar\Sale\Infrastructure\EscPosBillGenerator'
+
+    SuperVMar\App\Command\SaleBillPreviewCommand:
+        arguments:
+            $projectDir: '%kernel.project_dir%'
+        tags:
+            - { name: 'console.command' }
+
 when@test:
     services:
         _defaults:
