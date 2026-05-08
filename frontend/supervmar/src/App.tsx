@@ -32,7 +32,7 @@ const FULL_NAVIGATION: Navigation = [
     {
         segment: 'ventas', title: 'Ventas', icon: <PointOfSaleIcon />,
         children: [
-            { segment: 'listado', title: 'Listado' },
+            { segment: 'listado', title: 'Listado de ventas' },
             { segment: 'caja', title: 'Vista Caja' },
         ]
     },
