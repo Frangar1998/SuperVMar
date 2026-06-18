@@ -154,6 +154,7 @@ export const HomePage = () => {
                         title="Método de pago"
                         data={pieData}
                         emptyMessage="Sin datos para el período seleccionado"
+                        height={329}
                     />
                 </Grid>
             </Grid>

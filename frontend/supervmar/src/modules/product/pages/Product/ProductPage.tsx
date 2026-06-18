@@ -31,6 +31,7 @@ import { ConfirmDialogComponent } from "../../../commons/components/ConfirmDialo
 import { useDeleteConfirmation } from "../../../commons/hooks/useDeleteConfirmation.ts";
 import { ErrorSnackbarComponent } from "../../../commons/components/ErrorSnackbarComponent.tsx";
 import { ApiError } from "../../../commons/services/HttpService.ts";
+import { ImageComponent } from "../../../commons/components/ImageComponent.tsx";
 
 
 interface TabPanelProps {
@@ -469,9 +470,9 @@ export const ProductPage = () => {
                                 )}
                                 {previewUrl && (
                                     <Box sx={{mt: 2, maxWidth: 200}}>
-                                        <img
-                                            src={previewUrl}
-                                            alt="Preview"
+                                        <ImageComponent
+                                            path={previewUrl}
+                                            altImage={formData.name}
                                             style={{
                                                 width: '100%',
                                                 height: 'auto',
